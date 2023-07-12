@@ -6,9 +6,13 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import useGetMagazineDetail from '../lib/hooks/useGetMagazineDetail';
 import { magazineDetailState } from '../recoil/atom';
 import ErrorPage from '../pages/ErrorPage';
+import { useCollapse } from 'react-collapsed';
+import { ReactComponent as IcCollapse } from '../assets/icon/IcCollapse.svg';
+import { ReactComponent as IcExpand } from '../assets/icon/IcExpand.svg';
 
 const Magazine = () => {
   const { magazineId } = useParams();
+  const { getCollapseProps, getToggleProps, isExpanded } = useCollapse();
   const { magazineResult, isLoading, isError } = useGetMagazineDetail(magazineId);
 
   const setMagazineDetail = useSetRecoilState(magazineDetailState);
@@ -33,9 +37,14 @@ const Magazine = () => {
             // component로 분리, with key questionId
             <div>
               <St.MagazineIntro key={question.questionId}>{question.question}</St.MagazineIntro>
-              <St.MagazineIntro key={question.questionId}>{question.answer}</St.MagazineIntro>
-              <St.MagazineIntro key={question.questionId}>{question.answerImage}</St.MagazineIntro>
-              <St.MagazineIntro key={question.questionId}>{question.imageCaption}</St.MagazineIntro>
+              <div className="header" {...getToggleProps()}>
+                {isExpanded ? <IcCollapse /> : <IcExpand />}
+              </div>
+              <div {...getCollapseProps()}>
+                <St.MagazineIntro key={question.questionId}>{question.answer}</St.MagazineIntro>
+                <St.MagazineIntro key={question.questionId}>{question.answerImage}</St.MagazineIntro>
+                <St.MagazineIntro key={question.questionId}>{question.imageCaption}</St.MagazineIntro>
+              </div>
             </div>
           );
         })}
