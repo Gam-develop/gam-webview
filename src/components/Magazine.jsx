@@ -27,8 +27,10 @@ const Magazine = () => {
   return (
     <St.MagazineWrapper>
       <MagazineImage magazinePhotos={magazineDetail.magazinePhotos}></MagazineImage>
-      <St.MagazineIntro>{magazineDetail.magazineIntro}</St.MagazineIntro>
-      <MagazineQuestion magazineQuestions={magazineDetail.questions}></MagazineQuestion>
+      <St.MagazineQAWrapper>
+        <St.MagazineIntro>{magazineDetail.magazineIntro}</St.MagazineIntro>
+        <MagazineQuestion magazineQuestions={magazineDetail.questions}></MagazineQuestion>
+      </St.MagazineQAWrapper>
     </St.MagazineWrapper>
   );
 };
@@ -48,8 +50,11 @@ const St = {
     background-color: ${({ theme }) => theme.colors.Gam_Blue};
   `,
 
-  MagazineIntro: styled.div`
+  MagazineQAWrapper: styled.section`
     padding: 0rem 1rem;
+  `,
+
+  MagazineIntro: styled.div`
     margin: 4.168rem 0rem 1.3rem 0rem;
     font-size: 1.5rem;
     white-space: pre-wrap;
