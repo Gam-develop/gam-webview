@@ -9,6 +9,9 @@ import ErrorPage from '../pages/ErrorPage';
 import { useCollapse } from 'react-collapsed';
 import { ReactComponent as IcCollapse } from '../assets/icon/IcCollapse.svg';
 import { ReactComponent as IcExpand } from '../assets/icon/IcExpand.svg';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 const Magazine = () => {
   const { magazineId } = useParams();
@@ -17,6 +20,11 @@ const Magazine = () => {
 
   const setMagazineDetail = useSetRecoilState(magazineDetailState);
   const magazineDetail = useRecoilValue(magazineDetailState);
+
+  const settings = {
+    dots: true,
+    arrows: false,
+  };
 
   useEffect(() => {
     if (magazineResult) {
@@ -29,7 +37,13 @@ const Magazine = () => {
 
   return (
     <St.MagazineWrapper>
-      <St.MagazineImage>{magazineDetail.magazinePhotos}</St.MagazineImage>
+      <St.MagazineImages>
+        <Slider {...settings}>
+          {magazineDetail.magazinePhotos.map((url) => {
+            return <St.MagazineImage src={url} alt="app slider" height={300} />;
+          })}
+        </Slider>
+      </St.MagazineImages>
       <St.MagazineIntro>{magazineDetail.magazineIntro}</St.MagazineIntro>
       <St.MagazineQuestions>
         {magazineDetail.questions.map((question) => {
@@ -75,11 +89,33 @@ const St = {
     ${({ theme }) => theme.fonts.B_Content_1};
   `,
 
-  MagazineImage: styled.h3`
-    padding: 0rem 2rem;
-    margin: 2.168rem 0rem 1.3rem 0rem;
-    color: ${({ theme }) => theme.colors.Gam_Black};
-    ${({ theme }) => theme.fonts.B_Content_1};
+  MagazineImages: styled.div`
+    width: 100%;
+
+    & > .slick-slider > .slick-dots > li {
+      width: 0.7rem;
+      height: 0.7rem;
+      background-color: #b3b3b3;
+      border-radius: 0.5rem;
+
+      & > button {
+        display: none;
+      }
+    }
+
+    & > .slick-slider > .slick-dots > .slick-active {
+      width: 2.1rem;
+      height: 0.7rem;
+      background-color: #e1ff29;
+      border-radius: 0.5rem;
+      border-color: #b3b3b3;
+      border: 0.1rem solid #b3b3b3;
+    }
+  `,
+
+  MagazineImage: styled.img`
+    width: 100%;
+    height: 364px;
   `,
 
   MagazineQuestions: styled.div`
