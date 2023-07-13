@@ -51,9 +51,16 @@ const Magazine = () => {
           return (
             // component로 분리, with key questionId
             <div>
-              <St.MagazineIntro key={question.questionId}>{question.question}</St.MagazineIntro>
-              <div className="header" {...getToggleProps()}>
-                {isExpanded ? <IcCollapse /> : <IcExpand />}
+              <div style={{ display: 'flex' }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }} key={question.questionId}>
+                  <St.MagazineQuestion> {`Q${question.questionOrder}`}</St.MagazineQuestion>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }} key={question.questionId}>
+                  <St.MagazineQuestion> {question.question}</St.MagazineQuestion>
+                </div>
+                <div className="header" {...getToggleProps()} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  {isExpanded ? <IcCollapse /> : <IcExpand />}
+                </div>
               </div>
               <div {...getCollapseProps()}>
                 <St.MagazineIntro key={question.questionId}>{question.answer}</St.MagazineIntro>
@@ -92,6 +99,12 @@ const St = {
     ${({ theme }) => theme.fonts.Gam_Contend_Pretendard_Regular};
   `,
 
+  MagazineQuestion: styled.div`
+    white-space: pre-wrap;
+    color: ${({ theme }) => theme.colors.Gam_Black};
+    ${({ theme }) => theme.fonts.Gam_Contend_Pretendard_Medium};
+  `,
+
   MagazineImages: styled.div`
     width: 100%;
 
@@ -121,8 +134,7 @@ const St = {
   `,
 
   MagazineQuestions: styled.div`
-    padding: 0rem 2rem;
-    margin: 2.168rem 0rem 1.3rem 0rem;
+    width: 100%;
     color: ${({ theme }) => theme.colors.Gam_Black};
     ${({ theme }) => theme.fonts.Gam_Contend_Pretendard_Regular};
   `,
