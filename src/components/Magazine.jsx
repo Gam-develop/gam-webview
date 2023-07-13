@@ -28,6 +28,7 @@ const Magazine = () => {
 
   useEffect(() => {
     if (magazineResult) {
+      console.log(magazineResult.data.magazineIntro);
       setMagazineDetail(magazineResult.data);
     }
   }, [magazineResult]);
@@ -82,11 +83,13 @@ const St = {
     background-color: ${({ theme }) => theme.colors.Gam_Blue};
   `,
 
-  MagazineIntro: styled.h3`
-    padding: 0rem 2rem;
-    margin: 2.168rem 0rem 1.3rem 0rem;
+  MagazineIntro: styled.div`
+    padding: 0rem 1rem;
+    margin: 4.168rem 0rem 1.3rem 0rem;
+    font-size: 1.5rem;
+    white-space: pre-wrap;
     color: ${({ theme }) => theme.colors.Gam_Black};
-    ${({ theme }) => theme.fonts.B_Content_1};
+    ${({ theme }) => theme.fonts.Gam_Contend_Pretendard_Regular};
   `,
 
   MagazineImages: styled.div`
@@ -95,7 +98,7 @@ const St = {
     & > .slick-slider > .slick-dots > li {
       width: 0.7rem;
       height: 0.7rem;
-      background-color: #b3b3b3;
+      background-color: ${({ theme }) => theme.colors.Gam_Gray};
       border-radius: 0.5rem;
 
       & > button {
@@ -106,10 +109,9 @@ const St = {
     & > .slick-slider > .slick-dots > .slick-active {
       width: 2.1rem;
       height: 0.7rem;
-      background-color: #e1ff29;
+      background-color: ${({ theme }) => theme.colors.Gam_Yellow};
       border-radius: 0.5rem;
-      border-color: #b3b3b3;
-      border: 0.1rem solid #b3b3b3;
+      border: 0.1rem solid ${({ theme }) => theme.colors.Gam_Gray};
     }
   `,
 
@@ -122,6 +124,6 @@ const St = {
     padding: 0rem 2rem;
     margin: 2.168rem 0rem 1.3rem 0rem;
     color: ${({ theme }) => theme.colors.Gam_Black};
-    ${({ theme }) => theme.fonts.B_Content_1};
+    ${({ theme }) => theme.fonts.Gam_Contend_Pretendard_Regular};
   `,
 };
