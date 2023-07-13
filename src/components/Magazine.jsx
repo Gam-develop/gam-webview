@@ -9,9 +9,7 @@ import ErrorPage from '../pages/ErrorPage';
 import { useCollapse } from 'react-collapsed';
 import { ReactComponent as IcCollapse } from '../assets/icon/IcCollapse.svg';
 import { ReactComponent as IcExpand } from '../assets/icon/IcExpand.svg';
-import Slider from 'react-slick';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
+import MagazineImage from './MagazineImage';
 
 const Magazine = () => {
   const { magazineId } = useParams();
@@ -20,11 +18,6 @@ const Magazine = () => {
 
   const setMagazineDetail = useSetRecoilState(magazineDetailState);
   const magazineDetail = useRecoilValue(magazineDetailState);
-
-  const settings = {
-    dots: true,
-    arrows: false,
-  };
 
   useEffect(() => {
     if (magazineResult) {
@@ -38,13 +31,7 @@ const Magazine = () => {
 
   return (
     <St.MagazineWrapper>
-      <St.MagazineImages>
-        <Slider {...settings}>
-          {magazineDetail.magazinePhotos.map((url) => {
-            return <St.MagazineImage src={url} alt="app slider" height={300} />;
-          })}
-        </Slider>
-      </St.MagazineImages>
+      <MagazineImage magazinePhotos={magazineDetail.magazinePhotos}></MagazineImage>
       <St.MagazineIntro>{magazineDetail.magazineIntro}</St.MagazineIntro>
       <St.MagazineQuestions>
         {magazineDetail.questions.map((question) => {
@@ -103,34 +90,6 @@ const St = {
     white-space: pre-wrap;
     color: ${({ theme }) => theme.colors.Gam_Black};
     ${({ theme }) => theme.fonts.Gam_Contend_Pretendard_Medium};
-  `,
-
-  MagazineImages: styled.div`
-    width: 100%;
-
-    & > .slick-slider > .slick-dots > li {
-      width: 0.7rem;
-      height: 0.7rem;
-      background-color: ${({ theme }) => theme.colors.Gam_Gray};
-      border-radius: 0.5rem;
-
-      & > button {
-        display: none;
-      }
-    }
-
-    & > .slick-slider > .slick-dots > .slick-active {
-      width: 2.1rem;
-      height: 0.7rem;
-      background-color: ${({ theme }) => theme.colors.Gam_Yellow};
-      border-radius: 0.5rem;
-      border: 0.1rem solid ${({ theme }) => theme.colors.Gam_Gray};
-    }
-  `,
-
-  MagazineImage: styled.img`
-    width: 100%;
-    height: 364px;
   `,
 
   MagazineQuestions: styled.div`
