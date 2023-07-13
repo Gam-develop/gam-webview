@@ -17,6 +17,13 @@ const fonts = {
     font-size: 1.5rem;
     line-height: 2.3rem;
   `,
+  Gam_Contend_Pretendard_Medium: css`
+    font-family: 'PretendardMedium', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 1.5rem;
+    line-height: 2.3rem;
+  `,
 };
 
 const theme = {
