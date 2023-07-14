@@ -16,7 +16,7 @@ const MagazineImage = (props) => {
     <St.MagazineImages>
       <Slider {...settings}>
         {magazinePhotos.map((url) => {
-          return <St.MagazineImage src={url} alt="app slider" height={300} />;
+          return <St.MagazineImage src={url} key={url} alt="app slider" height={300} />;
         })}
       </Slider>
     </St.MagazineImages>
