@@ -27,7 +27,7 @@ const fonts = {
   Gam_Contend_Pretendard_Regular_12: css`
     font-family: 'PretendardMedium', sans-serif;
     font-style: normal;
-    font-weight: 500;
+    font-weight: 400;
     font-size: 0.75rem;
     line-height: 1.5rem;
   `,
