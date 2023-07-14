@@ -51,6 +51,6 @@ const St = {
 
   MagazineImage: styled.img`
     width: 100%;
-    height: 364px;
+    height: 345px;
   `,
 };
