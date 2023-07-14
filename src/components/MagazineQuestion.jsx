@@ -11,6 +11,9 @@ const useStyles = makeStyles({
     '& .css-yw020d-MuiAccordionSummary-expandIconWrapper.Mui-expanded': {
       transform: 'rotate(90deg) !important',
     },
+    '& .css-o4b71y-MuiAccordionSummary-content': {
+      margin: '0px !important',
+    },
   },
 });
 
@@ -27,6 +30,7 @@ const MagazineQuestion = (props) => {
               sx={{
                 boxShadow: 'unset',
                 position: 'unset',
+                marginBottom: '4.5rem',
               }}
             >
               <AccordionSummary
@@ -36,6 +40,7 @@ const MagazineQuestion = (props) => {
                 id="panel1a-header"
                 sx={{
                   padding: 0,
+                  margin: 0,
                 }}
               >
                 <St.MagazineQuestionWrapper>
@@ -50,10 +55,13 @@ const MagazineQuestion = (props) => {
               <AccordionDetails
                 sx={{
                   padding: 0,
+                  marginTop: '1.625rem',
                 }}
               >
                 <St.MagazineAnswer>
-                  <St.MagazineQuestionImage key={question.questionId} src={question.answerImage} />
+                  <St.MagazineQuestionImageWrapper>
+                    <St.MagazineQuestionImage key={question.questionId} src={question.answerImage} />
+                  </St.MagazineQuestionImageWrapper>
                   <St.MagazineQuestionCaption key={question.questionId}>{question.imageCaption}</St.MagazineQuestionCaption>
                   <St.MagazineQuestionAnswer key={question.questionId}>{question.answer}</St.MagazineQuestionAnswer>
                 </St.MagazineAnswer>
@@ -85,13 +93,14 @@ const St = {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-right: 0.75rem;
+    margin-right: 0.8rem;
   `,
 
   MagazineQuestionContentWrapper: styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 248px;
   `,
 
   MagazineQuestionToggleWrapper: styled.div`
@@ -115,20 +124,25 @@ const St = {
 
   MagazineAnswer: styled.div``,
 
+  MagazineQuestionImageWrapper: styled.div`
+    height: 19.1rem;
+  `,
+
   MagazineQuestionImage: styled.img`
     width: 100%;
+    height: 100%;
   `,
 
   MagazineQuestionCaption: styled.div`
     font-size: 1.5rem;
     white-space: pre-wrap;
+    margin-top: 8px;
     color: ${({ theme }) => theme.colors.Gam_Gray};
     ${({ theme }) => theme.fonts.Gam_Contend_Pretendard_Regular_12};
   `,
 
   MagazineQuestionAnswer: styled.div`
-    margin: 2.168rem 0rem 2.168rem 0rem;
-    font-size: 1.5rem;
+    margin: 2.6rem 0rem 2.4rem 0rem;
     white-space: pre-wrap;
     color: ${({ theme }) => theme.colors.Gam_Black};
     ${({ theme }) => theme.fonts.Gam_Contend_Pretendard_Regular};
