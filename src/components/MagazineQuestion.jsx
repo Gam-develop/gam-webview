@@ -25,7 +25,7 @@ const MagazineQuestion = (props) => {
     <St.MagazineQuestions>
       {magazineQuestions.map((question) => {
         return (
-          <>
+          <div key={question.questionId}>
             <Accordion
               sx={{
                 boxShadow: 'unset',
@@ -44,10 +44,10 @@ const MagazineQuestion = (props) => {
                 }}
               >
                 <St.MagazineQuestionWrapper>
-                  <St.MagazineQuestionNumberWrapper key={question.questionId}>
+                  <St.MagazineQuestionNumberWrapper>
                     <St.MagazineQuestion> {`Q${question.questionOrder}`}</St.MagazineQuestion>
                   </St.MagazineQuestionNumberWrapper>
-                  <St.MagazineQuestionContentWrapper key={question.questionId}>
+                  <St.MagazineQuestionContentWrapper>
                     <St.MagazineQuestion> {question.question}</St.MagazineQuestion>
                   </St.MagazineQuestionContentWrapper>
                 </St.MagazineQuestionWrapper>
@@ -60,14 +60,14 @@ const MagazineQuestion = (props) => {
               >
                 <St.MagazineAnswer>
                   <St.MagazineQuestionImageWrapper>
-                    <St.MagazineQuestionImage key={question.questionId} src={question.answerImage} />
+                    <St.MagazineQuestionImage src={question.answerImage} />
                   </St.MagazineQuestionImageWrapper>
-                  <St.MagazineQuestionCaption key={question.questionId}>{question.imageCaption}</St.MagazineQuestionCaption>
-                  <St.MagazineQuestionAnswer key={question.questionId}>{question.answer}</St.MagazineQuestionAnswer>
+                  <St.MagazineQuestionCaption>{question.imageCaption}</St.MagazineQuestionCaption>
+                  <St.MagazineQuestionAnswer>{question.answer}</St.MagazineQuestionAnswer>
                 </St.MagazineAnswer>
               </AccordionDetails>
             </Accordion>
-          </>
+          </div>
         );
       })}
     </St.MagazineQuestions>
