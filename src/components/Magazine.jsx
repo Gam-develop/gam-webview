@@ -42,20 +42,15 @@ const St = {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 1rem;
-
     width: 100%;
-    padding: 1rem;
-
-    background-color: ${({ theme }) => theme.colors.Gam_Blue};
   `,
 
   MagazineQAWrapper: styled.section`
-    padding: 0rem 1rem;
+    padding: 0rem 2rem;
   `,
 
   MagazineIntro: styled.div`
-    margin: 4.168rem 0rem 1.3rem 0rem;
+    margin: 5rem 0rem 5.5rem 0rem;
     font-size: 1.5rem;
     white-space: pre-wrap;
     color: ${({ theme }) => theme.colors.Gam_Black};
