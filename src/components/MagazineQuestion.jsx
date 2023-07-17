@@ -30,7 +30,7 @@ const MagazineQuestion = (props) => {
               sx={{
                 boxShadow: 'unset',
                 position: 'unset',
-                marginBottom: '4.5rem',
+                marginBottom: '4.0rem',
               }}
             >
               <AccordionSummary
@@ -142,7 +142,7 @@ const St = {
   `,
 
   MagazineQuestionAnswer: styled.div`
-    margin: 2.6rem 0rem 2.4rem 0rem;
+    margin: 2.6rem 0rem 4rem 0rem;
     white-space: pre-wrap;
     color: ${({ theme }) => theme.colors.Gam_Black};
     ${({ theme }) => theme.fonts.Gam_Contend_Pretendard_Regular};
