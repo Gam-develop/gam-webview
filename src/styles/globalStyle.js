@@ -145,12 +145,12 @@ ${reset}
 }
 
 #root, body, html {
-    max-width: 39.5rem;
     height: 100vh;
     margin: 0 auto;
     overflow-y: auto;
     -ms-overflow-style: none; 
     scrollbar-width: none; 
+    background-color: #F4F4F4;
 }
 #root::-webkit-scrollbar {
     display: none; 
