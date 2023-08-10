@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const PageLayout = (props) => {
+const PageLayout = (props: any) => {
   const { children } = props;
   return <St.PageWrapper>{children}</St.PageWrapper>;
 };

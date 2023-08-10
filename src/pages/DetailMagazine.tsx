@@ -1,3 +1,4 @@
+import React from 'react';
 import { Outlet } from 'react-router-dom';
 import PageLayout from '../components/PageLayout';
 import Magazine from '../components/Magazine';

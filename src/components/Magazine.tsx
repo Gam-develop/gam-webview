@@ -1,3 +1,4 @@
+import React from 'react';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
@@ -7,9 +8,15 @@ import { magazineDetailState } from '../recoil/atom';
 import ErrorPage from '../pages/ErrorPage';
 import MagazineImage from './MagazineImage';
 import MagazineQuestion from './MagazineQuestion';
+import { magazineDetail } from '../types/magazine';
 
 const Magazine = () => {
   const { magazineId } = useParams();
+
+  if (!magazineId) {
+    return <ErrorPage />;
+  }
+
   const { magazineResult, isLoading, isError } = useGetMagazineDetail(magazineId);
 
   const setMagazineDetail = useSetRecoilState(magazineDetailState);

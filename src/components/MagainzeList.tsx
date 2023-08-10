@@ -1,3 +1,4 @@
+import React from 'react';
 import styled from 'styled-components';
 
 const mockData = {
@@ -15,7 +16,7 @@ const mockData = {
     {
       magazineId: 3,
       magainzeTitle: 'test3',
-      magazineInterviewer: 'teak3',
+      magazineInterviewer: 'teak43',
     },
   ],
 };

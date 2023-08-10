@@ -5,6 +5,7 @@ import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import { makeStyles } from '@material-ui/core';
+import { magazineQuestionInfo } from '../types/magazine';
 
 const useStyles = makeStyles({
   customIconRotation: {
@@ -17,13 +18,12 @@ const useStyles = makeStyles({
   },
 });
 
-const MagazineQuestion = (props) => {
-  const { magazineQuestions } = props;
+const MagazineQuestion = ({ magazineQuestions }: { magazineQuestions: magazineQuestionInfo[] }) => {
   const classes = useStyles();
 
   return (
     <St.MagazineQuestions>
-      {magazineQuestions.map((question) => {
+      {magazineQuestions.map((question: magazineQuestionInfo) => {
         return (
           <div key={question.questionId}>
             <Accordion
@@ -31,6 +31,7 @@ const MagazineQuestion = (props) => {
                 boxShadow: 'unset',
                 position: 'unset',
                 marginBottom: '4.0rem',
+                backgroundColor: '#F4F4F4',
               }}
             >
               <AccordionSummary

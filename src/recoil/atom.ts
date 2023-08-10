@@ -1,9 +1,10 @@
 import { atom } from 'recoil';
 import { recoilPersist } from 'recoil-persist';
+import { magazineDetail } from '../types/magazine';
 
 const { persistAtom } = recoilPersist();
 
-export const magazineDetailState = atom({
+export const magazineDetailState = atom<magazineDetail>({
   key: 'magazineDetail',
   default: {
     magazineIntro: '',

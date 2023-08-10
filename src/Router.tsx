@@ -1,3 +1,4 @@
+import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import DetailMagazine from './pages/DetailMagazine';
 import CreateMagazine from './pages/CreateMagazine';

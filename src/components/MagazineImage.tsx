@@ -1,11 +1,10 @@
+import React from 'react';
 import styled from 'styled-components';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
-const MagazineImage = (props) => {
-  const { magazinePhotos } = props;
-
+const MagazineImage = ({ magazinePhotos }: { magazinePhotos: string[] }) => {
   const settings = {
     dots: true,
     arrows: false,
@@ -14,7 +13,7 @@ const MagazineImage = (props) => {
   return (
     <St.MagazineImages>
       <Slider {...settings}>
-        {magazinePhotos.map((url) => {
+        {magazinePhotos.map((url: string) => {
           return <St.MagazineImage src={url} key={url} alt="app slider" height={300} />;
         })}
       </Slider>
