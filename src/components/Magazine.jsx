@@ -43,6 +43,7 @@ const St = {
     flex-wrap: wrap;
     align-items: center;
     width: 100%;
+    max-width: 39.5rem;
   `,
 
   MagazineQAWrapper: styled.section`
