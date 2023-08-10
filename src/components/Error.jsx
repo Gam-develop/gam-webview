@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 
 const Error = () => {
@@ -20,12 +19,4 @@ const StErrorWrapper = styled.div`
 
   width: 100%;
   height: 100vh;
-
-  & > svg {
-    margin-bottom: 3rem;
-  }
-  & > p {
-    color: ${({ theme }) => theme.colors.Sopt_Pink};
-    ${({ theme }) => theme.fonts.B_Title_1};
-  }
 `;
