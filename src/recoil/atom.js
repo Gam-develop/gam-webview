@@ -45,3 +45,17 @@ export const magazineDetailState = atom({
   },
   effects_UNSTABLE: [persistAtom],
 });
+
+export const magazineListState = atom({
+  key: 'magazineList',
+  default: {
+    magazines: [
+      {
+        magazineId: 1,
+        magainzeTitle: '',
+        magazineInterviewer: '',
+      },
+    ],
+  },
+  effects_UNSTABLE: [persistAtom],
+});
