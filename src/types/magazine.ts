@@ -12,3 +12,9 @@ export interface magazineQuestionInfo {
   answerImage: string;
   imageCaption: string;
 }
+
+export interface magazineListData {
+  magazineId: number;
+  magazineTitle: string;
+  interviewee: string;
+}
