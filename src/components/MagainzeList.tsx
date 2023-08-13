@@ -1,27 +1,25 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
-
-const mockData = {
-  magazines: [
-    {
-      magazineId: 1,
-      magainzeTitle: 'test1',
-      magazineInterviewer: 'taek1',
-    },
-    {
-      magazineId: 2,
-      magainzeTitle: 'test2',
-      magazineInterviewer: 'teak2',
-    },
-    {
-      magazineId: 3,
-      magainzeTitle: 'test3',
-      magazineInterviewer: 'teak43',
-    },
-  ],
-};
+import useGetMagazineList from '../lib/hooks/useGetMagazineList';
+import ErrorPage from '../pages/ErrorPage';
+import { magazineListState } from '../recoil/atom';
 
 const MagazineList = () => {
+  const { magazineListResult, isLoading, isError } = useGetMagazineList();
+
+  const setMagazineList = useSetRecoilState(magazineListState);
+  const magazineList = useRecoilValue(magazineListState);
+
+  useEffect(() => {
+    if (magazineListResult) {
+      setMagazineList(magazineListResult.data);
+    }
+  }, [magazineListResult]);
+
+  if (isLoading) return <div>Loading</div>;
+  if (isError) return <ErrorPage />;
+
   return (
     <St.MagazineListWrapper>
       <div>
@@ -30,11 +28,11 @@ const MagazineList = () => {
           <St.MagazineListFieldTitle>매거진 명</St.MagazineListFieldTitle>
           <St.MagazineListFieldInterViewee>인터뷰이</St.MagazineListFieldInterViewee>
         </St.MagazineListField>
-        {mockData.magazines.map((data) => {
+        {magazineList.map((data) => {
           return (
             <St.MagazineListItemWrapper key={data.magazineId}>
-              <St.MagazineListItemTitle>{data.magainzeTitle}</St.MagazineListItemTitle>
-              <St.MagazineListItemInterviewee>{data.magazineInterviewer}</St.MagazineListItemInterviewee>
+              <St.MagazineListItemTitle>{data.magazineTitle}</St.MagazineListItemTitle>
+              <St.MagazineListItemInterviewee>{data.interviewee}</St.MagazineListItemInterviewee>
               <St.MagazineListItemButton>
                 <St.MagazineListItemButtonContent>수정하기</St.MagazineListItemButtonContent>
               </St.MagazineListItemButton>
@@ -74,15 +72,16 @@ const St = {
     margin: 4rem 0rem 1.1rem 0rem;
     width: 100%;
     color: ${({ theme }) => theme.colors.Gam_Black};
-    ${({ theme }) => theme.fonts.Gam_Contend_Pretendard_Regular};
   `,
 
   MagazineListFieldTitle: styled.div`
+    ${({ theme }) => theme.fonts.Gam_Contend_Pretendard_Regular};
     width: 5.2rem;
     margin-left: 2.4rem;
   `,
 
   MagazineListFieldInterViewee: styled.div`
+    ${({ theme }) => theme.fonts.Gam_Contend_Pretendard_Regular};
     margin-left: 61.3rem;
   `,
 
@@ -122,10 +121,12 @@ const St = {
 
   MagazineListItemButtonContent: styled.div`
     color: ${({ theme }) => theme.colors.Gam_White};
+    ${({ theme }) => theme.fonts.Gam_Contend_Pretendard_Regular};
   `,
 
   MagazineCreateButton: styled.div`
     margin-top: 15.2rem;
+    margin-bottom: 16rem;
     background-color: ${({ theme }) => theme.colors.Gam_Black};
     height: 7.5rem;
     display: flex;
