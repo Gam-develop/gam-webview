@@ -10,7 +10,7 @@ const Router = () => {
     <BrowserRouter>
       <RecoilRoot>
         <Routes>
-          <Route path="/magazine/list" element={<MainList />} />
+          <Route path="/" element={<MainList />} />
           <Route path="/magazine/create" element={<CreateMagazine />} />
           <Route path="/magazine/:magazineId" element={<DetailMagazine />} />
         </Routes>
