@@ -2,7 +2,7 @@ import axios from 'axios';
 //import { getAccessToken, setAccessToken } from './token';
 
 const client = axios.create({
-  baseURL: '',
+  baseURL: import.meta.env.VITE_API_URI,
   headers: {
     'Content-type': 'application/json',
   },
@@ -12,7 +12,7 @@ client.interceptors.request.use((config: any) => {
   const headers = {
     ...config.headers,
     // Authorization: `${getAccessToken('accessToken')}`,
-    Authorization: '',
+    Authorization: import.meta.env.VITE_TEMP_TOKEN,
     //  accessToken: getAccessToken('accessToken'),
   };
   return { ...config, headers };
