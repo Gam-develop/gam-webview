@@ -39,12 +39,26 @@ const fonts = {
     font-size: 1.6rem;
     line-height: 2.3rem;
   `,
+  Gam_Contend_Pretendard_Regular_17: css`
+    font-family: 'Pretendard', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 1.7rem;
+    line-height: 2.5rem;
+  `,
   Gam_Contend_Pretendard_Bold_18: css`
     font-family: 'Pretendard', sans-serif;
     font-style: normal;
     font-weight: 600;
     font-size: 1.8rem;
     line-height: 2.6rem;
+  `,
+  Gam_Contend_Pretendard_Extra_Bold_18: css`
+    font-family: 'Pretendard', sans-serif;
+    font-style: normal;
+    font-weight: 800;
+    font-size: 1.8rem;
+    line-height: 3.5rem;
   `,
   Gam_Contend_Pretendard_Bold_24: css`
     font-family: 'PretendardMedium', sans-serif;

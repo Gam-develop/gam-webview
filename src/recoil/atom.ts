@@ -1,6 +1,6 @@
 import { atom } from 'recoil';
 import { recoilPersist } from 'recoil-persist';
-import { magazineDetail, magazineListData } from '../types/magazine';
+import { magazineDetail, magazineListData, magazineResult } from '../types/magazine';
 
 const { persistAtom } = recoilPersist();
 
@@ -8,7 +8,7 @@ export const magazineDetailState = atom<magazineDetail>({
   key: 'magazineDetail',
   default: {
     magazineIntro: '',
-    magazinePhotos: ['', '', ''],
+    magazinePhotos: ['', '', '', ''],
     questions: [
       {
         questionId: 1,
@@ -56,5 +56,46 @@ export const magazineListState = atom<magazineListData[]>({
       interviewee: '',
     },
   ],
+  effects_UNSTABLE: [persistAtom],
+});
+
+export const magazineResultState = atom<magazineResult>({
+  key: 'magazineResult',
+  default: {
+    magazineTitle: '',
+    magazineInterviewee: '',
+    magazineIntro: '',
+    magazinePhotos: ['', '', '', ''],
+    questions: [
+      {
+        questionOrder: 1,
+        question: '',
+        answer: '',
+        answerImage: '',
+        imageCaption: '',
+      },
+      {
+        questionOrder: 2,
+        question: '',
+        answer: '',
+        answerImage: '',
+        imageCaption: '',
+      },
+      {
+        questionOrder: 3,
+        question: '',
+        answer: '',
+        answerImage: '',
+        imageCaption: '',
+      },
+      {
+        questionOrder: 4,
+        question: '',
+        answer: '',
+        answerImage: '',
+        imageCaption: '',
+      },
+    ],
+  },
   effects_UNSTABLE: [persistAtom],
 });
