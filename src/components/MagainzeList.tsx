@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 import useGetMagazineList from '../lib/hooks/useGetMagazineList';
@@ -43,7 +44,7 @@ const MagazineList = () => {
           );
         })}
         <St.MagazineCreateButton>
-          <St.MagazineCreateButtonContent>새로운 매거진 작성하기</St.MagazineCreateButtonContent>
+          <St.MagazineCreateButtonContent to="/magazine/create">새로운 매거진 작성하기</St.MagazineCreateButtonContent>
         </St.MagazineCreateButton>
       </div>
     </St.MagazineListWrapper>
@@ -134,8 +135,9 @@ const St = {
     justify-content: center;
   `,
 
-  MagazineCreateButtonContent: styled.div`
+  MagazineCreateButtonContent: styled(Link)`
     color: ${({ theme }) => theme.colors.Gam_White};
     ${({ theme }) => theme.fonts.Gam_Contend_Pretendard_Bold_18};
+    text-decoration: none;
   `,
 };
