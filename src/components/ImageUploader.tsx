@@ -5,10 +5,7 @@ import { ReactComponent as IcPlus } from '../assets/icon/IcPlus.svg';
 
 interface containerSize {
   index?: number;
-  type: string;
-  currentImg: string;
-  imageUrls: string[];
-  handleChangeImage: (changedPhotos: string[]) => void;
+  setValue: any;
   width: number;
   height: number;
 }
@@ -19,13 +16,12 @@ const ImageUploader = (props: containerSize) => {
   const [previewImage, setPreviewImage] = useState<string | undefined>();
   const [isOpenSelector, setIsOpenSelector] = useState(false);
 
-  const { index, type, currentImg, imageUrls, handleChangeImage, width, height } = props;
+  const { index, setValue, width, height } = props;
 
   const handleChange = () => {
     const inputEl = inputRef.current;
     if (!inputEl) return;
     inputEl.value = '';
-    console.log('Test');
     inputEl.onchange = async () => {
       const files = inputEl.files;
       if (files == null || files.length === 0) return;
@@ -41,13 +37,8 @@ const ImageUploader = (props: containerSize) => {
 
         const s3Url = `https://gam-image-test.s3.ap-northeast-2.amazonaws.com/${fileName}`;
         setPreviewImage(s3Url);
-        if (type === 'multiple' && index !== undefined) {
-          let ChangedUrls = [...imageUrls];
-          console.log('test1 +' + ChangedUrls);
-          ChangedUrls[index] = s3Url;
-          console.log('test2 +' + ChangedUrls);
-          handleChangeImage(ChangedUrls);
-        }
+
+        setValue(`magazinePhotos.${index}`, s3Url);
       } catch (error) {
         console.error(error);
       }
@@ -88,7 +79,7 @@ const ImageUploader = (props: containerSize) => {
     <St.StyledWrapper>
       <St.Container width={width} height={height} onClick={handleClick}>
         <St.StyledInput type="file" accept="image/*" ref={inputRef} />
-        {currentImg !== '' ? <St.StyledPreview src={currentImg} alt="preview-image" /> : <IcPlus />}
+        {!previewImage ? <IcPlus /> : <St.StyledPreview src={previewImage} alt="preview-image" />}
       </St.Container>
     </St.StyledWrapper>
   );

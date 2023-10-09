@@ -4,6 +4,7 @@ import DetailMagazine from './pages/DetailMagazine';
 import CreateMagazine from './pages/CreateMagazine';
 import MainList from './pages/MainList';
 import { RecoilRoot } from 'recoil';
+import CreateMagazineDemo from './pages/CreateMagazine';
 
 const Router = () => {
   return (

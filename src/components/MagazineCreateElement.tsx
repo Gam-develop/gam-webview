@@ -2,19 +2,19 @@ import React from 'react';
 import styled from 'styled-components';
 
 interface InputProps {
-  inputValue: string;
+  register: any;
   inputPlaceholer: string;
   inputMaxLength: number;
   inputHeight: number;
-  handleChangeInput: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  registerField: string;
 }
 
 const MagazineCreateElement = (props: InputProps) => {
-  const { inputValue, inputPlaceholer, inputMaxLength, inputHeight, handleChangeInput } = props;
+  const { register, inputPlaceholer, inputMaxLength, inputHeight, registerField } = props;
 
   return (
     <>
-      <St.TitleInput value={inputValue} onChange={handleChangeInput} placeholder={inputPlaceholer} maxLength={inputMaxLength} height={inputHeight} />
+      <St.TitleInput type="text" placeholder={inputPlaceholer} height={inputHeight} {...register(registerField, { required: true, maxLength: inputMaxLength })} />
     </>
   );
 };
@@ -22,7 +22,7 @@ const MagazineCreateElement = (props: InputProps) => {
 export default MagazineCreateElement;
 
 const St = {
-  TitleInput: styled.textarea<{ height?: number }>`
+  TitleInput: styled.input<{ height?: number }>`
     height: ${({ height }) => `${height}.rem`};
     width: 100%;
 
