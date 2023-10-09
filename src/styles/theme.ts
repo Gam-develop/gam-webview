@@ -46,6 +46,13 @@ const fonts = {
     font-size: 1.7rem;
     line-height: 2.5rem;
   `,
+  Gam_Contend_Pretendard_Regular_18: css`
+    font-family: 'Pretendard', sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 1.8rem;
+    line-height: 2.6rem;
+  `,
   Gam_Contend_Pretendard_Bold_18: css`
     font-family: 'Pretendard', sans-serif;
     font-style: normal;

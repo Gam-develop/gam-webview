@@ -12,9 +12,15 @@ interface InputProps {
 const MagazineCreateElement = (props: InputProps) => {
   const { register, inputPlaceholer, inputMaxLength, inputHeight, registerField } = props;
 
+  const isRequired = registerField.includes('imageCaption') ? false : true;
+
+  const inputStyle = {
+    height: `${inputHeight}rem`,
+  };
+
   return (
     <>
-      <St.TitleInput type="text" placeholder={inputPlaceholer} height={inputHeight} {...register(registerField, { required: true, maxLength: inputMaxLength })} />
+      <St.TitleInput style={inputStyle} type="text" placeholder={inputPlaceholer} {...register(registerField, { required: isRequired, maxLength: inputMaxLength })} />
     </>
   );
 };
@@ -22,8 +28,7 @@ const MagazineCreateElement = (props: InputProps) => {
 export default MagazineCreateElement;
 
 const St = {
-  TitleInput: styled.input<{ height?: number }>`
-    height: ${({ height }) => `${height}.rem`};
+  TitleInput: styled.textarea`
     width: 100%;
 
     padding: 2rem 2.4rem 4rem 2rem;

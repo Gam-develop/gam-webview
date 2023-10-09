@@ -4,10 +4,10 @@ import { getPresignedUrl, putPresignedUrl } from '../lib/api/image';
 import { ReactComponent as IcPlus } from '../assets/icon/IcPlus.svg';
 
 interface containerSize {
-  index?: number;
   setValue: any;
   width: number;
   height: number;
+  target: string;
 }
 
 const ImageUploader = (props: containerSize) => {
@@ -16,7 +16,7 @@ const ImageUploader = (props: containerSize) => {
   const [previewImage, setPreviewImage] = useState<string | undefined>();
   const [isOpenSelector, setIsOpenSelector] = useState(false);
 
-  const { index, setValue, width, height } = props;
+  const { setValue, width, height, target } = props;
 
   const handleChange = () => {
     const inputEl = inputRef.current;
@@ -38,7 +38,7 @@ const ImageUploader = (props: containerSize) => {
         const s3Url = `https://gam-image-test.s3.ap-northeast-2.amazonaws.com/${fileName}`;
         setPreviewImage(s3Url);
 
-        setValue(`magazinePhotos.${index}`, s3Url);
+        setValue(target, s3Url);
       } catch (error) {
         console.error(error);
       }
