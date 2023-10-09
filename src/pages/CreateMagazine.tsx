@@ -7,8 +7,12 @@ import AdminContentLayout from '../components/AdminContentLayout';
 import ImageUploader from '../components/ImageUploader';
 import styled from 'styled-components';
 import MagazineCreateElement from '../components/MagazineCreateElement';
+import { createMagazine } from '../lib/api/magazine';
+import { useNavigate } from 'react-router-dom';
 
 const CreateMagazineDemo = () => {
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -18,8 +22,8 @@ const CreateMagazineDemo = () => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      magazineTitle: '',
-      magazineInterviewee: '',
+      title: '',
+      interviewPerson: '',
       magazineIntro: '',
       magazinePhotos: [],
       questions: [
@@ -33,11 +37,16 @@ const CreateMagazineDemo = () => {
       ],
     },
   });
-  const onSubmit = (data: any) => console.log(data);
+
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'questions',
   });
+
+  const onSubmit = async (data: any) => {
+    await createMagazine(data);
+    navigate('/');
+  };
 
   return (
     <PageLayout>
@@ -45,9 +54,9 @@ const CreateMagazineDemo = () => {
       <AdminContentLayout>
         <form onSubmit={handleSubmit(onSubmit)}>
           <St.TitleHeader>매거진 명</St.TitleHeader>
-          <MagazineCreateElement register={register} inputPlaceholer={'매거진 명을 입력해주세요.'} inputMaxLength={55} inputHeight={12} registerField={'magazineTitle'} />
+          <MagazineCreateElement register={register} inputPlaceholer={'매거진 명을 입력해주세요.'} inputMaxLength={55} inputHeight={12} registerField={'title'} />
           <St.TitleHeader>인터뷰이</St.TitleHeader>
-          <MagazineCreateElement register={register} inputPlaceholer={'인터뷰이 이름을 입력해주세요.'} inputMaxLength={10} inputHeight={4.8} registerField={'magazineInterviewee'} />
+          <MagazineCreateElement register={register} inputPlaceholer={'인터뷰이 이름을 입력해주세요.'} inputMaxLength={10} inputHeight={4.8} registerField={'interviewPerson'} />
           <St.TitleHeader>메인 이미지 등록</St.TitleHeader>
           <St.TitleReprase>1 : 1 비율의 이미지를 등록해주세요. 최대 4장 등록 가능합니다.</St.TitleReprase>
           <St.ImageUploadContainer>
