@@ -21,7 +21,7 @@ const CreateMagazineDemo = () => {
       magazineTitle: '',
       magazineInterviewee: '',
       magazineIntro: '',
-      magazinePhotos: ['', '', '', ''],
+      magazinePhotos: [],
       questions: [
         {
           questionOrder: 1,
