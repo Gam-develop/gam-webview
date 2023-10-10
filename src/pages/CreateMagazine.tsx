@@ -73,7 +73,7 @@ const CreateMagazineDemo = () => {
               <section key={item.id}>
                 <St.QuestionIndex>Q{index + 1}</St.QuestionIndex>
                 <MagazineCreateElement register={register} inputPlaceholer={'질문을 작성해주세요.'} inputMaxLength={200} inputHeight={28.2} registerField={`questions.${index}.question`} />
-                <MagazineCreateElement register={register} inputPlaceholer={'답변을 작성해주세요.'} inputMaxLength={1000} inputHeight={28.2} registerField={`questions.${index}.question`} />
+                <MagazineCreateElement register={register} inputPlaceholer={'답변을 작성해주세요.'} inputMaxLength={1000} inputHeight={28.2} registerField={`questions.${index}.answer`} />
                 <St.QuestionImageTitle>이미지 등록</St.QuestionImageTitle>
                 <St.QuestionImageTitleCaption>16:9 비율의 이미지를 등록해주세요. 1장 등록 가능합니다.</St.QuestionImageTitleCaption>
                 <ImageUploader setValue={setValue} target={`questions.${index}.answerImage`} width={51.2} height={28.8} />
