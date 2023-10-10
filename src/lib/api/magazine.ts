@@ -10,11 +10,11 @@ export const createMagazine = async (magazine: any) => {
   }
 };
 
-export const putPresignedUrl = async (file: File, signedUrl: string) => {
-  await axios.request({
-    method: 'PUT',
-    baseURL: decodeURIComponent(signedUrl),
-    headers: { 'Content-Type': file.type },
-    data: file,
-  });
+export const deleteMagazine = async (magazineId: number) => {
+  try {
+    const { data } = await client.delete(`/api/v1/admin/magazine/${magazineId}`);
+    return data;
+  } catch (e) {
+    console.error(e);
+  }
 };

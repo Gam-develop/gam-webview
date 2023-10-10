@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import useGetMagazineList from '../lib/hooks/useGetMagazineList';
 import ErrorPage from '../pages/ErrorPage';
 import { magazineListState } from '../recoil/atom';
+import { deleteMagazine } from '../lib/api/magazine';
 
 const MagazineList = () => {
   const { magazineListResult, isLoading, isError } = useGetMagazineList();
@@ -17,6 +18,14 @@ const MagazineList = () => {
       setMagazineList(magazineListResult.data);
     }
   }, [magazineListResult]);
+
+  useEffect(() => {}, [magazineList]);
+
+  const clickDelete = async (magazineId: number) => {
+    await deleteMagazine(magazineId).then(() => {
+      setMagazineList((prevList) => prevList.filter((magazine) => magazine.magazineId !== magazineId));
+    });
+  };
 
   if (isLoading) return <div>Loading</div>;
   if (isError) return <ErrorPage />;
@@ -37,7 +46,7 @@ const MagazineList = () => {
               <St.MagazineListItemButton>
                 <St.MagazineListItemButtonContent>수정하기</St.MagazineListItemButtonContent>
               </St.MagazineListItemButton>
-              <St.MagazineListItemButton>
+              <St.MagazineListItemButton onClick={() => clickDelete(data.magazineId)}>
                 <St.MagazineListItemButtonContent>삭제하기</St.MagazineListItemButtonContent>
               </St.MagazineListItemButton>
             </St.MagazineListItemWrapper>
@@ -110,7 +119,7 @@ const St = {
     width: 18rem;
   `,
 
-  MagazineListItemButton: styled.div`
+  MagazineListItemButton: styled.button`
     background-color: ${({ theme }) => theme.colors.Gam_Black};
     width: 13.7rem;
     margin-right: 0.8rem;
