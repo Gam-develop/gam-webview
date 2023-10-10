@@ -7,7 +7,7 @@
     "watch": "tsc --watch",
     "test:dev": "vite --mode development",
     "test:prod": "vite --mode production",
-    "build:dev": "vite build --mode development",
+    "build": "vite build --mode development",
     "build:prod": "vite build --mode production",
     "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
