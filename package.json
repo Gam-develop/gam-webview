@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "watch": "tsc --watch",
-    "test:dev": "vite --mode development",
-    "test:prod": "vite --mode production",
+    "start:dev": "vite --mode development",
+    "start:prod": "vite --mode production",
     "build": "vite build --mode development",
     "build:prod": "vite build --mode production",
     "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
