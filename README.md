@@ -2,15 +2,11 @@
 
 Gam 서비스의 매거진 웹뷰, 어드민을 제공합니다.
 
-<br/>
-
 ## Stacks
 
 ![Static Badge](https://img.shields.io/badge/react-18.2.0-blue)
 ![Static Badge](https://img.shields.io/badge/vite-4.4.0-yellow)
 ![Static Badge](https://img.shields.io/badge/recoil-0.7.6-green)
-
-<br/>
 
 ## Folders
 
