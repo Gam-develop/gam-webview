@@ -60,10 +60,9 @@ const CreateMagazineDemo = () => {
           <St.TitleHeader>메인 이미지 등록</St.TitleHeader>
           <St.TitleReprase>1 : 1 비율의 이미지를 등록해주세요. 최대 4장 등록 가능합니다.</St.TitleReprase>
           <St.ImageUploadContainer>
-            <ImageUploader setValue={setValue} target={'magazinePhotos[0]'} width={28.2} height={28.2} />
-            <ImageUploader setValue={setValue} target={'magazinePhotos[1]'} width={28.2} height={28.2} />
-            <ImageUploader setValue={setValue} target={'magazinePhotos[2]'} width={28.2} height={28.2} />
-            <ImageUploader setValue={setValue} target={'magazinePhotos[3]'} width={28.2} height={28.2} />
+            {[...Array(4)].map((item, index) => (
+              <ImageUploader key={index} setValue={setValue} target={`magazinePhotos[${index}]`} width={28.2} height={28.2} defaultValue={''} />
+            ))}
           </St.ImageUploadContainer>
           <St.TitleHeader>서론</St.TitleHeader>
           <MagazineCreateElement register={register} inputPlaceholer={'서론을 작성해주세요'} inputMaxLength={500} inputHeight={28.2} registerField={'magazineIntro'} />
@@ -76,7 +75,7 @@ const CreateMagazineDemo = () => {
                 <MagazineCreateElement register={register} inputPlaceholer={'답변을 작성해주세요.'} inputMaxLength={1000} inputHeight={28.2} registerField={`questions.${index}.answer`} />
                 <St.QuestionImageTitle>이미지 등록</St.QuestionImageTitle>
                 <St.QuestionImageTitleCaption>16:9 비율의 이미지를 등록해주세요. 1장 등록 가능합니다.</St.QuestionImageTitleCaption>
-                <ImageUploader setValue={setValue} target={`questions.${index}.answerImage`} width={51.2} height={28.8} />
+                <ImageUploader setValue={setValue} target={`questions.${index}.answerImage`} width={51.2} height={28.8} defaultValue="" />
                 <MagazineCreateElement register={register} inputPlaceholer={'이미지에 대해 간략히 설명해주세요.'} inputMaxLength={50} inputHeight={12} registerField={`questions.${index}.imageCaption`} />
               </section>
             );

@@ -7,10 +7,11 @@ import { magazineDetail } from '../../types/magazine';
 const useGetMagazineDetail = (magazineId: string) => {
   const { data, error } = useSWR<AxiosResponse<magazineDetail>>(`/api/v1/magazine/detail?magazineId=${+magazineId}`, gamGetFetcher, {
     errorRetryCount: 3,
+    shouldRetryOnError: false,
   });
 
   return {
-    magazineResult: data,
+    magazineDetailResult: data?.data,
     isLoading: !data && !error,
     isError: error,
   };

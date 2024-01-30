@@ -8,6 +8,7 @@ const colors = {
   Gam_Coral: '#FF8787',
   Gam_White: '#FFFFFF',
   Gam_Black: '#373737',
+  Gam_GrayBorder: '#cccaca',
 };
 
 const fonts = {

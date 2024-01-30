@@ -1,13 +1,15 @@
 import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 import useGetMagazineList from '../lib/hooks/useGetMagazineList';
 import ErrorPage from '../pages/ErrorPage';
 import { magazineListState } from '../recoil/atom';
 import { deleteMagazine } from '../lib/api/magazine';
+import { magazineListData } from '../types/magazine';
 
 const MagazineList = () => {
+  const navigate = useNavigate();
   const { magazineListResult, isLoading, isError } = useGetMagazineList();
 
   const setMagazineList = useSetRecoilState(magazineListState);
@@ -27,6 +29,12 @@ const MagazineList = () => {
     });
   };
 
+  // 수정하기로 이동
+  const clickUpdate = (magazine: magazineListData) => {
+    console.log(magazine);
+    navigate(`/magazine/${magazine.magazineId}`, { state: { magazineTitle: magazine.magazineTitle, interviewee: magazine.interviewee } });
+  };
+
   if (isLoading) return <div>Loading</div>;
   if (isError) return <ErrorPage />;
 
@@ -43,7 +51,7 @@ const MagazineList = () => {
             <St.MagazineListItemWrapper key={data.magazineId}>
               <St.MagazineListItemTitle>{data.magazineTitle}</St.MagazineListItemTitle>
               <St.MagazineListItemInterviewee>{data.interviewee}</St.MagazineListItemInterviewee>
-              <St.MagazineListItemButton>
+              <St.MagazineListItemButton onClick={() => clickUpdate(data)}>
                 <St.MagazineListItemButtonContent>수정하기</St.MagazineListItemButtonContent>
               </St.MagazineListItemButton>
               <St.MagazineListItemButton onClick={() => clickDelete(data.magazineId)}>
