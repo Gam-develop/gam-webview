@@ -31,7 +31,7 @@ const MagazineQuestion = ({ magazineQuestions }: { magazineQuestions: magazineQu
                 boxShadow: 'unset',
                 position: 'unset',
                 marginBottom: '4.0rem',
-                backgroundColor: '#F4F4F4',
+                // backgroundColor: '#F4F4F4',
               }}
             >
               <AccordionSummary
@@ -138,6 +138,7 @@ const St = {
     font-size: 1.5rem;
     white-space: pre-wrap;
     margin-top: 8px;
+    text-align: center;
     color: ${({ theme }) => theme.colors.Gam_Gray};
     ${({ theme }) => theme.fonts.Gam_Contend_Pretendard_Regular_12};
   `,

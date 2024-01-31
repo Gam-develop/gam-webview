@@ -99,7 +99,7 @@ export const reset = css`
   figure,
   footer,
   header,
-  hgroup,
+  ƒ hgroup,
   main,
   menu,
   nav,
@@ -151,7 +151,12 @@ ${reset}
     -ms-overflow-style: none; 
     scrollbar-width: none; 
     background-color: #F4F4F4;
+
+    &.modal-open{
+      background-color: #b3b3b3;
+    }
 }
+
 #root::-webkit-scrollbar {
     display: none; 
 }
@@ -159,7 +164,12 @@ ${reset}
 * {
     box-sizing: border-box;
 }
-    
+
+/* .modal-open{
+  background-color: #B3B3B3;
+  /* 다른 스타일 속성들도 필요하다면 여기에 추가할 수 있습니다. */
+}
+     */
 `;
 
 export default GlobalStyle;

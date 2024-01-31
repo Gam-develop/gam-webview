@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import useGetMagazineDetail from '../lib/hooks/useGetMagazineDetail';
-import { magazineDetailState } from '../recoil/atom';
+import { magazineDetailState, magazineResultState } from '../recoil/atom';
 import ErrorPage from '../pages/ErrorPage';
 import MagazineImage from './MagazineImage';
 import MagazineQuestion from './MagazineQuestion';
@@ -17,19 +17,19 @@ const Magazine = () => {
     return <ErrorPage />;
   }
 
-  const { magazineResult, isLoading, isError } = useGetMagazineDetail(magazineId);
+  // const { magazineResult, isLoading, isError } = useGetMagazineDetail(magazineId);
 
   const setMagazineDetail = useSetRecoilState(magazineDetailState);
   const magazineDetail = useRecoilValue(magazineDetailState);
 
-  useEffect(() => {
-    if (magazineResult) {
-      setMagazineDetail(magazineResult.data);
-    }
-  }, [magazineResult]);
+  // useEffect(() => {
+  //   if (magazineResult) {
+  //     setMagazineDetail(magazineResult.data);
+  //   }
+  // }, [magazineResult]);
 
-  if (isLoading) return <div>Loading</div>;
-  if (isError) return <ErrorPage />;
+  // if (isLoading) return <div>Loading</div>;
+  // if (isError) return <ErrorPage />;
 
   return (
     <St.MagazineWrapper>
@@ -51,6 +51,10 @@ const St = {
     align-items: center;
     width: 100%;
     max-width: 39.5rem;
+    justify-content: center;
+    background-color: ${({ theme }) => theme.colors.Gam_White};
+    margin: auto;
+    margin-bottom: 16rem;
   `,
 
   MagazineQAWrapper: styled.section`

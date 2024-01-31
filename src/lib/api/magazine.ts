@@ -24,7 +24,6 @@ export const deleteMagazine = async (magazineId: number) => {
 export const updateMagazine = async (magazine: any, magazineId: string | undefined) => {
   try {
     if (magazineId) {
-      console.log(magazine);
       const { data } = await client.patch(`/api/v1/admin/magazine/${+magazineId}`, magazine);
       console.log(data);
       return data;
