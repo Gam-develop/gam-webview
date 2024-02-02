@@ -87,15 +87,14 @@ const St = {
 
   MagazineListField: styled.div`
     display: flex;
-    margin: 4rem 0rem 1.1rem 0rem;
+    margin: 4rem 0rem 1.1rem;
     width: 100%;
     color: ${({ theme }) => theme.colors.Gam_Black};
   `,
 
   MagazineListFieldTitle: styled.div`
     ${({ theme }) => theme.fonts.Gam_Contend_Pretendard_Regular};
-    width: 5.2rem;
-    margin-left: 2.4rem;
+    margin-left: 2.5rem;
   `,
 
   MagazineListFieldInterViewee: styled.div`

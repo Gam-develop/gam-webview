@@ -8,13 +8,12 @@ interface InputProps {
   inputMaxLength: number;
   inputHeight: number;
   registerField: string;
-  setValue: Function;
   onFormChange: Function;
   defaultValue: string;
 }
 
 const MagazineCreateElement = (props: InputProps) => {
-  const { register, inputPlaceholer, inputMaxLength, inputHeight, registerField, setValue, onFormChange, defaultValue } = props;
+  const { register, inputPlaceholer, inputMaxLength, inputHeight, registerField, onFormChange, defaultValue } = props;
 
   const isRequired = registerField.includes('imageCaption') ? false : true;
 
@@ -39,14 +38,12 @@ const MagazineCreateElement = (props: InputProps) => {
 
   return (
     <>
-      <AdminContentLayout>
-        <St.Wrapper>
-          <St.TitleInput style={inputStyle} type="text" placeholder={inputPlaceholer} {...register(registerField, { required: isRequired, maxLength: inputMaxLength })} onChange={handleInputChange} value={inputValue} />
-          <St.InputCounter>
-            {inputValue.length}/{inputMaxLength}
-          </St.InputCounter>
-        </St.Wrapper>
-      </AdminContentLayout>
+      <St.Wrapper>
+        <St.TitleInput style={inputStyle} type="text" placeholder={inputPlaceholer} {...register(registerField, { required: isRequired, maxLength: inputMaxLength })} onChange={handleInputChange} value={inputValue} />
+        <St.InputCounter>
+          {inputValue.length}/{inputMaxLength}
+        </St.InputCounter>
+      </St.Wrapper>
     </>
   );
 };
