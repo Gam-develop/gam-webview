@@ -165,11 +165,9 @@ ${reset}
     box-sizing: border-box;
 }
 
-/* .modal-open{
+.modal-open{
   background-color: #B3B3B3;
-  /* 다른 스타일 속성들도 필요하다면 여기에 추가할 수 있습니다. */
 }
-     */
 `;
 
 export default GlobalStyle;

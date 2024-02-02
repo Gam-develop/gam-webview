@@ -4,22 +4,20 @@ import { getPresignedUrl, putPresignedUrl } from '../lib/api/image';
 import { ReactComponent as IcPlus } from '../assets/icon/IcPlus.svg';
 
 interface containerSize {
-  setValue: any;
   width: number;
   height: number;
   target: string;
+  onFormChange: Function;
   defaultValue: string;
 }
 
 const ImageUploader = (props: containerSize) => {
-  const { setValue, width, height, target, defaultValue } = props;
-  console.log(target);
+  const { width, height, target, onFormChange, defaultValue } = props;
   const inputRef = useRef<HTMLInputElement | null>(null);
   const selectorRef = useRef<HTMLDivElement>(null);
 
   // 이미지
   const [previewImage, setPreviewImage] = useState<string | undefined>(defaultValue);
-  console.log(previewImage);
 
   const [isOpenSelector, setIsOpenSelector] = useState(false);
 
@@ -29,7 +27,6 @@ const ImageUploader = (props: containerSize) => {
     if (!inputEl) return;
     inputEl.value = '';
     inputEl.onchange = async () => {
-      console.log(inputEl.files);
       const files = inputEl.files;
       if (files == null || files.length === 0) return;
       const file = files[0];
@@ -44,9 +41,9 @@ const ImageUploader = (props: containerSize) => {
 
         const s3Url = `https://gam-image-test.s3.ap-northeast-2.amazonaws.com/${fileName}`;
         setPreviewImage(s3Url);
-
-        setValue(target, s3Url);
-        console.log(target, s3Url);
+        onFormChange(s3Url);
+        // setValue(target, s3Url);
+        // console.log(target, s3Url);
       } catch (error) {
         console.error(error);
       }
@@ -66,11 +63,9 @@ const ImageUploader = (props: containerSize) => {
 
   const openSelector = () => {
     setIsOpenSelector(true);
-    console.log(isOpenSelector);
   };
   const closeSelector = () => {
     setIsOpenSelector(false);
-    console.log(isOpenSelector);
   };
 
   useEffect(() => {
@@ -79,7 +74,6 @@ const ImageUploader = (props: containerSize) => {
 
   useEffect(() => {
     const handleClickSelectorOutside = (e: MouseEvent) => {
-      console.log(e);
       if (selectorRef.current && !selectorRef.current.contains(e.target as Node)) {
         closeSelector();
       }

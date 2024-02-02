@@ -58,14 +58,14 @@ const St = {
   `,
 
   MagazineQAWrapper: styled.section`
-    padding: 0rem 2rem;
+    /* padding: 0rem 2rem; */
   `,
 
   MagazineIntro: styled.div`
-    margin: 5rem 0rem 5.5rem 0rem;
-    font-size: 1.5rem;
+    padding: 0 2rem;
+    margin: 6rem 0rem 5.5rem 0rem;
     white-space: pre-wrap;
     color: ${({ theme }) => theme.colors.Gam_Black};
-    ${({ theme }) => theme.fonts.Gam_Contend_Pretendard_Regular};
+    ${({ theme }) => theme.fonts.Gam_Contend_Pretendard_Regular_16};
   `,
 };
