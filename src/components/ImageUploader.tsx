@@ -4,15 +4,15 @@ import { getPresignedUrl, putPresignedUrl } from '../lib/api/image';
 import { ReactComponent as IcPlus } from '../assets/icon/IcPlus.svg';
 
 interface containerSize {
+  setValue: any;
   width: number;
   height: number;
   target: string;
-  onFormChange: Function;
   defaultValue: string;
 }
 
 const ImageUploader = (props: containerSize) => {
-  const { width, height, target, onFormChange, defaultValue } = props;
+  const { setValue, width, height, target, defaultValue } = props;
   const inputRef = useRef<HTMLInputElement | null>(null);
   const selectorRef = useRef<HTMLDivElement>(null);
 
@@ -23,7 +23,6 @@ const ImageUploader = (props: containerSize) => {
 
   const handleChange = () => {
     const inputEl = inputRef.current;
-    console.log(inputEl);
     if (!inputEl) return;
     inputEl.value = '';
     inputEl.onchange = async () => {
@@ -41,9 +40,7 @@ const ImageUploader = (props: containerSize) => {
 
         const s3Url = `https://gam-image-test.s3.ap-northeast-2.amazonaws.com/${fileName}`;
         setPreviewImage(s3Url);
-        onFormChange(s3Url);
-        // setValue(target, s3Url);
-        // console.log(target, s3Url);
+        setValue(target, s3Url);
       } catch (error) {
         console.error(error);
       }

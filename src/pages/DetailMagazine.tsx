@@ -65,6 +65,7 @@ const DetailMagazine = () => {
     handleSubmit,
     control,
     setValue,
+    watch,
     reset,
     formState: { errors },
   } = useForm({
@@ -77,85 +78,15 @@ const DetailMagazine = () => {
   });
 
   /**
-   * 폼상태들이 변경될 때마다 업데이트
-   */
-  useEffect(() => {
-    setValue('title', magazineResult.title);
-    setValue('interviewPerson', magazineResult.interviewPerson);
-    setValue('magazineIntro', magazineResult.magazineIntro);
-    setValue('magazinePhotos', magazineResult.magazinePhotos || []);
-    setValue('questions', magazineResult.questions || []);
-    setMagazineResult(magazineResult);
-  }, [magazineResult, setValue, register]);
-
-  const [formState, setFormState] = useState({
-    title: magazineResult.title,
-    interviewPerson: magazineResult.interviewPerson,
-    magazineIntro: magazineDetail.magazineIntro,
-    magazinePhotos: [...magazineDetail.magazinePhotos],
-    questions: magazineDetail.questions.map((item) => ({
-      ...item,
-    })),
-  });
-
-  /**
-   * questions, magazinePhotos폼 업데이트
-   * @param fieldName
-   * @param index
-   * @param value
-   */
-  const handleFormArrayChange = (fieldName: string, index: number, value: string) => {
-    console.log(fieldName, index, value);
-    if (fieldName === 'magazinePhotos') {
-      setFormState((prevFormState) => {
-        // 이전 상태 복사
-        const newState = { ...prevFormState };
-        // magazinePhotos 배열 복사
-        const updatedMagazinePhotos = [...newState[fieldName]];
-        // 특정 인덱스의 값 변경
-        updatedMagazinePhotos[index] = value;
-        // 변경된 magazinePhotos를 새 상태에 업데이트
-        newState[fieldName] = updatedMagazinePhotos;
-        return newState;
-      });
-      console.log(formState);
-    } else {
-      setFormState((prevFormState) => ({
-        ...prevFormState,
-        questions: prevFormState.questions.map((item, i) =>
-          i === index
-            ? {
-                ...item,
-                [fieldName]: value,
-              }
-            : item,
-        ),
-      }));
-    }
-  };
-
-  /**
-   * 매거진명, 인터뷰이, 서론 폼 업데이트
-   * @param fieldName
-   * @param value
-   */
-  const handleFormChange = (fieldName: string, value: any) => {
-    setFormState((prevFormState) => ({
-      ...prevFormState,
-      [fieldName]: value,
-    }));
-  };
-
-  /**
    * 미리보기
    */
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
 
   const handleClickPreview = () => {
-    // document.getElementById('root')?.classList.add('modal-open');
-    setMagazineResult(formState);
-    setMagazineDetail(formState);
-    reset(formState);
+    const form = watch();
+    console.log(form);
+    setMagazineDetail(form);
+    reset(form);
     setIsPreviewOpen(true);
   };
 
@@ -163,19 +94,21 @@ const DetailMagazine = () => {
    * @param data 매거진 수정
    */
   const onSubmit = async (data: any) => {
-    setMagazineResult(formState);
-    setMagazineDetail(formState);
-    const updatedData: magazineDetailResult = {
-      ...formState,
-      questions: formState.questions.map((question: magazineQuestionInfo) => {
+    const { magazineId, ...rest } = data;
+    setMagazineResult(data);
+    setMagazineDetail(data);
+    const updatedData = {
+      ...rest,
+      questions: data.questions.map((question: magazineQuestionInfo) => {
         const { questionId, ...questionRest } = question;
         return questionRest;
       }),
     };
 
+    console.log(updatedData);
+
     await updateMagazine(updatedData, magazineId);
 
-    document.getElementById('root')?.classList.remove('modal-open');
     navigate('/');
   };
 
@@ -188,53 +121,29 @@ const DetailMagazine = () => {
             {!isPreviewOpen ? (
               <>
                 <St.TitleHeader>매거진 명</St.TitleHeader>
-                <MagazineCreateElement register={register} inputPlaceholer={'매거진 명을 입력해주세요.'} inputMaxLength={50} inputHeight={12} registerField={'title'} onFormChange={handleFormChange} defaultValue={magazineTitle} />
+                <MagazineCreateElement register={register} inputPlaceholer={'매거진 명을 입력해주세요.'} inputMaxLength={50} inputHeight={12} registerField={'title'} defaultValue={magazineTitle} />
                 <St.TitleHeader>인터뷰이</St.TitleHeader>
-                <MagazineCreateElement register={register} inputPlaceholer={'인터뷰이 이름을 입력해주세요.'} inputMaxLength={10} inputHeight={4.8} registerField={'interviewPerson'} onFormChange={handleFormChange} defaultValue={interviewee} />
+                <MagazineCreateElement register={register} inputPlaceholer={'인터뷰이 이름을 입력해주세요.'} inputMaxLength={10} inputHeight={4.8} registerField={'interviewPerson'} defaultValue={interviewee} />
                 <St.TitleHeader>메인 이미지 등록</St.TitleHeader>
                 <St.TitleReprase>1 : 1 비율의 이미지를 등록해주세요. 최대 4장 등록 가능합니다.</St.TitleReprase>
                 <St.ImageUploadContainer>
                   {[...Array(4)].map((item, index) => (
-                    <ImageUploader key={index} target={`magazinePhotos[${index}]`} width={28.2} height={28.2} onFormChange={(value: string) => handleFormArrayChange('magazinePhotos', index, value)} defaultValue={magazineResult.magazinePhotos ? magazineResult.magazinePhotos[index] : ''} />
+                    <ImageUploader setValue={setValue} target={`magazinePhotos[${index}]`} width={28.2} height={28.2} defaultValue={magazineResult.magazinePhotos ? magazineResult.magazinePhotos[index] : ''} />
                   ))}
                 </St.ImageUploadContainer>
                 <St.TitleHeader>서론</St.TitleHeader>
-                <MagazineCreateElement register={register} inputPlaceholer={'서론을 작성해주세요'} inputMaxLength={500} inputHeight={28.2} registerField={'magazineIntro'} onFormChange={handleFormChange} defaultValue={magazineDetail.magazineIntro} />
+                <MagazineCreateElement register={register} inputPlaceholer={'서론을 작성해주세요'} inputMaxLength={500} inputHeight={28.2} registerField={'magazineIntro'} defaultValue={magazineDetail.magazineIntro} />
                 <St.TitleHeader>인터뷰</St.TitleHeader>
                 {fields.map((item, index) => {
                   return (
                     <section key={item.id}>
                       <St.QuestionIndex>Q{index + 1}</St.QuestionIndex>
-                      <MagazineCreateElement
-                        register={register}
-                        inputPlaceholer={'질문을 작성해주세요.'}
-                        inputMaxLength={200}
-                        inputHeight={28.2}
-                        registerField={`questions.${index}.question`}
-                        onFormChange={(registerField: string, value: string) => handleFormArrayChange('question', index, value)}
-                        defaultValue={item.question}
-                      />
-                      <MagazineCreateElement
-                        register={register}
-                        inputPlaceholer={'답변을 작성해주세요.'}
-                        inputMaxLength={1000}
-                        inputHeight={28.2}
-                        registerField={`questions[${index}].answer`}
-                        onFormChange={(registerField: string, value: string) => handleFormArrayChange('answer', index, value)}
-                        defaultValue={item.answer}
-                      />
+                      <MagazineCreateElement register={register} inputPlaceholer={'질문을 작성해주세요.'} inputMaxLength={200} inputHeight={28.2} registerField={`questions.${index}.question`} defaultValue={item.question} />
+                      <MagazineCreateElement register={register} inputPlaceholer={'답변을 작성해주세요.'} inputMaxLength={1000} inputHeight={28.2} registerField={`questions[${index}].answer`} defaultValue={item.answer} />
                       <St.QuestionImageTitle>이미지 등록</St.QuestionImageTitle>
                       <St.QuestionImageTitleCaption>16:9 비율의 이미지를 등록해주세요. 1장 등록 가능합니다.</St.QuestionImageTitleCaption>
-                      <ImageUploader target={`questions.${index}.answerImage`} width={51.2} height={28.8} onFormChange={(value: string) => handleFormArrayChange('answerImage', index, value)} defaultValue={item.answerImage ? item.answerImage : ''} />
-                      <MagazineCreateElement
-                        register={register}
-                        inputPlaceholer={'이미지에 대해 간략히 설명해주세요.'}
-                        inputMaxLength={50}
-                        inputHeight={12}
-                        registerField={`questions.${index}.imageCaption`}
-                        onFormChange={(registerField: string, value: string) => handleFormArrayChange('imageCaption', index, value)}
-                        defaultValue={item.imageCaption}
-                      />
+                      <ImageUploader setValue={setValue} target={`questions.${index}.answerImage`} width={51.2} height={28.8} defaultValue={item.answerImage ? item.answerImage : ''} />
+                      <MagazineCreateElement register={register} inputPlaceholer={'이미지에 대해 간략히 설명해주세요.'} inputMaxLength={50} inputHeight={12} registerField={`questions.${index}.imageCaption`} defaultValue={item.imageCaption} />
                     </section>
                   );
                 })}
@@ -245,7 +154,7 @@ const DetailMagazine = () => {
                   <St.QuestionControlButton
                     type="button"
                     onClick={() => {
-                      append({ questionOrder: fields.length + 1, question: '', answer: '', answerImage: '', imageCaption: '' });
+                      append({ questionId: 0, questionOrder: fields.length + 1, question: '', answer: '', answerImage: '', imageCaption: '' });
                     }}
                   >
                     문항 추가

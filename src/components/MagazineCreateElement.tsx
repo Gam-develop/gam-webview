@@ -8,12 +8,11 @@ interface InputProps {
   inputMaxLength: number;
   inputHeight: number;
   registerField: string;
-  onFormChange: Function;
   defaultValue: string;
 }
 
 const MagazineCreateElement = (props: InputProps) => {
-  const { register, inputPlaceholer, inputMaxLength, inputHeight, registerField, onFormChange, defaultValue } = props;
+  const { register, inputPlaceholer, inputMaxLength, inputHeight, registerField, defaultValue } = props;
 
   const isRequired = registerField.includes('imageCaption') ? false : true;
 
@@ -28,8 +27,6 @@ const MagazineCreateElement = (props: InputProps) => {
 
     if (value.length <= inputMaxLength) {
       setInputValue(value);
-      // onFormChange 콜백을 호출하여 부모 컴포넌트에 폼 변경 알림
-      onFormChange(registerField, value);
     } else if (value.length > inputMaxLength) {
       window.alert(`최대 ${inputMaxLength}자까지 입력가능합니다.`);
       setInputValue(value.slice(0, inputMaxLength));

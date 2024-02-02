@@ -62,13 +62,13 @@ export const magazineListState = atom<magazineListData[]>({
 export const magazineResultState = atom<magazineDetailResult>({
   key: 'magazineDetailResult',
   default: {
-    // magazineId: 1,
     title: '',
     interviewPerson: '',
     magazineIntro: '',
     magazinePhotos: ['', '', '', ''],
     questions: [
       {
+        questionId: 1,
         questionOrder: 1,
         question: '',
         answer: '',
@@ -76,6 +76,7 @@ export const magazineResultState = atom<magazineDetailResult>({
         imageCaption: '',
       },
       {
+        questionId: 2,
         questionOrder: 2,
         question: '',
         answer: '',
@@ -83,6 +84,7 @@ export const magazineResultState = atom<magazineDetailResult>({
         imageCaption: '',
       },
       {
+        questionId: 3,
         questionOrder: 3,
         question: '',
         answer: '',
@@ -90,6 +92,7 @@ export const magazineResultState = atom<magazineDetailResult>({
         imageCaption: '',
       },
       {
+        questionId: 4,
         questionOrder: 4,
         question: '',
         answer: '',
