@@ -1,12 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const AdminContentLayout = (props: any) => {
-  const { children } = props;
+const AdminContentLayout = (props: { isPreviewOpen: boolean; children: React.ReactNode }) => {
+  const { isPreviewOpen, children } = props;
   return (
     <>
       <St.MagazineCreateWrapper>
-        <h1>매거진 작성</h1>
+        {!isPreviewOpen && <h1>매거진 작성</h1>}
         {children}
       </St.MagazineCreateWrapper>
     </>
