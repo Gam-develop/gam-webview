@@ -5,7 +5,7 @@ import PageLayout from '../components/PageLayout';
 import MagazineAdminHeader from '../components/MagazineAdminHeader';
 import AdminContentLayout from '../components/AdminContentLayout';
 import ImageUploader from '../components/ImageUploader';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import MagazineCreateElement from '../components/MagazineCreateElement';
 import { updateMagazine } from '../lib/api/magazine';
 import { useNavigate } from 'react-router-dom';
@@ -14,6 +14,11 @@ import { magazineDetail, magazineDetailResult, magazineQuestionInfo } from '../t
 import { magazineDetailState, magazineResultState } from '../recoil/atom';
 import { DefaultValue, useRecoilValue, useSetRecoilState } from 'recoil';
 import Magazine from '../components/Magazine';
+import { IStyledComponent } from 'styled-components';
+
+interface PageLayoutWrapperProps {
+  isPreviewOpen: boolean;
+}
 
 const DetailMagazine = () => {
   const { magazineId } = useParams();
@@ -21,7 +26,7 @@ const DetailMagazine = () => {
   const navigate = useNavigate();
 
   const handleGoBack = () => {
-    document.getElementById('root')?.classList.remove('modal-open');
+    // document.getElementById('root')?.classList.remove('modal-open');
     setIsPreviewOpen(false);
   };
 
@@ -147,7 +152,7 @@ const DetailMagazine = () => {
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
 
   const handleClickPreview = () => {
-    document.getElementById('root')?.classList.add('modal-open');
+    // document.getElementById('root')?.classList.add('modal-open');
     setMagazineResult(formState);
     setMagazineDetail(formState);
     reset(formState);
@@ -175,102 +180,110 @@ const DetailMagazine = () => {
   };
 
   return (
-    <PageLayout className={isPreviewOpen ? 'modal-open' : ''}>
-      <MagazineAdminHeader />
-      <AdminContentLayout>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          {!isPreviewOpen ? (
-            <>
-              <St.TitleHeader>매거진 명</St.TitleHeader>
-              <MagazineCreateElement register={register} inputPlaceholer={'매거진 명을 입력해주세요.'} inputMaxLength={50} inputHeight={12} registerField={'title'} onFormChange={handleFormChange} defaultValue={magazineTitle} />
-              <St.TitleHeader>인터뷰이</St.TitleHeader>
-              <MagazineCreateElement register={register} inputPlaceholer={'인터뷰이 이름을 입력해주세요.'} inputMaxLength={10} inputHeight={4.8} registerField={'interviewPerson'} onFormChange={handleFormChange} defaultValue={interviewee} />
-              <St.TitleHeader>메인 이미지 등록</St.TitleHeader>
-              <St.TitleReprase>1 : 1 비율의 이미지를 등록해주세요. 최대 4장 등록 가능합니다.</St.TitleReprase>
-              <St.ImageUploadContainer>
-                {[...Array(4)].map((item, index) => (
-                  <ImageUploader key={index} target={`magazinePhotos[${index}]`} width={28.2} height={28.2} onFormChange={(value: string) => handleFormArrayChange('magazinePhotos', index, value)} defaultValue={magazineResult.magazinePhotos ? magazineResult.magazinePhotos[index] : ''} />
-                ))}
-              </St.ImageUploadContainer>
-              <St.TitleHeader>서론</St.TitleHeader>
-              <MagazineCreateElement register={register} inputPlaceholer={'서론을 작성해주세요'} inputMaxLength={500} inputHeight={28.2} registerField={'magazineIntro'} onFormChange={handleFormChange} defaultValue={magazineDetail.magazineIntro} />
-              <St.TitleHeader>인터뷰</St.TitleHeader>
-              {fields.map((item, index) => {
-                return (
-                  <section key={item.id}>
-                    <St.QuestionIndex>Q{index + 1}</St.QuestionIndex>
-                    <MagazineCreateElement
-                      register={register}
-                      inputPlaceholer={'질문을 작성해주세요.'}
-                      inputMaxLength={200}
-                      inputHeight={28.2}
-                      registerField={`questions.${index}.question`}
-                      onFormChange={(registerField: string, value: string) => handleFormArrayChange('question', index, value)}
-                      defaultValue={item.question}
-                    />
-                    <MagazineCreateElement
-                      register={register}
-                      inputPlaceholer={'답변을 작성해주세요.'}
-                      inputMaxLength={1000}
-                      inputHeight={28.2}
-                      registerField={`questions[${index}].answer`}
-                      onFormChange={(registerField: string, value: string) => handleFormArrayChange('answer', index, value)}
-                      defaultValue={item.answer}
-                    />
-                    <St.QuestionImageTitle>이미지 등록</St.QuestionImageTitle>
-                    <St.QuestionImageTitleCaption>16:9 비율의 이미지를 등록해주세요. 1장 등록 가능합니다.</St.QuestionImageTitleCaption>
-                    <ImageUploader target={`questions.${index}.answerImage`} width={51.2} height={28.8} onFormChange={(value: string) => handleFormArrayChange('answerImage', index, value)} defaultValue={item.answerImage ? item.answerImage : ''} />
-                    <MagazineCreateElement
-                      register={register}
-                      inputPlaceholer={'이미지에 대해 간략히 설명해주세요.'}
-                      inputMaxLength={50}
-                      inputHeight={12}
-                      registerField={`questions.${index}.imageCaption`}
-                      onFormChange={(registerField: string, value: string) => handleFormArrayChange('imageCaption', index, value)}
-                      defaultValue={item.imageCaption}
-                    />
-                  </section>
-                );
-              })}
-              <St.QuestionControlButtonSection>
-                <St.QuestionControlButton type="button" onClick={() => remove(fields.length - 1)}>
-                  문항 빼기
-                </St.QuestionControlButton>
-                <St.QuestionControlButton
-                  type="button"
-                  onClick={() => {
-                    append({ questionOrder: fields.length + 1, question: '', answer: '', answerImage: '', imageCaption: '' });
-                  }}
-                >
-                  문항 추가
-                </St.QuestionControlButton>
-              </St.QuestionControlButtonSection>
-            </>
-          ) : (
-            <>
-              <Magazine key={isPreviewOpen.toString()} />
-            </>
-          )}
-          <St.magazineButtonContainer>
+    <PageLayoutWrapper isPreviewOpen={isPreviewOpen}>
+      <PageLayout>
+        <MagazineAdminHeader />
+        <AdminContentLayout isPreviewOpen={isPreviewOpen}>
+          <form onSubmit={handleSubmit(onSubmit)}>
             {!isPreviewOpen ? (
-              <St.magazinePreloadButton type="button" onClick={handleClickPreview}>
-                미리보기
-              </St.magazinePreloadButton>
+              <>
+                <St.TitleHeader>매거진 명</St.TitleHeader>
+                <MagazineCreateElement register={register} inputPlaceholer={'매거진 명을 입력해주세요.'} inputMaxLength={50} inputHeight={12} registerField={'title'} onFormChange={handleFormChange} defaultValue={magazineTitle} />
+                <St.TitleHeader>인터뷰이</St.TitleHeader>
+                <MagazineCreateElement register={register} inputPlaceholer={'인터뷰이 이름을 입력해주세요.'} inputMaxLength={10} inputHeight={4.8} registerField={'interviewPerson'} onFormChange={handleFormChange} defaultValue={interviewee} />
+                <St.TitleHeader>메인 이미지 등록</St.TitleHeader>
+                <St.TitleReprase>1 : 1 비율의 이미지를 등록해주세요. 최대 4장 등록 가능합니다.</St.TitleReprase>
+                <St.ImageUploadContainer>
+                  {[...Array(4)].map((item, index) => (
+                    <ImageUploader key={index} target={`magazinePhotos[${index}]`} width={28.2} height={28.2} onFormChange={(value: string) => handleFormArrayChange('magazinePhotos', index, value)} defaultValue={magazineResult.magazinePhotos ? magazineResult.magazinePhotos[index] : ''} />
+                  ))}
+                </St.ImageUploadContainer>
+                <St.TitleHeader>서론</St.TitleHeader>
+                <MagazineCreateElement register={register} inputPlaceholer={'서론을 작성해주세요'} inputMaxLength={500} inputHeight={28.2} registerField={'magazineIntro'} onFormChange={handleFormChange} defaultValue={magazineDetail.magazineIntro} />
+                <St.TitleHeader>인터뷰</St.TitleHeader>
+                {fields.map((item, index) => {
+                  return (
+                    <section key={item.id}>
+                      <St.QuestionIndex>Q{index + 1}</St.QuestionIndex>
+                      <MagazineCreateElement
+                        register={register}
+                        inputPlaceholer={'질문을 작성해주세요.'}
+                        inputMaxLength={200}
+                        inputHeight={28.2}
+                        registerField={`questions.${index}.question`}
+                        onFormChange={(registerField: string, value: string) => handleFormArrayChange('question', index, value)}
+                        defaultValue={item.question}
+                      />
+                      <MagazineCreateElement
+                        register={register}
+                        inputPlaceholer={'답변을 작성해주세요.'}
+                        inputMaxLength={1000}
+                        inputHeight={28.2}
+                        registerField={`questions[${index}].answer`}
+                        onFormChange={(registerField: string, value: string) => handleFormArrayChange('answer', index, value)}
+                        defaultValue={item.answer}
+                      />
+                      <St.QuestionImageTitle>이미지 등록</St.QuestionImageTitle>
+                      <St.QuestionImageTitleCaption>16:9 비율의 이미지를 등록해주세요. 1장 등록 가능합니다.</St.QuestionImageTitleCaption>
+                      <ImageUploader target={`questions.${index}.answerImage`} width={51.2} height={28.8} onFormChange={(value: string) => handleFormArrayChange('answerImage', index, value)} defaultValue={item.answerImage ? item.answerImage : ''} />
+                      <MagazineCreateElement
+                        register={register}
+                        inputPlaceholer={'이미지에 대해 간략히 설명해주세요.'}
+                        inputMaxLength={50}
+                        inputHeight={12}
+                        registerField={`questions.${index}.imageCaption`}
+                        onFormChange={(registerField: string, value: string) => handleFormArrayChange('imageCaption', index, value)}
+                        defaultValue={item.imageCaption}
+                      />
+                    </section>
+                  );
+                })}
+                <St.QuestionControlButtonSection>
+                  <St.QuestionControlButton type="button" onClick={() => remove(fields.length - 1)}>
+                    문항 빼기
+                  </St.QuestionControlButton>
+                  <St.QuestionControlButton
+                    type="button"
+                    onClick={() => {
+                      append({ questionOrder: fields.length + 1, question: '', answer: '', answerImage: '', imageCaption: '' });
+                    }}
+                  >
+                    문항 추가
+                  </St.QuestionControlButton>
+                </St.QuestionControlButtonSection>
+              </>
             ) : (
-              <St.magazinePreloadButton type="button" onClick={handleGoBack}>
-                뒤로가기
-              </St.magazinePreloadButton>
+              <>
+                <Magazine key={isPreviewOpen.toString()} />
+              </>
             )}
-            <St.magazineSubmitButton type="submit">수정하기</St.magazineSubmitButton>
-          </St.magazineButtonContainer>
-        </form>
-      </AdminContentLayout>
-      <Outlet />
-    </PageLayout>
+            <St.magazineButtonContainer>
+              {!isPreviewOpen ? (
+                <St.magazinePreloadButton type="button" onClick={handleClickPreview}>
+                  미리보기
+                </St.magazinePreloadButton>
+              ) : (
+                <St.magazinePreloadButton type="button" onClick={handleGoBack}>
+                  뒤로가기
+                </St.magazinePreloadButton>
+              )}
+              <St.magazineSubmitButton type="submit">수정하기</St.magazineSubmitButton>
+            </St.magazineButtonContainer>
+          </form>
+        </AdminContentLayout>
+        <Outlet />
+      </PageLayout>
+    </PageLayoutWrapper>
   );
 };
 
 export default DetailMagazine;
+
+const PageLayoutWrapper = styled.div<PageLayoutWrapperProps>`
+  ${({ isPreviewOpen, theme }) => css`
+    background-color: ${isPreviewOpen ? theme.colors.Gam_Gray : 'inherit'};
+  `}
+`;
 
 const St = {
   TitleHeader: styled.div`
@@ -327,7 +340,7 @@ const St = {
     align-items: center;
     gap: 1.6rem;
     margin-right: 2.4rem;
-    border: 1px solid var(—gray-scale-gam-gray-2, #cccaca);
+    border: 1px solid var(--gray-scale-gam-gray-2, #cccaca);
     background: ${({ theme }) => theme.colors.Gam_White};
   `,
   magazineButtonContainer: styled.div`
