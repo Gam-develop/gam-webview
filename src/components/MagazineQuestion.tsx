@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { ReactComponent as IcExpand } from '../assets/icon/IcExpand.svg';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -63,7 +63,13 @@ const MagazineQuestion = ({ magazineQuestions }: { magazineQuestions: magazineQu
               >
                 <St.MagazineAnswer>
                   <St.MagazineQuestionImageWrapper>
-                    <St.MagazineQuestionImage src={question.answerImage} />
+                    {question.answerImage ? (
+                      <St.MagazineQuestionImage src={question.answerImage} />
+                    ) : (
+                      <St.MagazineQuestionNoImage>
+                        <p>16:9</p>
+                      </St.MagazineQuestionNoImage>
+                    )}
                   </St.MagazineQuestionImageWrapper>
                   <St.MagazineQuestionCaption>{question.imageCaption}</St.MagazineQuestionCaption>
                   <St.MagazineQuestionAnswer>{question.answer}</St.MagazineQuestionAnswer>
@@ -128,16 +134,33 @@ const St = {
   MagazineAnswer: styled.div``,
 
   MagazineQuestionImageWrapper: styled.div`
-    padding: 0 1.8rem;
+    /* padding: 0 1.8rem; */
     width: 100%;
     height: 19.1rem;
     aspect-ratio: 16/9;
+    /* border: 1px solid black; */
   `,
 
   MagazineQuestionImage: styled.img`
     width: 100%;
     height: 100%;
     object-fit: cover;
+  `,
+
+  MagazineQuestionNoImage: styled.div`
+    width: 100%;
+    height: 100%;
+    background-color: ${({ theme }) => theme.colors.Gam_GrayBorder};
+    position: relative;
+    p {
+      position: absolute;
+      z-index: 10;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      ${({ theme }) => theme.fonts.Gam_Contend_Pretendard_Regular_24};
+      color: ${({ theme }) => theme.colors.Gam_Gray};
+    }
   `,
 
   MagazineQuestionCaption: styled.div`

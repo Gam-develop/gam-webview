@@ -11,11 +11,11 @@ import MagazineQuestion from './MagazineQuestion';
 import { magazineDetail } from '../types/magazine';
 
 const Magazine = () => {
-  const { magazineId } = useParams();
+  // const { magazineId } = useParams();
 
-  if (!magazineId) {
-    return <ErrorPage />;
-  }
+  // if (!magazineId) {
+  //   return <ErrorPage />;
+  // }
 
   // const { magazineResult, isLoading, isError } = useGetMagazineDetail(magazineId);
 

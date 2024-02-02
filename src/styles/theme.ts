@@ -82,6 +82,13 @@ const fonts = {
     font-size: 1.8rem;
     line-height: 3.5rem;
   `,
+  Gam_Contend_Pretendard_Regular_24: css`
+    font-family: 'PretendardMedium', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 2.4rem;
+    line-height: 3.55rem;
+  `,
   Gam_Contend_Pretendard_Bold_24: css`
     font-family: 'PretendardMedium', sans-serif;
     font-style: normal;
