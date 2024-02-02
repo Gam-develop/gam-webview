@@ -134,7 +134,7 @@ const St = {
   MagazineAnswer: styled.div``,
 
   MagazineQuestionImageWrapper: styled.div`
-    /* padding: 0 1.8rem; */
+    padding: 0 1.8rem;
     width: 100%;
     height: 19.1rem;
     aspect-ratio: 16/9;
