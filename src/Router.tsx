@@ -15,7 +15,7 @@ const Router = () => {
           <Route path="/" element={<MainList />} />
           <Route path="/magazine/create" element={<CreateMagazine />} />
           <Route path="/magazine/create/:magazineId" element={<CreateMagazine />} />
-          <Route path="/magazine/:magazineId" element={<Magazine useRecoilData={false} />} />
+          <Route path="/magazine/:magazineId" element={<DetailMagazine useRecoilData={false} />} />
         </Routes>
       </RecoilRoot>
     </BrowserRouter>
