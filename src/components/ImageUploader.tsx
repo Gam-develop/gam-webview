@@ -6,10 +6,10 @@ import { DefaultValue } from 'recoil';
 
 interface containerSize {
   setValue: any;
+  watch: any;
+  target: string;
   width: number;
   height: number;
-  target: string;
-  watch: any;
 }
 
 const ImageUploader = (props: containerSize) => {
@@ -19,7 +19,6 @@ const ImageUploader = (props: containerSize) => {
 
   // watch를 사용하여 특정 필드의 값을 추적
   const watchedValue = watch(target);
-  console.log(watchedValue);
 
   // 이미지
   const [previewImage, setPreviewImage] = useState<string>(watchedValue);

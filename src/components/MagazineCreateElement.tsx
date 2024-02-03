@@ -5,11 +5,11 @@ import AdminContentLayout from './AdminContentLayout';
 interface InputProps {
   register: any;
   setValue: any;
+  watch: any;
   inputPlaceholer: string;
   inputMaxLength: number;
   inputHeight: number;
   registerField: string;
-  watch: any;
 }
 
 const MagazineCreateElement = (props: InputProps) => {

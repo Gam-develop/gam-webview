@@ -155,29 +155,29 @@ const CreateMagazineDemo = () => {
             {!isPreviewOpen ? (
               <>
                 <St.TitleHeader>매거진 명</St.TitleHeader>
-                <MagazineCreateElement setValue={setValue} register={register} inputPlaceholer={'매거진 명을 입력해주세요.'} inputMaxLength={55} inputHeight={12} registerField={'title'} watch={watch} />
+                <MagazineCreateElement register={register} setValue={setValue} watch={watch} inputPlaceholer={'매거진 명을 입력해주세요.'} inputMaxLength={55} inputHeight={12} registerField={'title'} />
                 <St.TitleHeader>인터뷰이</St.TitleHeader>
-                <MagazineCreateElement setValue={setValue} watch={watch} register={register} inputPlaceholer={'인터뷰이 이름을 입력해주세요.'} inputMaxLength={10} inputHeight={4.8} registerField={'interviewPerson'} />
+                <MagazineCreateElement register={register} setValue={setValue} watch={watch} inputPlaceholer={'인터뷰이 이름을 입력해주세요.'} inputMaxLength={10} inputHeight={4.8} registerField={'interviewPerson'} />
                 <St.TitleHeader>메인 이미지 등록</St.TitleHeader>
                 <St.TitleReprase>1 : 1 비율의 이미지를 등록해주세요. 최대 4장 등록 가능합니다.</St.TitleReprase>
                 <St.ImageUploadContainer>
                   {[...Array(4)].map((item, index) => (
-                    <ImageUploader setValue={setValue} target={`magazinePhotos[${index}]`} width={28.2} height={28.2} watch={watch} />
+                    <ImageUploader setValue={setValue} watch={watch} target={`magazinePhotos[${index}]`} width={28.2} height={28.2} />
                   ))}
                 </St.ImageUploadContainer>
                 <St.TitleHeader>서론</St.TitleHeader>
-                <MagazineCreateElement setValue={setValue} watch={watch} register={register} inputPlaceholer={'서론을 작성해주세요'} inputMaxLength={500} inputHeight={28.2} registerField={'magazineIntro'} />
+                <MagazineCreateElement register={register} setValue={setValue} watch={watch} inputPlaceholer={'서론을 작성해주세요'} inputMaxLength={500} inputHeight={28.2} registerField={'magazineIntro'} />
                 <St.TitleHeader>인터뷰</St.TitleHeader>
                 {fields.map((item, index) => {
                   return (
                     <section key={item.id}>
                       <St.QuestionIndex>Q{index + 1}</St.QuestionIndex>
-                      <MagazineCreateElement setValue={setValue} watch={watch} register={register} inputPlaceholer={'질문을 작성해주세요.'} inputMaxLength={200} inputHeight={28.2} registerField={`questions.${index}.question`} />
-                      <MagazineCreateElement setValue={setValue} watch={watch} register={register} inputPlaceholer={'답변을 작성해주세요.'} inputMaxLength={1000} inputHeight={28.2} registerField={`questions.${index}.answer`} />
+                      <MagazineCreateElement register={register} setValue={setValue} watch={watch} inputPlaceholer={'질문을 작성해주세요.'} inputMaxLength={200} inputHeight={28.2} registerField={`questions.${index}.question`} />
+                      <MagazineCreateElement register={register} setValue={setValue} watch={watch} inputPlaceholer={'답변을 작성해주세요.'} inputMaxLength={1000} inputHeight={28.2} registerField={`questions.${index}.answer`} />
                       <St.QuestionImageTitle>이미지 등록</St.QuestionImageTitle>
                       <St.QuestionImageTitleCaption>16:9 비율의 이미지를 등록해주세요. 1장 등록 가능합니다.</St.QuestionImageTitleCaption>
-                      <ImageUploader setValue={setValue} target={`questions.${index}.answerImage`} width={51.2} height={28.8} watch={watch} />
-                      <MagazineCreateElement setValue={setValue} watch={watch} register={register} inputPlaceholer={'이미지에 대해 간략히 설명해주세요.'} inputMaxLength={50} inputHeight={12} registerField={`questions.${index}.imageCaption`} />
+                      <ImageUploader setValue={setValue} watch={watch} target={`questions.${index}.answerImage`} width={51.2} height={28.8} />
+                      <MagazineCreateElement register={register} setValue={setValue} watch={watch} inputPlaceholer={'이미지에 대해 간략히 설명해주세요.'} inputMaxLength={50} inputHeight={12} registerField={`questions.${index}.imageCaption`} />
                     </section>
                   );
                 })}
