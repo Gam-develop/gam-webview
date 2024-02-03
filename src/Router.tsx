@@ -5,6 +5,7 @@ import CreateMagazine from './pages/CreateMagazine';
 import MainList from './pages/MainList';
 import { RecoilRoot } from 'recoil';
 import CreateMagazineDemo from './pages/CreateMagazine';
+import Magazine from './components/Magazine';
 
 const Router = () => {
   return (
@@ -13,7 +14,8 @@ const Router = () => {
         <Routes>
           <Route path="/" element={<MainList />} />
           <Route path="/magazine/create" element={<CreateMagazine />} />
-          <Route path="/magazine/:magazineId" element={<DetailMagazine />} />
+          <Route path="/magazine/create/:magazineId" element={<CreateMagazine />} />
+          <Route path="/magazine/:magazineId" element={<Magazine useRecoilData={false} />} />
         </Routes>
       </RecoilRoot>
     </BrowserRouter>

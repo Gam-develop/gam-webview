@@ -4,15 +4,19 @@ import AdminContentLayout from './AdminContentLayout';
 
 interface InputProps {
   register: any;
+  setValue: any;
   inputPlaceholer: string;
   inputMaxLength: number;
   inputHeight: number;
   registerField: string;
-  defaultValue: string;
+  watch: any;
 }
 
 const MagazineCreateElement = (props: InputProps) => {
-  const { register, inputPlaceholer, inputMaxLength, inputHeight, registerField, defaultValue } = props;
+  const { register, setValue, inputPlaceholer, inputMaxLength, inputHeight, registerField, watch } = props;
+
+  // watch를 사용하여 특정 필드의 값을 추적
+  const watchedValue = watch(registerField);
 
   const isRequired = registerField.includes('imageCaption') ? false : true;
 
@@ -20,25 +24,20 @@ const MagazineCreateElement = (props: InputProps) => {
     height: `${inputHeight}rem`,
   };
 
-  const [inputValue, setInputValue] = useState<string>(defaultValue || '');
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const value = e.target.value;
-
-    if (value.length <= inputMaxLength) {
-      setInputValue(value);
-    } else if (value.length > inputMaxLength) {
+  // useEffect를 사용하여 값이 변경될 때 실행되는 부가적인 작업 수행
+  useEffect(() => {
+    if (watchedValue.length > inputMaxLength) {
       window.alert(`최대 ${inputMaxLength}자까지 입력가능합니다.`);
-      setInputValue(value.slice(0, inputMaxLength));
+      setValue(registerField, watchedValue.slice(0, inputMaxLength));
     }
-  };
+  }, [watchedValue, inputMaxLength]);
 
   return (
     <>
       <St.Wrapper>
-        <St.TitleInput style={inputStyle} type="text" placeholder={inputPlaceholer} {...register(registerField, { required: isRequired, maxLength: inputMaxLength })} onChange={handleInputChange} value={inputValue} />
+        <St.TitleInput style={inputStyle} type="text" placeholder={inputPlaceholer} {...register(registerField, { required: isRequired, maxLength: inputMaxLength })} />
         <St.InputCounter>
-          {inputValue.length}/{inputMaxLength}
+          {watchedValue.length}/{inputMaxLength}
         </St.InputCounter>
       </St.Wrapper>
     </>

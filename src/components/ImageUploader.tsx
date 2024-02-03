@@ -2,22 +2,31 @@ import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { getPresignedUrl, putPresignedUrl } from '../lib/api/image';
 import { ReactComponent as IcPlus } from '../assets/icon/IcPlus.svg';
+import { DefaultValue } from 'recoil';
 
 interface containerSize {
   setValue: any;
   width: number;
   height: number;
   target: string;
-  defaultValue: string;
+  watch: any;
 }
 
 const ImageUploader = (props: containerSize) => {
-  const { setValue, width, height, target, defaultValue } = props;
+  const { setValue, width, height, target, watch } = props;
   const inputRef = useRef<HTMLInputElement | null>(null);
   const selectorRef = useRef<HTMLDivElement>(null);
 
+  // watch를 사용하여 특정 필드의 값을 추적
+  const watchedValue = watch(target);
+  console.log(watchedValue);
+
   // 이미지
-  const [previewImage, setPreviewImage] = useState<string | undefined>(defaultValue);
+  const [previewImage, setPreviewImage] = useState<string>(watchedValue);
+
+  useEffect(() => {
+    setPreviewImage(watchedValue);
+  }, [watchedValue]);
 
   const [isOpenSelector, setIsOpenSelector] = useState(false);
 

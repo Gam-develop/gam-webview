@@ -17,6 +17,7 @@ const MagazineList = () => {
 
   useEffect(() => {
     if (magazineListResult) {
+      console.log(magazineListResult);
       setMagazineList(magazineListResult.data);
     }
   }, [magazineListResult]);
@@ -29,10 +30,14 @@ const MagazineList = () => {
     });
   };
 
+  // 매거진 미리보기
+  const handleClickPreview = (magazine: magazineListData) => {
+    navigate(`/magazine/${magazine.magazineId}`);
+  };
+
   // 수정하기로 이동
   const clickUpdate = (magazine: magazineListData) => {
-    console.log(magazine);
-    navigate(`/magazine/${magazine.magazineId}`, { state: { magazineTitle: magazine.magazineTitle, interviewee: magazine.interviewee } });
+    navigate(`/magazine/create/${magazine.magazineId}`, { state: { magazineTitle: magazine.magazineTitle, interviewee: magazine.interviewee } });
   };
 
   if (isLoading) return <div>Loading</div>;
@@ -49,7 +54,7 @@ const MagazineList = () => {
         {magazineList.map((data) => {
           return (
             <St.MagazineListItemWrapper key={data.magazineId}>
-              <St.MagazineListItemTitle>{data.magazineTitle}</St.MagazineListItemTitle>
+              <St.MagazineListItemTitle onClick={() => handleClickPreview(data)}>{data.magazineTitle}</St.MagazineListItemTitle>
               <St.MagazineListItemInterviewee>{data.interviewee}</St.MagazineListItemInterviewee>
               <St.MagazineListItemButton onClick={() => clickUpdate(data)}>
                 <St.MagazineListItemButtonContent>수정하기</St.MagazineListItemButtonContent>
@@ -117,6 +122,7 @@ const St = {
     ${({ theme }) => theme.fonts.Gam_Contend_Pretendard_Regular_16};
     margin-right: 1.2rem;
     width: 64.2rem;
+    cursor: pointer;
   `,
 
   MagazineListItemInterviewee: styled.div`

@@ -32,5 +32,5 @@ export interface magazineDetailResult {
   interviewPerson: string;
   magazineIntro: string;
   magazinePhotos: string[];
-  questions: magazineQuestionInfo[];
+  questions: magazineQuestionAdminInfo[];
 }

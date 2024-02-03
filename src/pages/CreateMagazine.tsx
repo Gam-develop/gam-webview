@@ -1,30 +1,31 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm, useFieldArray } from 'react-hook-form';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation, useParams } from 'react-router-dom';
 import PageLayout from '../components/PageLayout';
 import MagazineAdminHeader from '../components/MagazineAdminHeader';
 import AdminContentLayout from '../components/AdminContentLayout';
 import ImageUploader from '../components/ImageUploader';
 import styled, { css } from 'styled-components';
 import MagazineCreateElement from '../components/MagazineCreateElement';
-import { createMagazine } from '../lib/api/magazine';
+import { createMagazine, updateMagazine } from '../lib/api/magazine';
 import { useNavigate } from 'react-router-dom';
 import Magazine from '../components/Magazine';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { magazineDetailState } from '../recoil/atom';
 import { magazineQuestionInfo } from '../types/magazine';
-
-interface PageLayoutWrapperProps {
-  isPreviewOpen: boolean;
-}
+import useGetMagazineDetail from '../lib/hooks/useGetMagazineDetail';
+import DetailMagazine from './DetailMagazine';
 
 const CreateMagazineDemo = () => {
+  const [useRecoilData, setUseRecoilData] = useState(true);
   const navigate = useNavigate();
 
-  // magazineDetail 상태 관리
-  const setMagazineDetail = useSetRecoilState(magazineDetailState);
-  const magazineDetail = useRecoilValue(magazineDetailState);
+  const location = useLocation();
 
+  // 매거진명, 인터뷰이
+  const { magazineTitle, interviewee } = location.state || {};
+
+  // 폼
   const {
     register,
     handleSubmit,
@@ -38,7 +39,7 @@ const CreateMagazineDemo = () => {
       title: '',
       interviewPerson: '',
       magazineIntro: '',
-      magazinePhotos: [],
+      magazinePhotos: [] as string[],
       questions: [
         {
           questionId: 1,
@@ -51,11 +52,46 @@ const CreateMagazineDemo = () => {
       ],
     },
   });
-
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'questions',
   });
+
+  // fields.map((e) => console.log(e));
+
+  const { magazineId } = useParams();
+  const [isMagazineId, setIsMagazineId] = useState(false);
+
+  useEffect(() => {
+    if (magazineId) {
+      setIsMagazineId(true);
+    }
+  });
+
+  const { magazineDetailResult, isLoading, isError } = useGetMagazineDetail(magazineId as string);
+
+  useEffect(() => {
+    if (magazineId) {
+      // magazineId가 있을 때 magazineDetailResult로 초기화
+      console.log(magazineDetailResult);
+      if (magazineDetailResult) {
+        reset({
+          title: magazineTitle,
+          interviewPerson: interviewee,
+          magazineIntro: magazineDetailResult.magazineIntro,
+          magazinePhotos: magazineDetailResult.magazinePhotos,
+          questions: magazineDetailResult.questions,
+        });
+      }
+    } else {
+      // magazineId가 없을 때 초기 값 그대로 둠
+      reset();
+    }
+  }, [magazineDetailResult, reset, magazineId]);
+
+  // magazineDetail 상태 관리
+  const setMagazineDetail = useSetRecoilState(magazineDetailState);
+  const magazineDetail = useRecoilValue(magazineDetailState);
 
   /**
    * 미리보기
@@ -64,7 +100,6 @@ const CreateMagazineDemo = () => {
 
   const handleClickPreview = () => {
     const form = watch();
-    console.log(form);
     setMagazineDetail(form);
     reset(form);
     setIsPreviewOpen(true);
@@ -75,7 +110,7 @@ const CreateMagazineDemo = () => {
   };
 
   /**
-   * 매거진 생성
+   * 폼 제출
    * @param data
    */
   const onSubmit = async (data: any) => {
@@ -86,13 +121,19 @@ const CreateMagazineDemo = () => {
         return questionRest;
       }),
     };
-    console.log(createdData);
-    await createMagazine(createdData);
+    if (magazineId) {
+      // 매거진 수정
+      console.log(createdData);
+      await updateMagazine(createdData, magazineId);
+    } else {
+      // 매거진 생성
+      await createMagazine(createdData);
+    }
     navigate('/');
   };
 
   return (
-    <PageLayoutWrapper isPreviewOpen={isPreviewOpen}>
+    <PageLayoutWrapper $isPreviewOpen={isPreviewOpen}>
       <PageLayout>
         <MagazineAdminHeader />
         <AdminContentLayout isPreviewOpen={isPreviewOpen}>
@@ -100,29 +141,29 @@ const CreateMagazineDemo = () => {
             {!isPreviewOpen ? (
               <>
                 <St.TitleHeader>매거진 명</St.TitleHeader>
-                <MagazineCreateElement register={register} inputPlaceholer={'매거진 명을 입력해주세요.'} inputMaxLength={55} inputHeight={12} registerField={'title'} defaultValue="" />
+                <MagazineCreateElement setValue={setValue} register={register} inputPlaceholer={'매거진 명을 입력해주세요.'} inputMaxLength={55} inputHeight={12} registerField={'title'} watch={watch} />
                 <St.TitleHeader>인터뷰이</St.TitleHeader>
-                <MagazineCreateElement register={register} inputPlaceholer={'인터뷰이 이름을 입력해주세요.'} inputMaxLength={10} inputHeight={4.8} registerField={'interviewPerson'} defaultValue="" />
+                <MagazineCreateElement setValue={setValue} watch={watch} register={register} inputPlaceholer={'인터뷰이 이름을 입력해주세요.'} inputMaxLength={10} inputHeight={4.8} registerField={'interviewPerson'} />
                 <St.TitleHeader>메인 이미지 등록</St.TitleHeader>
                 <St.TitleReprase>1 : 1 비율의 이미지를 등록해주세요. 최대 4장 등록 가능합니다.</St.TitleReprase>
                 <St.ImageUploadContainer>
                   {[...Array(4)].map((item, index) => (
-                    <ImageUploader setValue={setValue} target={`magazinePhotos[${index}]`} width={28.2} height={28.2} defaultValue="" />
+                    <ImageUploader setValue={setValue} target={`magazinePhotos[${index}]`} width={28.2} height={28.2} watch={watch} />
                   ))}
                 </St.ImageUploadContainer>
                 <St.TitleHeader>서론</St.TitleHeader>
-                <MagazineCreateElement register={register} inputPlaceholer={'서론을 작성해주세요'} inputMaxLength={500} inputHeight={28.2} registerField={'magazineIntro'} defaultValue="" />
+                <MagazineCreateElement setValue={setValue} watch={watch} register={register} inputPlaceholer={'서론을 작성해주세요'} inputMaxLength={500} inputHeight={28.2} registerField={'magazineIntro'} />
                 <St.TitleHeader>인터뷰</St.TitleHeader>
                 {fields.map((item, index) => {
                   return (
                     <section key={item.id}>
                       <St.QuestionIndex>Q{index + 1}</St.QuestionIndex>
-                      <MagazineCreateElement register={register} inputPlaceholer={'질문을 작성해주세요.'} inputMaxLength={200} inputHeight={28.2} registerField={`questions.${index}.question`} defaultValue="" />
-                      <MagazineCreateElement register={register} inputPlaceholer={'답변을 작성해주세요.'} inputMaxLength={1000} inputHeight={28.2} registerField={`questions.${index}.answer`} defaultValue="" />
+                      <MagazineCreateElement setValue={setValue} watch={watch} register={register} inputPlaceholer={'질문을 작성해주세요.'} inputMaxLength={200} inputHeight={28.2} registerField={`questions.${index}.question`} />
+                      <MagazineCreateElement setValue={setValue} watch={watch} register={register} inputPlaceholer={'답변을 작성해주세요.'} inputMaxLength={1000} inputHeight={28.2} registerField={`questions.${index}.answer`} />
                       <St.QuestionImageTitle>이미지 등록</St.QuestionImageTitle>
                       <St.QuestionImageTitleCaption>16:9 비율의 이미지를 등록해주세요. 1장 등록 가능합니다.</St.QuestionImageTitleCaption>
-                      <ImageUploader setValue={setValue} target={`questions.${index}.answerImage`} width={51.2} height={28.8} defaultValue="" />
-                      <MagazineCreateElement register={register} inputPlaceholer={'이미지에 대해 간략히 설명해주세요.'} inputMaxLength={50} inputHeight={12} registerField={`questions.${index}.imageCaption`} defaultValue="" />
+                      <ImageUploader setValue={setValue} target={`questions.${index}.answerImage`} width={51.2} height={28.8} watch={watch} />
+                      <MagazineCreateElement setValue={setValue} watch={watch} register={register} inputPlaceholer={'이미지에 대해 간략히 설명해주세요.'} inputMaxLength={50} inputHeight={12} registerField={`questions.${index}.imageCaption`} />
                     </section>
                   );
                 })}
@@ -142,7 +183,7 @@ const CreateMagazineDemo = () => {
               </>
             ) : (
               <>
-                <Magazine key={isPreviewOpen.toString()} />
+                <DetailMagazine key={isPreviewOpen.toString()} useRecoilData={useRecoilData} />
               </>
             )}
             <St.magazineButtonContainer>
@@ -155,7 +196,7 @@ const CreateMagazineDemo = () => {
                   뒤로가기
                 </St.magazinePreloadButton>
               )}
-              <St.magazineSubmitButton type="submit">발행하기</St.magazineSubmitButton>
+              <St.magazineSubmitButton type="submit">{isMagazineId ? '수정하기' : '발행하기'}</St.magazineSubmitButton>
             </St.magazineButtonContainer>
           </form>
         </AdminContentLayout>
@@ -167,9 +208,11 @@ const CreateMagazineDemo = () => {
 
 export default CreateMagazineDemo;
 
-const PageLayoutWrapper = styled.div<PageLayoutWrapperProps>`
-  ${({ isPreviewOpen, theme }) => css`
-    background-color: ${isPreviewOpen ? theme.colors.Gam_Gray : 'inherit'};
+const PageLayoutWrapper = styled.div<{
+  $isPreviewOpen: boolean;
+}>`
+  ${({ $isPreviewOpen, theme }) => css`
+    background-color: ${$isPreviewOpen ? theme.colors.Gam_Gray : 'inherit'};
   `}
 `;
 
