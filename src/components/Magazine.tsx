@@ -13,9 +13,9 @@ import { magazineDetail } from '../types/magazine';
 const Magazine = ({ useRecoilData }: { useRecoilData: boolean }) => {
   const { magazineId } = useParams();
 
-  if (!magazineId) {
-    return <ErrorPage />;
-  }
+  // if (!magazineId) {
+  //   return <ErrorPage />;
+  // }
 
   const { magazineDetailResult, isLoading, isError } = useGetMagazineDetail(magazineId as string);
 
