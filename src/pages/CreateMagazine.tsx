@@ -15,6 +15,7 @@ import { magazineDetailState } from '../recoil/atom';
 import { magazineQuestionInfo } from '../types/magazine';
 import useGetMagazineDetail from '../lib/hooks/useGetMagazineDetail';
 import DetailMagazine from './DetailMagazine';
+import checkFormValidation from '../lib/hooks/checkFormValidation';
 
 const CreateMagazineDemo = () => {
   const [useRecoilData, setUseRecoilData] = useState(true);
@@ -100,9 +101,16 @@ const CreateMagazineDemo = () => {
 
   const handleClickPreview = () => {
     const form = watch();
-    setMagazineDetail(form);
-    reset(form);
-    setIsPreviewOpen(true);
+    const isValid = checkFormValidation(form);
+    console.log(form);
+    if (isValid) {
+      setMagazineDetail(form);
+      reset(form);
+      setIsPreviewOpen(true);
+    } else {
+      window.alert('폼의 내용을 모두 입력해주세요');
+      return;
+    }
   };
 
   const handleGoBack = () => {
@@ -122,14 +130,20 @@ const CreateMagazineDemo = () => {
       }),
     };
     console.log(createdData);
-    if (magazineId) {
-      // 매거진 수정
-      await updateMagazine(createdData, magazineId);
+    const isValid = checkFormValidation(createdData);
+    if (!isValid) {
+      window.alert('폼의 내용을 모두 입력해주세요');
+      return;
     } else {
-      // 매거진 생성
-      await createMagazine(createdData);
+      if (magazineId) {
+        // 매거진 수정
+        await updateMagazine(createdData, magazineId);
+      } else {
+        // 매거진 생성
+        await createMagazine(createdData);
+      }
+      navigate('/');
     }
-    navigate('/');
   };
 
   return (
