@@ -80,7 +80,7 @@ const CreateMagazineDemo = () => {
           interviewPerson: interviewee,
           magazineIntro: magazineDetailResult.magazineIntro,
           magazinePhotos: magazineDetailResult.magazinePhotos,
-          questions: magazineDetailResult.questions,
+          questions: magazineDetailResult.questions.sort((a, b) => a.questionOrder - b.questionOrder),
         });
       }
     } else {
@@ -121,9 +121,9 @@ const CreateMagazineDemo = () => {
         return questionRest;
       }),
     };
+    console.log(createdData);
     if (magazineId) {
       // 매거진 수정
-      console.log(createdData);
       await updateMagazine(createdData, magazineId);
     } else {
       // 매거진 생성
