@@ -14,9 +14,6 @@ const DetailMagazine = ({ useRecoilData }: { useRecoilData: boolean }) => {
         <MagazineAdminHeader />
         <AdminContentLayout isPreviewOpen={true}>
           <Magazine useRecoilData={useRecoilData} />
-          <St.MagazineCreateButton to="/">
-            <St.MagazineCreateButtonContent>뒤로가기</St.MagazineCreateButtonContent>
-          </St.MagazineCreateButton>
           <Outlet />
         </AdminContentLayout>
       </PageLayout>
@@ -39,12 +36,5 @@ const St = {
     align-items: center;
     justify-content: center;
     text-decoration: none;
-  `,
-
-  MagazineCreateButtonContent: styled.p`
-    color: ${({ theme }) => theme.colors.Gam_White};
-    ${({ theme }) => theme.fonts.Gam_Contend_Pretendard_Bold_18};
-    text-decoration: none;
-    text-align: center;
   `,
 };
