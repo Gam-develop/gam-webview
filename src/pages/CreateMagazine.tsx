@@ -58,8 +58,6 @@ const CreateMagazineDemo = () => {
     name: 'questions',
   });
 
-  // fields.map((e) => console.log(e));
-
   const { magazineId } = useParams();
   const [isMagazineId, setIsMagazineId] = useState(false);
 
@@ -74,7 +72,6 @@ const CreateMagazineDemo = () => {
   useEffect(() => {
     if (magazineId) {
       // magazineId가 있을 때 magazineDetailResult로 초기화
-      console.log(magazineDetailResult);
       if (magazineDetailResult) {
         reset({
           title: magazineTitle,
@@ -102,7 +99,6 @@ const CreateMagazineDemo = () => {
   const handleClickPreview = () => {
     const form = watch();
     const isValid = checkFormValidation(form);
-    console.log(form);
     if (isValid) {
       setMagazineDetail(form);
       reset(form);
@@ -129,7 +125,6 @@ const CreateMagazineDemo = () => {
         return questionRest;
       }),
     };
-    console.log(createdData);
     const isValid = checkFormValidation(createdData);
     if (!isValid) {
       window.alert('폼의 내용을 모두 입력해주세요');
