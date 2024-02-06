@@ -81,7 +81,7 @@ const CreateMagazineDemo = () => {
           interviewPerson: interviewee,
           magazineIntro: magazineDetailResult.magazineIntro,
           magazinePhotos: magazineDetailResult.magazinePhotos,
-          questions: magazineDetailResult.questions.sort((a, b) => a.questionOrder - b.questionOrder),
+          questions: magazineDetailResult.questions.sort((a: magazineQuestionInfo, b: magazineQuestionInfo) => a.questionOrder - b.questionOrder),
         });
       }
     } else {
