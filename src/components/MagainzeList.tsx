@@ -22,7 +22,6 @@ const MagazineList = () => {
     }
   }, [magazineListResult]);
 
-  useEffect(() => {}, [magazineList]);
 
   const clickDelete = async (magazineId: number) => {
     await deleteMagazine(magazineId).then(() => {
@@ -39,6 +38,11 @@ const MagazineList = () => {
   const clickUpdate = (magazine: magazineListData) => {
     navigate(`/magazine/create/${magazine.magazineId}`, { state: { magazineTitle: magazine.magazineTitle, interviewee: magazine.interviewee } });
   };
+
+  // TODO 신고 유저 목록 보기
+  // const clickReportUser = () => {
+  //   navigate('/report');
+  // };
 
   if (isLoading) return <div>Loading</div>;
   if (isError) return <ErrorPage />;
