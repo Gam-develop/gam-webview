@@ -33,6 +33,7 @@ const MagazineQuestion = ({ magazineQuestions }: { magazineQuestions: magazineQu
                 boxShadow: 'unset',
                 position: 'unset',
                 marginBottom: '4.0rem',
+                backgroundColor: '#f4f4f4',
               }}
             >
               <AccordionSummary
@@ -59,7 +60,6 @@ const MagazineQuestion = ({ magazineQuestions }: { magazineQuestions: magazineQu
                 sx={{
                   padding: 0,
                   marginTop: '2.6rem',
-                  // marginTop: '1.625rem',
                 }}
               >
                 {question.answerImage && (

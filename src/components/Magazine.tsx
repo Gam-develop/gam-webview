@@ -62,7 +62,7 @@ const St = {
     width: 100%;
     max-width: 39.5rem;
     justify-content: center;
-    background-color: ${({ theme }) => theme.colors.Gam_White};
+    background-color: ${({ theme }) => theme.colors.Gam_LigthGray};
     margin: auto;
     margin-bottom: 16rem;
   `,
