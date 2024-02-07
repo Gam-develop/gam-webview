@@ -23,10 +23,21 @@ const CreateMagazineDemo = () => {
 
   const location = useLocation();
 
+  // magazineDetail 상태 관리
+  const setMagazineDetail = useSetRecoilState(magazineDetailState);
+  const magazineDetail = useRecoilValue(magazineDetailState);
+
+  /**
+   * 미리보기
+   */
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false);
+
   // 매거진명, 인터뷰이
   const { magazineTitle, interviewee } = location.state || {};
+  const { magazineId } = useParams();
+  const [isMagazineId, setIsMagazineId] = useState(false);
 
-  // 폼
+  // 폼 초기화
   const {
     register,
     handleSubmit,
@@ -53,20 +64,55 @@ const CreateMagazineDemo = () => {
       ],
     },
   });
+
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'questions',
   });
 
-  const { magazineId } = useParams();
-  const [isMagazineId, setIsMagazineId] = useState(false);
+  // 각 질문 항목에 이미지 여부
+  const [isAnswerImageOpenArray, setIsAnswerImageOpenArray] = useState(fields.map((item) => Boolean(item.answerImage)));
 
+  /**
+   * 생성하기, 수정하기 구분
+   * id가 없으면 생성하기, id가 있으면 수정하기
+   */
   useEffect(() => {
     if (magazineId) {
       setIsMagazineId(true);
     }
   });
 
+  /**
+   * 각 질문 항목에 이미지 여부 업데이트
+   */
+  useEffect(() => {
+    setIsAnswerImageOpenArray(
+      fields.map((item) => {
+        if (item.answerImage) {
+          return true;
+        } else {
+          return false;
+        }
+      }),
+    );
+  }, [fields]);
+
+  /**
+   * 이미지 빼기를 누르면 해당 필드의 answerImage, imageCaption 초기화
+   */
+  useEffect(() => {
+    isAnswerImageOpenArray.forEach((isAnswerImage, index) => {
+      if (!isAnswerImage) {
+        setValue(`questions.${index}.answerImage`, '');
+        setValue(`questions.${index}.imageCaption`, '');
+      }
+    });
+  }, [isAnswerImageOpenArray, setValue]);
+
+  /**
+   * 매거진 세부 불러오기
+   */
   const { magazineDetailResult, isLoading, isError } = useGetMagazineDetail(magazineId as string);
 
   useEffect(() => {
@@ -87,15 +133,10 @@ const CreateMagazineDemo = () => {
     }
   }, [magazineDetailResult, reset, magazineId]);
 
-  // magazineDetail 상태 관리
-  const setMagazineDetail = useSetRecoilState(magazineDetailState);
-  const magazineDetail = useRecoilValue(magazineDetailState);
-
   /**
-   * 미리보기
+   * 미리보기 클릭
+   * @returns
    */
-  const [isPreviewOpen, setIsPreviewOpen] = useState(false);
-
   const handleClickPreview = () => {
     const form = watch();
     const isValid = checkFormValidation(form);
@@ -109,6 +150,9 @@ const CreateMagazineDemo = () => {
     }
   };
 
+  /**
+   * 미리보기 -> 뒤로가기 클릭
+   */
   const handleGoBack = () => {
     setIsPreviewOpen(false);
   };
@@ -163,27 +207,71 @@ const CreateMagazineDemo = () => {
                 <St.TitleHeader>서론</St.TitleHeader>
                 <MagazineCreateElement register={register} setValue={setValue} watch={watch} inputPlaceholer={'서론을 작성해주세요'} inputMaxLength={500} inputHeight={28.2} registerField={'magazineIntro'} />
                 <St.TitleHeader>인터뷰</St.TitleHeader>
-                {fields.map((item, index) => {
+                {fields.map((question, index) => {
                   return (
-                    <section key={item.id}>
+                    <section key={question.id}>
                       <St.QuestionIndex>Q{index + 1}</St.QuestionIndex>
                       <MagazineCreateElement register={register} setValue={setValue} watch={watch} inputPlaceholer={'질문을 작성해주세요.'} inputMaxLength={200} inputHeight={28.2} registerField={`questions.${index}.question`} />
                       <MagazineCreateElement register={register} setValue={setValue} watch={watch} inputPlaceholer={'답변을 작성해주세요.'} inputMaxLength={1000} inputHeight={28.2} registerField={`questions.${index}.answer`} />
-                      <St.QuestionImageTitle>이미지 등록</St.QuestionImageTitle>
-                      <St.QuestionImageTitleCaption>16:9 비율의 이미지를 등록해주세요. 1장 등록 가능합니다.</St.QuestionImageTitleCaption>
-                      <ImageUploader setValue={setValue} watch={watch} target={`questions.${index}.answerImage`} width={51.2} height={28.8} />
-                      <MagazineCreateElement register={register} setValue={setValue} watch={watch} inputPlaceholer={'이미지에 대해 간략히 설명해주세요.'} inputMaxLength={50} inputHeight={12} registerField={`questions.${index}.imageCaption`} />
+
+                      {isAnswerImageOpenArray[index] && (
+                        <>
+                          <St.QuestionImageTitle>이미지 등록</St.QuestionImageTitle>
+                          <St.QuestionImageTitleCaption>16:9 비율의 이미지를 등록해주세요. 1장 등록 가능합니다.</St.QuestionImageTitleCaption>
+                          <ImageUploader setValue={setValue} watch={watch} target={`questions.${index}.answerImage`} width={51.2} height={28.8} />
+                          <MagazineCreateElement register={register} setValue={setValue} watch={watch} inputPlaceholer={'이미지에 대해 간략히 설명해주세요.'} inputMaxLength={50} inputHeight={12} registerField={`questions.${index}.imageCaption`} />
+                        </>
+                      )}
                     </section>
                   );
                 })}
+                {/* 이미지 빼기, 추가 */}
                 <St.QuestionControlButtonSection>
-                  <St.QuestionControlButton type="button" onClick={() => remove(fields.length - 1)}>
-                    문항 빼기
-                  </St.QuestionControlButton>
+                  {isAnswerImageOpenArray[fields.length - 1] ? (
+                    // 이미지 빼기
+                    <St.QuestionControlButton
+                      type="button"
+                      onClick={() => {
+                        // 이미지 빼기 버튼을 누르면 해당 인덱스의 isAnswerImageOpen을 false로 설정
+                        setIsAnswerImageOpenArray((prev) => {
+                          const newArr = [...prev];
+                          newArr[fields.length - 1] = false;
+                          return newArr;
+                        });
+                      }}
+                    >
+                      이미지 빼기
+                    </St.QuestionControlButton>
+                  ) : (
+                    // 이미지 추가
+                    <St.QuestionControlButton
+                      type="button"
+                      onClick={() => {
+                        // 이미지 추가 버튼을 누르면 해당 인덱스의 isAnswerImageOpen을 true로 설정
+                        setIsAnswerImageOpenArray((prev) => {
+                          const newArr = [...prev];
+                          newArr[fields.length - 1] = true;
+                          return newArr;
+                        });
+                      }}
+                    >
+                      이미지 추가
+                    </St.QuestionControlButton>
+                  )}
+                  {/* 문항추가 */}
                   <St.QuestionControlButton
                     type="button"
                     onClick={() => {
-                      append({ questionId: 0, questionOrder: fields.length + 1, question: '', answer: '', answerImage: '', imageCaption: '' });
+                      append({
+                        questionId: 0,
+                        questionOrder: fields.length + 1,
+                        question: '',
+                        answer: '',
+                        answerImage: '',
+                        imageCaption: '',
+                      });
+                      // 추가된 문항의 isAnswerImageOpen을 false로 설정
+                      setIsAnswerImageOpenArray((prev) => [...prev, false]);
                     }}
                   >
                     문항 추가
