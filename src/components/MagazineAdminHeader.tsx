@@ -19,8 +19,6 @@ const StHeaderWrapper = styled.div`
   flex-direction: column;
   background-color: ${({ theme }) => theme.colors.Gam_Header};
 
-  padding: 20px 0px;
-
   width: 100%;
   height: 120px;
 `;
