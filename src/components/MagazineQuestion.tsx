@@ -61,16 +61,12 @@ const MagazineQuestion = ({ magazineQuestions }: { magazineQuestions: magazineQu
                   // marginTop: '1.625rem',
                 }}
               >
-                <St.MagazineAnswer>
+                {question.answerImage && (
                   <St.MagazineQuestionImageWrapper>
-                    {question.answerImage ? (
-                      <St.MagazineQuestionImage src={question.answerImage} />
-                    ) : (
-                      <St.MagazineQuestionNoImage>
-                        <p>16:9</p>
-                      </St.MagazineQuestionNoImage>
-                    )}
+                    <St.MagazineQuestionImage src={question.answerImage} />
                   </St.MagazineQuestionImageWrapper>
+                )}
+                <St.MagazineAnswer>
                   <St.MagazineQuestionCaption>{question.imageCaption}</St.MagazineQuestionCaption>
                   <St.MagazineQuestionAnswer>{question.answer}</St.MagazineQuestionAnswer>
                 </St.MagazineAnswer>
