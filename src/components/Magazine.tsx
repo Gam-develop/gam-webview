@@ -26,7 +26,6 @@ const Magazine = ({ useRecoilData }: { useRecoilData: boolean }) => {
 
   useEffect(() => {
     if (magazineDetailResult && !useRecoilData) {
-      console.log('api');
       setMagazine({
         magazineIntro: magazineDetailResult.magazineIntro,
         magazinePhotos: magazineDetailResult.magazinePhotos,
@@ -35,7 +34,6 @@ const Magazine = ({ useRecoilData }: { useRecoilData: boolean }) => {
     } else if (useRecoilData) {
       setMagazine(magazineDetail);
     }
-    console.log(magazine);
   }, [magazineDetailResult, useRecoilData]);
 
   useEffect(() => {}, [magazineDetail, useRecoilData]);

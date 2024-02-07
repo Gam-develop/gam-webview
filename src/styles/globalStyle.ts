@@ -152,9 +152,9 @@ ${reset}
     scrollbar-width: none; 
     background-color: #F4F4F4;
 
-    &.modal-open{
+    /* &.modal-open{
       background-color: #b3b3b3;
-    }
+    } */
 }
 
 #root::-webkit-scrollbar {

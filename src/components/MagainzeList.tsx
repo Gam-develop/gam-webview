@@ -17,11 +17,9 @@ const MagazineList = () => {
 
   useEffect(() => {
     if (magazineListResult) {
-      console.log(magazineListResult);
       setMagazineList(magazineListResult.data);
     }
   }, [magazineListResult]);
-
 
   const clickDelete = async (magazineId: number) => {
     await deleteMagazine(magazineId).then(() => {
