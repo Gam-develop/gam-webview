@@ -205,7 +205,7 @@ const CreateMagazineDemo = () => {
                   ))}
                 </St.ImageUploadContainer>
                 <St.TitleHeader>서론</St.TitleHeader>
-                <MagazineCreateElement register={register} setValue={setValue} watch={watch} inputPlaceholer={'서론을 작성해주세요'} inputMaxLength={500} inputHeight={28.2} registerField={'magazineIntro'} />
+                <MagazineCreateElement register={register} setValue={setValue} watch={watch} inputPlaceholer={'서론을 작성해주세요.'} inputMaxLength={500} inputHeight={28.2} registerField={'magazineIntro'} />
                 <St.TitleHeader>인터뷰</St.TitleHeader>
                 {fields.map((question, index) => {
                   return (
@@ -363,11 +363,15 @@ const St = {
   QuestionControlButton: styled.button`
     display: flex;
     width: 18rem;
-    padding: 2.3rem 2rem;
+    height: 7rem;
+    padding: 2.3rem;
     justify-content: center;
     align-items: center;
+    box-sizing: border-box;
     border: 1px solid var(--gray-scale-gam-gray-2, #cccaca);
     background: ${({ theme }) => theme.colors.Gam_White};
+    ${({ theme }) => theme.fonts.Gam_Contend_Pretendard_Bold_16};
+    color: ${({ theme }) => theme.colors.Gam_Black};
   `,
   magazineButtonContainer: styled.div`
     width: 100%;
@@ -377,16 +381,12 @@ const St = {
     align-items: center;
     gap: 2.4rem;
     margin-bottom: 16rem;
-    /* background: ${({ theme }) => theme.colors.Gam_Black}; */
-    color: ${({ theme }) => theme.colors.Gam_White};
-    ${({ theme }) => theme.fonts.Gam_Contend_Pretendard_Regular_17};
   `,
   magazinePreloadButton: styled.button`
     width: 50%;
     height: 100%;
     display: flex;
     padding: 2.3rem 2rem;
-    /* margin-bottom: 16rem; */
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -394,7 +394,7 @@ const St = {
     border: 1px solid ${({ theme }) => theme.colors.Gam_GrayBorder};
     background: ${({ theme }) => theme.colors.Gam_White};
     color: ${({ theme }) => theme.colors.Gam_Black};
-    ${({ theme }) => theme.fonts.Gam_Contend_Pretendard_Regular_17};
+    ${({ theme }) => theme.fonts.Gam_Contend_Pretendard_Bold_16};
   `,
   magazineSubmitButton: styled.button`
     width: 50%;
@@ -409,6 +409,6 @@ const St = {
     /* gap: 1.6rem; */
     background: ${({ theme }) => theme.colors.Gam_Black};
     color: ${({ theme }) => theme.colors.Gam_White};
-    ${({ theme }) => theme.fonts.Gam_Contend_Pretendard_Regular_17};
+    ${({ theme }) => theme.fonts.Gam_Contend_Pretendard_Bold_16};
   `,
 };
