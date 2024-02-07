@@ -1,13 +1,15 @@
 import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 import useGetMagazineList from '../lib/hooks/useGetMagazineList';
 import ErrorPage from '../pages/ErrorPage';
 import { magazineListState } from '../recoil/atom';
 import { deleteMagazine } from '../lib/api/magazine';
+import { magazineListData } from '../types/magazine';
 
 const MagazineList = () => {
+  const navigate = useNavigate();
   const { magazineListResult, isLoading, isError } = useGetMagazineList();
 
   const setMagazineList = useSetRecoilState(magazineListState);
@@ -19,13 +21,26 @@ const MagazineList = () => {
     }
   }, [magazineListResult]);
 
-  useEffect(() => {}, [magazineList]);
-
   const clickDelete = async (magazineId: number) => {
     await deleteMagazine(magazineId).then(() => {
       setMagazineList((prevList) => prevList.filter((magazine) => magazine.magazineId !== magazineId));
     });
   };
+
+  // 매거진 미리보기
+  const handleClickPreview = (magazine: magazineListData) => {
+    navigate(`/magazine/${magazine.magazineId}`);
+  };
+
+  // 수정하기로 이동
+  const clickUpdate = (magazine: magazineListData) => {
+    navigate(`/magazine/create/${magazine.magazineId}`, { state: { magazineTitle: magazine.magazineTitle, interviewee: magazine.interviewee } });
+  };
+
+  // TODO 신고 유저 목록 보기
+  // const clickReportUser = () => {
+  //   navigate('/report');
+  // };
 
   if (isLoading) return <div>Loading</div>;
   if (isError) return <ErrorPage />;
@@ -41,9 +56,9 @@ const MagazineList = () => {
         {magazineList.map((data) => {
           return (
             <St.MagazineListItemWrapper key={data.magazineId}>
-              <St.MagazineListItemTitle>{data.magazineTitle}</St.MagazineListItemTitle>
+              <St.MagazineListItemTitle onClick={() => handleClickPreview(data)}>{data.magazineTitle}</St.MagazineListItemTitle>
               <St.MagazineListItemInterviewee>{data.interviewee}</St.MagazineListItemInterviewee>
-              <St.MagazineListItemButton>
+              <St.MagazineListItemButton onClick={() => clickUpdate(data)}>
                 <St.MagazineListItemButtonContent>수정하기</St.MagazineListItemButtonContent>
               </St.MagazineListItemButton>
               <St.MagazineListItemButton onClick={() => clickDelete(data.magazineId)}>
@@ -79,15 +94,14 @@ const St = {
 
   MagazineListField: styled.div`
     display: flex;
-    margin: 4rem 0rem 1.1rem 0rem;
+    margin: 4rem 0rem 1.1rem;
     width: 100%;
     color: ${({ theme }) => theme.colors.Gam_Black};
   `,
 
   MagazineListFieldTitle: styled.div`
     ${({ theme }) => theme.fonts.Gam_Contend_Pretendard_Regular};
-    width: 5.2rem;
-    margin-left: 2.4rem;
+    margin-left: 2.5rem;
   `,
 
   MagazineListFieldInterViewee: styled.div`
@@ -110,6 +124,7 @@ const St = {
     ${({ theme }) => theme.fonts.Gam_Contend_Pretendard_Regular_16};
     margin-right: 1.2rem;
     width: 64.2rem;
+    cursor: pointer;
   `,
 
   MagazineListItemInterviewee: styled.div`

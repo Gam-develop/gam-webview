@@ -1,6 +1,6 @@
 import { atom } from 'recoil';
 import { recoilPersist } from 'recoil-persist';
-import { magazineDetail, magazineListData, magazineResult } from '../types/magazine';
+import { magazineDetail, magazineDetailResult, magazineListData } from '../types/magazine';
 
 const { persistAtom } = recoilPersist();
 
@@ -59,11 +59,11 @@ export const magazineListState = atom<magazineListData[]>({
   effects_UNSTABLE: [persistAtom],
 });
 
-export const magazineResultState = atom<magazineResult>({
-  key: 'magazineResult',
+export const magazineResultState = atom<magazineDetailResult>({
+  key: 'magazineDetailResult',
   default: {
-    magazineTitle: '',
-    magazineInterviewee: '',
+    title: '',
+    interviewPerson: '',
     magazineIntro: '',
     magazinePhotos: ['', '', '', ''],
     questions: [

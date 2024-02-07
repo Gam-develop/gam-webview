@@ -2,21 +2,32 @@ import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { getPresignedUrl, putPresignedUrl } from '../lib/api/image';
 import { ReactComponent as IcPlus } from '../assets/icon/IcPlus.svg';
+import { DefaultValue } from 'recoil';
 
 interface containerSize {
   setValue: any;
+  watch: any;
+  target: string;
   width: number;
   height: number;
-  target: string;
 }
 
 const ImageUploader = (props: containerSize) => {
+  const { setValue, width, height, target, watch } = props;
   const inputRef = useRef<HTMLInputElement | null>(null);
   const selectorRef = useRef<HTMLDivElement>(null);
-  const [previewImage, setPreviewImage] = useState<string | undefined>();
-  const [isOpenSelector, setIsOpenSelector] = useState(false);
 
-  const { setValue, width, height, target } = props;
+  // watch를 사용하여 특정 필드의 값을 추적
+  const watchedValue = watch(target);
+
+  // 이미지
+  const [previewImage, setPreviewImage] = useState<string>(watchedValue);
+
+  useEffect(() => {
+    setPreviewImage(watchedValue);
+  }, [watchedValue]);
+
+  const [isOpenSelector, setIsOpenSelector] = useState(false);
 
   const handleChange = () => {
     const inputEl = inputRef.current;
@@ -37,7 +48,6 @@ const ImageUploader = (props: containerSize) => {
 
         const s3Url = `https://gam-image-test.s3.ap-northeast-2.amazonaws.com/${fileName}`;
         setPreviewImage(s3Url);
-
         setValue(target, s3Url);
       } catch (error) {
         console.error(error);
@@ -47,15 +57,21 @@ const ImageUploader = (props: containerSize) => {
   };
 
   const handleClick = () => {
-    if (previewImage?.length) {
-      openSelector();
-    } else {
-      handleChange();
-    }
+    handleChange();
+    // if (previewImage?.length) {
+    //   console.log(isOpenSelector);
+    //   openSelector();
+    // } else {
+    //   handleChange();
+    // }
   };
 
-  const openSelector = () => setIsOpenSelector(true);
-  const closeSelector = () => setIsOpenSelector(false);
+  const openSelector = () => {
+    setIsOpenSelector(true);
+  };
+  const closeSelector = () => {
+    setIsOpenSelector(false);
+  };
 
   useEffect(() => {
     closeSelector();
@@ -68,6 +84,7 @@ const ImageUploader = (props: containerSize) => {
       }
     };
     if (isOpenSelector) {
+      handleChange();
       document.addEventListener('mousedown', handleClickSelectorOutside);
     }
     return () => {

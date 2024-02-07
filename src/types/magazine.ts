@@ -27,9 +27,9 @@ export interface magazineListData {
   interviewee: string;
 }
 
-export interface magazineResult {
-  magazineTitle: string;
-  magazineInterviewee: string;
+export interface magazineDetailResult {
+  title: string;
+  interviewPerson: string;
   magazineIntro: string;
   magazinePhotos: string[];
   questions: magazineQuestionAdminInfo[];

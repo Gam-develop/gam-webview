@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { ReactComponent as IcExpand } from '../assets/icon/IcExpand.svg';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -31,10 +31,11 @@ const MagazineQuestion = ({ magazineQuestions }: { magazineQuestions: magazineQu
                 boxShadow: 'unset',
                 position: 'unset',
                 marginBottom: '4.0rem',
-                backgroundColor: '#F4F4F4',
+                // backgroundColor: '#F4F4F4',
               }}
             >
               <AccordionSummary
+                style={{ paddingLeft: '2rem' }}
                 className={classes.customIconRotation}
                 expandIcon={<IcExpand />}
                 aria-controls="panel1a-content"
@@ -56,13 +57,16 @@ const MagazineQuestion = ({ magazineQuestions }: { magazineQuestions: magazineQu
               <AccordionDetails
                 sx={{
                   padding: 0,
-                  marginTop: '1.625rem',
+                  marginTop: '2.6rem',
+                  // marginTop: '1.625rem',
                 }}
               >
-                <St.MagazineAnswer>
+                {question.answerImage && (
                   <St.MagazineQuestionImageWrapper>
                     <St.MagazineQuestionImage src={question.answerImage} />
                   </St.MagazineQuestionImageWrapper>
+                )}
+                <St.MagazineAnswer>
                   <St.MagazineQuestionCaption>{question.imageCaption}</St.MagazineQuestionCaption>
                   <St.MagazineQuestionAnswer>{question.answer}</St.MagazineQuestionAnswer>
                 </St.MagazineAnswer>
@@ -81,7 +85,7 @@ const St = {
   MagazineQuestions: styled.div`
     width: 100%;
     color: ${({ theme }) => theme.colors.Gam_Black};
-    ${({ theme }) => theme.fonts.Gam_Contend_Pretendard_Regular};
+    ${({ theme }) => theme.fonts.Gam_Contend_Pretendard_Medium_16};
   `,
 
   MagazineQuestionWrapper: styled.div`
@@ -101,7 +105,7 @@ const St = {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 248px;
+    width: 24rem;
   `,
 
   MagazineQuestionToggleWrapper: styled.div`
@@ -120,32 +124,54 @@ const St = {
   MagazineQuestion: styled.div`
     width: 100%;
     color: ${({ theme }) => theme.colors.Gam_Black};
-    ${({ theme }) => theme.fonts.Gam_Contend_Pretendard_Medium};
+    ${({ theme }) => theme.fonts.Gam_Contend_Pretendard_Medium_16};
   `,
 
   MagazineAnswer: styled.div``,
 
   MagazineQuestionImageWrapper: styled.div`
+    padding: 0 1.8rem;
+    width: 100%;
     height: 19.1rem;
+    aspect-ratio: 16/9;
+    /* border: 1px solid black; */
   `,
 
   MagazineQuestionImage: styled.img`
     width: 100%;
     height: 100%;
+    object-fit: cover;
+  `,
+
+  MagazineQuestionNoImage: styled.div`
+    width: 100%;
+    height: 100%;
+    background-color: ${({ theme }) => theme.colors.Gam_GrayBorder};
+    position: relative;
+    p {
+      position: absolute;
+      z-index: 10;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      ${({ theme }) => theme.fonts.Gam_Contend_Pretendard_Regular_24};
+      color: ${({ theme }) => theme.colors.Gam_Gray};
+    }
   `,
 
   MagazineQuestionCaption: styled.div`
-    font-size: 1.5rem;
     white-space: pre-wrap;
-    margin-top: 8px;
+    margin-top: 0.8rem;
+    text-align: center;
     color: ${({ theme }) => theme.colors.Gam_Gray};
     ${({ theme }) => theme.fonts.Gam_Contend_Pretendard_Regular_12};
   `,
 
   MagazineQuestionAnswer: styled.div`
-    margin: 2.6rem 0rem 4rem 0rem;
+    padding: 0 2rem;
+    margin: 2.6rem 0rem 4.1rem 0rem;
     white-space: pre-wrap;
     color: ${({ theme }) => theme.colors.Gam_Black};
-    ${({ theme }) => theme.fonts.Gam_Contend_Pretendard_Regular};
+    ${({ theme }) => theme.fonts.Gam_Contend_Pretendard_Regular_16};
   `,
 };

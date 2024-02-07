@@ -1,42 +1,52 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import useGetMagazineDetail from '../lib/hooks/useGetMagazineDetail';
-import { magazineDetailState } from '../recoil/atom';
+import { magazineDetailState, magazineResultState } from '../recoil/atom';
 import ErrorPage from '../pages/ErrorPage';
 import MagazineImage from './MagazineImage';
 import MagazineQuestion from './MagazineQuestion';
 import { magazineDetail } from '../types/magazine';
 
-const Magazine = () => {
+const Magazine = ({ useRecoilData }: { useRecoilData: boolean }) => {
   const { magazineId } = useParams();
 
-  if (!magazineId) {
-    return <ErrorPage />;
-  }
+  // if (!magazineId) {
+  //   return <ErrorPage />;
+  // }
 
-  const { magazineResult, isLoading, isError } = useGetMagazineDetail(magazineId);
+  const { magazineDetailResult, isLoading, isError } = useGetMagazineDetail(magazineId as string);
 
   const setMagazineDetail = useSetRecoilState(magazineDetailState);
   const magazineDetail = useRecoilValue(magazineDetailState);
 
+  const [magazine, setMagazine] = useState(magazineDetail);
+
   useEffect(() => {
-    if (magazineResult) {
-      setMagazineDetail(magazineResult.data);
+    if (magazineDetailResult && !useRecoilData) {
+      setMagazine({
+        magazineIntro: magazineDetailResult.magazineIntro,
+        magazinePhotos: magazineDetailResult.magazinePhotos,
+        questions: magazineDetailResult.questions,
+      });
+    } else if (useRecoilData) {
+      setMagazine(magazineDetail);
     }
-  }, [magazineResult]);
+  }, [magazineDetailResult, useRecoilData]);
+
+  useEffect(() => {}, [magazineDetail, useRecoilData]);
 
   if (isLoading) return <div>Loading</div>;
   if (isError) return <ErrorPage />;
 
   return (
     <St.MagazineWrapper>
-      <MagazineImage magazinePhotos={magazineDetail.magazinePhotos}></MagazineImage>
+      <MagazineImage magazinePhotos={magazine.magazinePhotos}></MagazineImage>
       <St.MagazineQAWrapper>
-        <St.MagazineIntro>{magazineDetail.magazineIntro}</St.MagazineIntro>
-        <MagazineQuestion magazineQuestions={magazineDetail.questions}></MagazineQuestion>
+        <St.MagazineIntro>{magazine.magazineIntro}</St.MagazineIntro>
+        <MagazineQuestion magazineQuestions={magazine.questions}></MagazineQuestion>
       </St.MagazineQAWrapper>
     </St.MagazineWrapper>
   );
@@ -51,17 +61,21 @@ const St = {
     align-items: center;
     width: 100%;
     max-width: 39.5rem;
+    justify-content: center;
+    background-color: ${({ theme }) => theme.colors.Gam_White};
+    margin: auto;
+    margin-bottom: 16rem;
   `,
 
   MagazineQAWrapper: styled.section`
-    padding: 0rem 2rem;
+    /* padding: 0rem 2rem; */
   `,
 
   MagazineIntro: styled.div`
-    margin: 5rem 0rem 5.5rem 0rem;
-    font-size: 1.5rem;
+    padding: 0 2rem;
+    margin: 6rem 0rem 5.5rem 0rem;
     white-space: pre-wrap;
     color: ${({ theme }) => theme.colors.Gam_Black};
-    ${({ theme }) => theme.fonts.Gam_Contend_Pretendard_Regular};
+    ${({ theme }) => theme.fonts.Gam_Contend_Pretendard_Regular_16};
   `,
 };

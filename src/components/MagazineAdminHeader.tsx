@@ -17,7 +17,7 @@ const StHeaderWrapper = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  background-color: ${({ theme }) => theme.colors.Gam_Black};
+  background-color: ${({ theme }) => theme.colors.Gam_Header};
 
   padding: 20px 0px;
 
