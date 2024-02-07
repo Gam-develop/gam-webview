@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
 import { ReactComponent as IcExpand } from '../assets/icon/IcExpand.svg';
+import { ReactComponent as IcCollapse } from '../assets/icon/IcCollapse.svg';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
@@ -20,6 +21,11 @@ const useStyles = makeStyles({
 
 const MagazineQuestion = ({ magazineQuestions }: { magazineQuestions: magazineQuestionInfo[] }) => {
   const classes = useStyles();
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const handleExpandToggle = () => {
+    setIsExpanded((prev) => !prev);
+  };
 
   return (
     <St.MagazineQuestions>
@@ -36,8 +42,8 @@ const MagazineQuestion = ({ magazineQuestions }: { magazineQuestions: magazineQu
             >
               <AccordionSummary
                 style={{ paddingLeft: '2rem' }}
-                className={classes.customIconRotation}
-                expandIcon={<IcExpand />}
+                onClick={handleExpandToggle}
+                expandIcon={isExpanded ? <IcCollapse /> : <IcExpand />}
                 aria-controls="panel1a-content"
                 id="panel1a-header"
                 sx={{
