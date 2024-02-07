@@ -7,11 +7,13 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import { makeStyles } from '@material-ui/core';
 import { magazineQuestionInfo } from '../types/magazine';
-import { GlobalStyle } from '../styles/globalStyle';
 
 const useStyles = makeStyles({
   customIconRotation: {
     '&.Mui-expanded .css-yw020d-MuiAccordionSummary-expandIconWrapper': {
+      transform: 'rotate(90deg) !important',
+    },
+    '&.Mui-expanded .css-1fx8m19': {
       transform: 'rotate(90deg) !important',
     },
     '& .css-o4b71y-MuiAccordionSummary-content': {
@@ -32,58 +34,54 @@ const MagazineQuestion = ({ magazineQuestions }: { magazineQuestions: magazineQu
     <St.MagazineQuestions>
       {magazineQuestions.map((question: magazineQuestionInfo) => {
         return (
-          <>
-            <GlobalStyle />
-            <div key={question.questionId}>
-              <Accordion
+          <div key={question.questionId}>
+            <Accordion
+              sx={{
+                boxShadow: 'unset',
+                position: 'unset',
+                marginBottom: '4.0rem',
+                // backgroundColor: '#F4F4F4',
+              }}
+            >
+              <AccordionSummary
+                style={{ paddingLeft: '2rem' }}
+                expandIcon={<IcExpand />}
+                className={classes.customIconRotation}
+                aria-controls="panel1a-content"
+                id="panel1a-header"
                 sx={{
-                  boxShadow: 'unset',
-                  position: 'unset',
-                  marginBottom: '4.0rem',
-                  // backgroundColor: '#F4F4F4',
+                  padding: 0,
+                  margin: 0,
                 }}
               >
-                <AccordionSummary
-                  style={{ paddingLeft: '2rem' }}
-                  className="customIconRotation"
-                  onClick={handleExpandToggle}
-                  expandIcon={<IcExpand />}
-                  aria-controls="panel1a-content"
-                  id="panel1a-header"
-                  sx={{
-                    padding: 0,
-                    margin: 0,
-                  }}
-                >
-                  <St.MagazineQuestionWrapper>
-                    <St.MagazineQuestionNumberWrapper>
-                      <St.MagazineQuestion> {`Q${question.questionOrder}`}</St.MagazineQuestion>
-                    </St.MagazineQuestionNumberWrapper>
-                    <St.MagazineQuestionContentWrapper>
-                      <St.MagazineQuestion> {question.question}</St.MagazineQuestion>
-                    </St.MagazineQuestionContentWrapper>
-                  </St.MagazineQuestionWrapper>
-                </AccordionSummary>
-                <AccordionDetails
-                  sx={{
-                    padding: 0,
-                    marginTop: '2.6rem',
-                    // marginTop: '1.625rem',
-                  }}
-                >
-                  {question.answerImage && (
-                    <St.MagazineQuestionImageWrapper>
-                      <St.MagazineQuestionImage src={question.answerImage} />
-                    </St.MagazineQuestionImageWrapper>
-                  )}
-                  <St.MagazineAnswer>
-                    <St.MagazineQuestionCaption>{question.imageCaption}</St.MagazineQuestionCaption>
-                    <St.MagazineQuestionAnswer>{question.answer}</St.MagazineQuestionAnswer>
-                  </St.MagazineAnswer>
-                </AccordionDetails>
-              </Accordion>
-            </div>
-          </>
+                <St.MagazineQuestionWrapper>
+                  <St.MagazineQuestionNumberWrapper>
+                    <St.MagazineQuestion> {`Q${question.questionOrder}`}</St.MagazineQuestion>
+                  </St.MagazineQuestionNumberWrapper>
+                  <St.MagazineQuestionContentWrapper>
+                    <St.MagazineQuestion> {question.question}</St.MagazineQuestion>
+                  </St.MagazineQuestionContentWrapper>
+                </St.MagazineQuestionWrapper>
+              </AccordionSummary>
+              <AccordionDetails
+                sx={{
+                  padding: 0,
+                  marginTop: '2.6rem',
+                  // marginTop: '1.625rem',
+                }}
+              >
+                {question.answerImage && (
+                  <St.MagazineQuestionImageWrapper>
+                    <St.MagazineQuestionImage src={question.answerImage} />
+                  </St.MagazineQuestionImageWrapper>
+                )}
+                <St.MagazineAnswer>
+                  <St.MagazineQuestionCaption>{question.imageCaption}</St.MagazineQuestionCaption>
+                  <St.MagazineQuestionAnswer>{question.answer}</St.MagazineQuestionAnswer>
+                </St.MagazineAnswer>
+              </AccordionDetails>
+            </Accordion>
+          </div>
         );
       })}
     </St.MagazineQuestions>
