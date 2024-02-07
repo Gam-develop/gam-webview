@@ -168,6 +168,16 @@ ${reset}
 .modal-open{
   background-color: #B3B3B3;
 }
+
+.customIconRotation {
+  &.Mui-expanded .css-yw020d-MuiAccordionSummary-expandIconWrapper {
+    transform: rotate(90deg) !important;
+  }
+  & .css-o4b71y-MuiAccordionSummary-content {
+    margin: 0px !important;
+  }
+}
+
 `;
 
 export default GlobalStyle;
