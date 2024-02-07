@@ -13,6 +13,9 @@ const useStyles = makeStyles({
     '&.Mui-expanded .css-yw020d-MuiAccordionSummary-expandIconWrapper': {
       transform: 'rotate(90deg) !important',
     },
+    '&.Mui-expanded .css-1fx8m19': {
+      transform: 'rotate(90deg) !important',
+    },
     '& .css-o4b71y-MuiAccordionSummary-content': {
       margin: '0px !important',
     },
@@ -42,8 +45,8 @@ const MagazineQuestion = ({ magazineQuestions }: { magazineQuestions: magazineQu
             >
               <AccordionSummary
                 style={{ paddingLeft: '2rem' }}
-                onClick={handleExpandToggle}
-                expandIcon={isExpanded ? <IcCollapse /> : <IcExpand />}
+                expandIcon={<IcExpand />}
+                className={classes.customIconRotation}
                 aria-controls="panel1a-content"
                 id="panel1a-header"
                 sx={{
