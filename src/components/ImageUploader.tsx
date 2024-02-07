@@ -58,12 +58,6 @@ const ImageUploader = (props: containerSize) => {
 
   const handleClick = () => {
     handleChange();
-    // if (previewImage?.length) {
-    //   console.log(isOpenSelector);
-    //   openSelector();
-    // } else {
-    //   handleChange();
-    // }
   };
 
   const openSelector = () => {
