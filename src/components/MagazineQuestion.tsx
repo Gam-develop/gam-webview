@@ -9,7 +9,7 @@ import { magazineQuestionInfo } from '../types/magazine';
 
 const useStyles = makeStyles({
   customIconRotation: {
-    '& .css-yw020d-MuiAccordionSummary-expandIconWrapper.Mui-expanded': {
+    '&.Mui-expanded .css-yw020d-MuiAccordionSummary-expandIconWrapper': {
       transform: 'rotate(90deg) !important',
     },
     '& .css-o4b71y-MuiAccordionSummary-content': {
