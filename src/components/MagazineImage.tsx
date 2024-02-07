@@ -28,10 +28,11 @@ const St = {
     width: 100%;
 
     & > .slick-slider > .slick-dots > li {
-      width: 0.7rem;
-      height: 0.7rem;
+      width: 0.8rem;
+      height: 0.8rem;
       background-color: ${({ theme }) => theme.colors.Gam_Gray};
       border-radius: 0.5rem;
+      margin: 0 0.6rem 0 0;
 
       & > button {
         display: none;
@@ -40,10 +41,9 @@ const St = {
 
     & > .slick-slider > .slick-dots > .slick-active {
       width: 2.1rem;
-      height: 0.7rem;
-      background-color: ${({ theme }) => theme.colors.Gam_Yellow};
+      height: 0.8rem;
+      background-color: ${({ theme }) => theme.colors.Gam_Pink};
       border-radius: 0.5rem;
-      border: 0.1rem solid ${({ theme }) => theme.colors.Gam_Gray};
     }
   `,
 

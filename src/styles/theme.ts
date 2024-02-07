@@ -6,6 +6,7 @@ const colors = {
   Gam_Gray: '#b3b3b3',
   Gam_LigthGray: '#F4F4F4',
   Gam_Coral: '#FF8787',
+  Gam_Pink: '#FF0086',
   Gam_White: '#FFFFFF',
   Gam_Black: '#373737',
   Gam_Header: '#1a1a1a',
