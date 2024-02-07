@@ -3,7 +3,6 @@ import { client } from '../axios';
 import { magazineDetail, magazineDetailResult } from '../../types/magazine';
 
 export const createMagazine = async (magazine: any) => {
-  console.log(magazine);
   try {
     const { data } = await client.post('/api/v1/admin/magazine', magazine);
     return data;

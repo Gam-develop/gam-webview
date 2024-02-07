@@ -1,5 +1,4 @@
 const checkFormValidation = (data: any) => {
-  console.log(data);
   // 필수 입력값 확인
   const isTitleValid = !!data.title;
   const isInterviewPersonValid = !!data.interviewPerson;

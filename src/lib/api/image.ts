@@ -4,7 +4,6 @@ import { client } from '../axios';
 export const getPresignedUrl = async (fileName: string) => {
   try {
     const { data } = await client.get(`/api/v1/s3/image?fileName=${fileName}`);
-    console.log(data);
     return data;
   } catch (e) {
     console.error(e);
