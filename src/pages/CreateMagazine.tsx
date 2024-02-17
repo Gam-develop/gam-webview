@@ -88,8 +88,8 @@ const CreateMagazineDemo = () => {
    */
   useEffect(() => {
     setIsAnswerImageOpenArray(
-      fields.map((item) => {
-        if (item.answerImage) {
+      fields.map((item, index) => {
+        if (item.answerImage || isAnswerImageOpenArray[index]) {
           return true;
         } else {
           return false;
@@ -99,10 +99,12 @@ const CreateMagazineDemo = () => {
   }, [fields]);
 
   /**
-   * 이미지 빼기를 누르면 해당 필드의 answerImage, imageCaption 초기화
+   * 문항빼기, 이미지 빼기를 누르면 해당 필드의 answerImage, imageCaption 초기화
+   * 문항빼기를 누르면 질문 순서 재배치
    */
   useEffect(() => {
     isAnswerImageOpenArray.forEach((isAnswerImage, index) => {
+      setValue(`questions.${index}.questionOrder`, index + 1);
       if (!isAnswerImage) {
         setValue(`questions.${index}.answerImage`, '');
         setValue(`questions.${index}.imageCaption`, '');
@@ -222,61 +224,80 @@ const CreateMagazineDemo = () => {
                           <MagazineCreateElement register={register} setValue={setValue} watch={watch} inputPlaceholer={'이미지에 대해 간략히 설명해주세요.'} inputMaxLength={50} inputHeight={12} registerField={`questions.${index}.imageCaption`} />
                         </>
                       )}
+                      {/* 이미지 빼기, 추가 */}
+                      <St.QuestionControlButtonSection>
+                        {isAnswerImageOpenArray[index] ? (
+                          // 이미지 빼기
+                          <St.QuestionControlButton
+                            type="button"
+                            onClick={() => {
+                              // 이미지 빼기 버튼을 누르면 해당 인덱스의 isAnswerImageOpen을 false로 설정
+                              setIsAnswerImageOpenArray((prev) => {
+                                const newArr = [...prev];
+                                newArr[index] = false;
+                                return newArr;
+                              });
+                            }}
+                          >
+                            이미지 삭제
+                          </St.QuestionControlButton>
+                        ) : (
+                          // 이미지 추가
+                          <St.QuestionControlButton
+                            type="button"
+                            onClick={() => {
+                              // 이미지 추가 버튼을 누르면 해당 인덱스의 isAnswerImageOpen을 true로 설정
+                              setIsAnswerImageOpenArray((prev) => {
+                                const newArr = [...prev];
+                                newArr[index] = true;
+                                return newArr;
+                              });
+                            }}
+                          >
+                            이미지 추가
+                          </St.QuestionControlButton>
+                        )}
+                        {/* 문항 추가 */}
+                        {index === fields.length - 1 && (
+                          <St.QuestionControlButton
+                            type="button"
+                            onClick={() => {
+                              append({
+                                questionId: 0,
+                                questionOrder: fields.length + 1,
+                                question: '',
+                                answer: '',
+                                answerImage: '',
+                                imageCaption: '',
+                              });
+                              // 추가된 문항의 isAnswerImageOpen을 false로 설정
+                              setIsAnswerImageOpenArray((prev) => [...prev, false]);
+                            }}
+                          >
+                            문항 추가
+                          </St.QuestionControlButton>
+                        )}
+                        {/* 문항 빼기 */}
+                        {fields.length > 1 && (
+                          <St.QuestionDeleteButton
+                            type="button"
+                            onClick={() => {
+                              // 문항을 빼면 이미지 배열에서 해당 인덱스의 값 제거
+                              setIsAnswerImageOpenArray((prev) => {
+                                const newArr = [...prev];
+                                newArr.splice(index, 1);
+                                return newArr;
+                              });
+                              remove(index);
+                            }}
+                          >
+                            문항 삭제
+                          </St.QuestionDeleteButton>
+                        )}
+                      </St.QuestionControlButtonSection>
                     </section>
                   );
                 })}
-                {/* 이미지 빼기, 추가 */}
-                <St.QuestionControlButtonSection>
-                  {isAnswerImageOpenArray[fields.length - 1] ? (
-                    // 이미지 빼기
-                    <St.QuestionControlButton
-                      type="button"
-                      onClick={() => {
-                        // 이미지 빼기 버튼을 누르면 해당 인덱스의 isAnswerImageOpen을 false로 설정
-                        setIsAnswerImageOpenArray((prev) => {
-                          const newArr = [...prev];
-                          newArr[fields.length - 1] = false;
-                          return newArr;
-                        });
-                      }}
-                    >
-                      이미지 빼기
-                    </St.QuestionControlButton>
-                  ) : (
-                    // 이미지 추가
-                    <St.QuestionControlButton
-                      type="button"
-                      onClick={() => {
-                        // 이미지 추가 버튼을 누르면 해당 인덱스의 isAnswerImageOpen을 true로 설정
-                        setIsAnswerImageOpenArray((prev) => {
-                          const newArr = [...prev];
-                          newArr[fields.length - 1] = true;
-                          return newArr;
-                        });
-                      }}
-                    >
-                      이미지 추가
-                    </St.QuestionControlButton>
-                  )}
-                  {/* 문항추가 */}
-                  <St.QuestionControlButton
-                    type="button"
-                    onClick={() => {
-                      append({
-                        questionId: 0,
-                        questionOrder: fields.length + 1,
-                        question: '',
-                        answer: '',
-                        answerImage: '',
-                        imageCaption: '',
-                      });
-                      // 추가된 문항의 isAnswerImageOpen을 false로 설정
-                      setIsAnswerImageOpenArray((prev) => [...prev, false]);
-                    }}
-                  >
-                    문항 추가
-                  </St.QuestionControlButton>
-                </St.QuestionControlButtonSection>
               </>
             ) : (
               <>
@@ -311,6 +332,20 @@ const PageLayoutWrapper = styled.div<{
   ${({ $isPreviewOpen, theme }) => css`
     background-color: ${$isPreviewOpen ? theme.colors.Gam_Gray : 'inherit'};
   `}
+`;
+
+const sharedButtonStyles = css`
+  display: flex;
+  width: 18rem;
+  height: 7rem;
+  padding: 2.3rem;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  border: 1px solid var(--gray-scale-gam-gray-2, #cccaca);
+  background: ${({ theme }) => theme.colors.Gam_White};
+  ${({ theme }) => theme.fonts.Gam_Contend_Pretendard_Bold_16};
+  color: ${({ theme }) => theme.colors.Gam_Black};
 `;
 
 const St = {
@@ -359,19 +394,12 @@ const St = {
     margin: 4rem 0rem 16rem;
     gap: 2.4rem;
   `,
-
   QuestionControlButton: styled.button`
-    display: flex;
-    width: 18rem;
-    height: 7rem;
-    padding: 2.3rem;
-    justify-content: center;
-    align-items: center;
-    box-sizing: border-box;
-    border: 1px solid var(--gray-scale-gam-gray-2, #cccaca);
-    background: ${({ theme }) => theme.colors.Gam_White};
-    ${({ theme }) => theme.fonts.Gam_Contend_Pretendard_Bold_16};
-    color: ${({ theme }) => theme.colors.Gam_Black};
+    ${sharedButtonStyles}
+  `,
+  QuestionDeleteButton: styled.button`
+    ${sharedButtonStyles}
+    margin-left:auto;
   `,
   magazineButtonContainer: styled.div`
     width: 100%;
