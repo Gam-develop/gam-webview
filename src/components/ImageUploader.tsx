@@ -29,14 +29,29 @@ const ImageUploader = (props: containerSize) => {
 
   const [isOpenSelector, setIsOpenSelector] = useState(false);
 
+  // 파일 확장자 알아내기
+  const getFileExtension = (filename: string) => {
+    return filename.slice(((filename.lastIndexOf('.') - 1) >>> 0) + 2);
+  };
+
   const handleChange = () => {
     const inputEl = inputRef.current;
     if (!inputEl) return;
     inputEl.value = '';
     inputEl.onchange = async () => {
       const files = inputEl.files;
+
       if (files == null || files.length === 0) return;
+
       const file = files[0];
+
+      // 파일 확장자가 jpg면 return
+      const fileExtension = getFileExtension(file.name);
+      if (fileExtension === 'jpg') {
+        window.alert('jpg 확장자 파일은 업로드할 수 없습니다.');
+        return;
+      }
+
       try {
         const res = await getPresignedUrl(file.name);
         const { preSignedUrl, fileName } = res.data;
