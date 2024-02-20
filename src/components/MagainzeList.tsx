@@ -89,7 +89,7 @@ const St = {
 
   MagazineListTitle: styled.div`
     color: ${({ theme }) => theme.colors.Gam_Black};
-    ${({ theme }) => theme.fonts.Gam_Contend_Pretendard_Bold_24};
+    ${({ theme }) => theme.fonts.Gam_Contend_Pretendard_Extra_Bold_24};
   `,
 
   MagazineListField: styled.div`
@@ -161,7 +161,7 @@ const St = {
 
   MagazineCreateButtonContent: styled(Link)`
     color: ${({ theme }) => theme.colors.Gam_White};
-    ${({ theme }) => theme.fonts.Gam_Contend_Pretendard_Bold_18};
+    ${({ theme }) => theme.fonts.Gam_Contend_Pretendard_SemiBold_18};
     text-decoration: none;
   `,
 };

@@ -344,7 +344,7 @@ const sharedButtonStyles = css`
   box-sizing: border-box;
   border: 1px solid var(--gray-scale-gam-gray-2, #cccaca);
   background: ${({ theme }) => theme.colors.Gam_White};
-  ${({ theme }) => theme.fonts.Gam_Contend_Pretendard_Bold_16};
+  ${({ theme }) => theme.fonts.Gam_Contend_Pretendard_SemiBold_16};
   color: ${({ theme }) => theme.colors.Gam_Black};
 `;
 
@@ -352,13 +352,13 @@ const St = {
   TitleHeader: styled.div`
     margin-top: 8rem;
     color: ${({ theme }) => theme.colors.Gam_Black};
-    ${({ theme }) => theme.fonts.Gam_Contend_Pretendard_Extra_Bold_18};
+    ${({ theme }) => theme.fonts.Gam_Contend_Pretendard_Bold_18};
   `,
 
   TitleReprase: styled.div`
     margin-top: 0.8rem;
     color: ${({ theme }) => theme.colors.Gam_Black};
-    ${({ theme }) => theme.fonts.Gam_Contend_Pretendard_Regular_17};
+    ${({ theme }) => theme.fonts.Gam_Contend_Pretendard_Medium_17};
   `,
 
   ImageUploadContainer: styled.div`
@@ -374,19 +374,19 @@ const St = {
   QuestionIndex: styled.div`
     margin-top: 4rem;
     color: ${({ theme }) => theme.colors.Gam_Black};
-    ${({ theme }) => theme.fonts.Gam_Contend_Pretendard_Extra_Bold_18};
+    ${({ theme }) => theme.fonts.Gam_Contend_Pretendard_Bold_18};
   `,
 
   QuestionImageTitle: styled.div`
     margin-top: 4rem;
     color: ${({ theme }) => theme.colors.Gam_Black};
-    ${({ theme }) => theme.fonts.Gam_Contend_Pretendard_Regular_18};
+    ${({ theme }) => theme.fonts.Gam_Contend_Pretendard_Bold_18};
   `,
 
   QuestionImageTitleCaption: styled.div`
     margin: 0.8rem 0rem 2.4rem 0rem;
     color: ${({ theme }) => theme.colors.Gam_Black};
-    ${({ theme }) => theme.fonts.Gam_Contend_Pretendard_Regular_17};
+    ${({ theme }) => theme.fonts.Gam_Contend_Pretendard_Medium_17};
   `,
 
   QuestionControlButtonSection: styled.section`
@@ -422,7 +422,7 @@ const St = {
     border: 1px solid ${({ theme }) => theme.colors.Gam_GrayBorder};
     background: ${({ theme }) => theme.colors.Gam_White};
     color: ${({ theme }) => theme.colors.Gam_Black};
-    ${({ theme }) => theme.fonts.Gam_Contend_Pretendard_Bold_16};
+    ${({ theme }) => theme.fonts.Gam_Contend_Pretendard_SemiBold_16};
   `,
   magazineSubmitButton: styled.button`
     width: 50%;
@@ -437,6 +437,6 @@ const St = {
     /* gap: 1.6rem; */
     background: ${({ theme }) => theme.colors.Gam_Black};
     color: ${({ theme }) => theme.colors.Gam_White};
-    ${({ theme }) => theme.fonts.Gam_Contend_Pretendard_Bold_16};
+    ${({ theme }) => theme.fonts.Gam_Contend_Pretendard_SemiBold_16};
   `,
 };

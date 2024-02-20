@@ -21,7 +21,7 @@ const St = {
     width: 100%;
     margin-top: 120px;
     h1 {
-      ${({ theme }) => theme.fonts.Gam_Contend_Pretendard_Bold_24};
+      ${({ theme }) => theme.fonts.Gam_Contend_Pretendard_Extra_Bold_24};
       color: ${({ theme }) => theme.colors.Gam_Black};
     }
   `,
