@@ -22,9 +22,14 @@ const MagazineList = () => {
   }, [magazineListResult]);
 
   const clickDelete = async (magazineId: number) => {
-    await deleteMagazine(magazineId).then(() => {
-      setMagazineList((prevList) => prevList.filter((magazine) => magazine.magazineId !== magazineId));
-    });
+    const confirmDelete = window.confirm('정말로 삭제하시겠습니까?');
+    if (confirmDelete) {
+      await deleteMagazine(magazineId).then(() => {
+        setMagazineList((prevList) => prevList.filter((magazine) => magazine.magazineId !== magazineId));
+      });
+    } else {
+      return;
+    }
   };
 
   // 수정하기로 이동
