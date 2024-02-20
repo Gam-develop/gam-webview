@@ -40,10 +40,7 @@ const St = {
     }
 
     & > .slick-slider > .slick-dots > .slick-active {
-      width: 2.1rem;
-      height: 0.8rem;
       background-color: ${({ theme }) => theme.colors.Gam_Pink};
-      border-radius: 0.5rem;
     }
   `,
 
