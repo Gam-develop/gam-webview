@@ -27,11 +27,6 @@ const MagazineList = () => {
     });
   };
 
-  // 매거진 미리보기
-  const handleClickPreview = (magazine: magazineListData) => {
-    navigate(`/magazine/${magazine.magazineId}`);
-  };
-
   // 수정하기로 이동
   const clickUpdate = (magazine: magazineListData) => {
     navigate(`/magazine/create/${magazine.magazineId}`, { state: { magazineTitle: magazine.magazineTitle, interviewee: magazine.interviewee } });
@@ -56,7 +51,7 @@ const MagazineList = () => {
         {magazineList.map((data) => {
           return (
             <St.MagazineListItemWrapper key={data.magazineId}>
-              <St.MagazineListItemTitle onClick={() => handleClickPreview(data)}>{data.magazineTitle}</St.MagazineListItemTitle>
+              <St.MagazineListItemTitle onClick={() => clickUpdate(data)}>{data.magazineTitle}</St.MagazineListItemTitle>
               <St.MagazineListItemInterviewee>{data.interviewee}</St.MagazineListItemInterviewee>
               <St.MagazineListItemButton onClick={() => clickUpdate(data)}>
                 <St.MagazineListItemButtonContent>수정하기</St.MagazineListItemButtonContent>
