@@ -24,10 +24,8 @@ const ImageUploader = (props: containerSize) => {
 
   // 이미지
   const [previewImage, setPreviewImage] = useState<string>(`${baseURL}${watchedValue}`);
-  console.log(previewImage);
 
   useEffect(() => {
-    console.log(watchedValue);
     setPreviewImage(`${baseURL}${watchedValue}`);
   }, [watchedValue]);
 
@@ -67,12 +65,11 @@ const ImageUploader = (props: containerSize) => {
 
         // 기존의 fileName 형식: work/.. 형태
         const formatFileName = fileName.substring(fileName.indexOf('/') + 1);
-        console.log(formatFileName);
 
-        // const s3Url = `https://gam-image-test.s3.ap-northeast-2.amazonaws.com/${fileName}`;
         const s3Url = `${baseURL}${formatFileName}`;
-        console.log(s3Url, fileName);
+        // 이미지를 띄울때는 baseURL을 포함한 경로로 띄우기
         setPreviewImage(s3Url);
+        // 폼에 이미지를 저장할때는 baseURL을 제외하고 올리기
         setValue(target, formatFileName);
       } catch (error) {
         console.error(error);
