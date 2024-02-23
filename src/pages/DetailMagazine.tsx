@@ -27,14 +27,4 @@ const St = {
   PageLayoutWrapper: styled.div`
     background-color: ${({ theme }) => theme.colors.Gam_Gray};
   `,
-  MagazineCreateButton: styled(Link)`
-    margin-top: 15.2rem;
-    margin-bottom: 16rem;
-    background-color: ${({ theme }) => theme.colors.Gam_Black};
-    height: 7.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
-  `,
 };

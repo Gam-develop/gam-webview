@@ -409,6 +409,10 @@ const St = {
     align-items: center;
     gap: 2.4rem;
     margin-bottom: 16rem;
+    @media only screen and (max-width: 430px) {
+      display: none;
+      margin-bottom: 0;
+    }
   `,
   magazinePreloadButton: styled.button`
     width: 50%;

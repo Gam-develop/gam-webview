@@ -60,11 +60,14 @@ const St = {
     flex-wrap: wrap;
     align-items: center;
     width: 100%;
-    max-width: 39.5rem;
+    max-width: 43rem;
     justify-content: center;
     background-color: ${({ theme }) => theme.colors.Gam_LigthGray};
     margin: auto;
     margin-bottom: 16rem;
+    @media only screen and (max-width: 430px) {
+      margin-bottom: 0;
+    }
   `,
 
   MagazineQAWrapper: styled.section`

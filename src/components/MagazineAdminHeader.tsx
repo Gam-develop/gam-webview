@@ -21,4 +21,8 @@ const StHeaderWrapper = styled.div`
 
   width: 100%;
   height: 120px;
+
+  @media only screen and (max-width: 430px) {
+    display: none;
+  }
 `;
