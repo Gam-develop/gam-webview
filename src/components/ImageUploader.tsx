@@ -12,6 +12,8 @@ interface containerSize {
   height: number;
 }
 
+const baseURL = import.meta.env.VITE_IMAGE_URL;
+
 const ImageUploader = (props: containerSize) => {
   const { setValue, width, height, target, watch } = props;
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -21,10 +23,12 @@ const ImageUploader = (props: containerSize) => {
   const watchedValue = watch(target);
 
   // 이미지
-  const [previewImage, setPreviewImage] = useState<string>(watchedValue);
+  const [previewImage, setPreviewImage] = useState<string>(`${baseURL}${watchedValue}`);
+  console.log(previewImage);
 
   useEffect(() => {
-    setPreviewImage(watchedValue);
+    console.log(watchedValue);
+    setPreviewImage(`${baseURL}${watchedValue}`);
   }, [watchedValue]);
 
   const [isOpenSelector, setIsOpenSelector] = useState(false);
@@ -61,9 +65,15 @@ const ImageUploader = (props: containerSize) => {
 
         await putPresignedUrl(file, decodeURIComponent(preSignedUrl));
 
-        const s3Url = `https://gam-image-test.s3.ap-northeast-2.amazonaws.com/${fileName}`;
+        // 기존의 fileName 형식: work/.. 형태
+        const formatFileName = fileName.substring(fileName.indexOf('/') + 1);
+        console.log(formatFileName);
+
+        // const s3Url = `https://gam-image-test.s3.ap-northeast-2.amazonaws.com/${fileName}`;
+        const s3Url = `${baseURL}${formatFileName}`;
+        console.log(s3Url, fileName);
         setPreviewImage(s3Url);
-        setValue(target, s3Url);
+        setValue(target, formatFileName);
       } catch (error) {
         console.error(error);
       }
@@ -105,7 +115,7 @@ const ImageUploader = (props: containerSize) => {
     <St.StyledWrapper>
       <St.Container width={width} height={height} onClick={handleClick}>
         <St.StyledInput type="file" accept="image/*" ref={inputRef} />
-        {!previewImage ? <IcPlus /> : <St.StyledPreview src={previewImage} alt="preview-image" />}
+        {!watchedValue ? <IcPlus /> : <St.StyledPreview src={previewImage} alt="preview-image" />}
       </St.Container>
     </St.StyledWrapper>
   );

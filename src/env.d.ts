@@ -2,6 +2,7 @@ interface ImportMeta {
   env: {
     VITE_API_URI: string;
     VITE_TEMP_TOKEN: string;
+    VITE_IMAGE_URL: string;
   };
 }
 
