@@ -4,6 +4,8 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
+const baseURL = import.meta.env.VITE_IMAGE_URL;
+
 const MagazineImage = ({ magazinePhotos }: { magazinePhotos: string[] }) => {
   const settings = {
     dots: true,
@@ -14,7 +16,7 @@ const MagazineImage = ({ magazinePhotos }: { magazinePhotos: string[] }) => {
     <St.MagazineImages>
       <Slider {...settings}>
         {magazinePhotos.map((url: string) => {
-          return <St.MagazineImage src={url} key={url} alt="app slider" height={300} />;
+          return <St.MagazineImage src={`${baseURL}${url}`} key={url} alt="app slider" height={300} />;
         })}
       </Slider>
     </St.MagazineImages>
