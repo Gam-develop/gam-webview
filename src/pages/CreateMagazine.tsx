@@ -188,7 +188,7 @@ const CreateMagazineDemo = () => {
   };
 
   return (
-    <PageLayoutWrapper $isPreviewOpen={isPreviewOpen}>
+    <PageLayoutWrapper isPreviewOpen={isPreviewOpen}>
       <PageLayout>
         <MagazineAdminHeader />
         <AdminContentLayout isPreviewOpen={isPreviewOpen}>
@@ -327,10 +327,10 @@ const CreateMagazineDemo = () => {
 export default CreateMagazineDemo;
 
 const PageLayoutWrapper = styled.div<{
-  $isPreviewOpen: boolean;
+  isPreviewOpen: boolean;
 }>`
-  ${({ $isPreviewOpen, theme }) => css`
-    background-color: ${$isPreviewOpen ? theme.colors.Gam_Gray : 'inherit'};
+  ${({ isPreviewOpen, theme }) => css`
+    background-color: ${isPreviewOpen ? theme.colors.Gam_Gray : 'inherit'};
   `}
 `;
 
@@ -411,7 +411,6 @@ const St = {
     margin-bottom: 16rem;
     @media only screen and (max-width: 430px) {
       display: none;
-      margin-bottom: 0;
     }
   `,
   magazinePreloadButton: styled.button`
