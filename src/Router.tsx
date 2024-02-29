@@ -6,12 +6,14 @@ import MainList from './pages/MainList';
 import { RecoilRoot } from 'recoil';
 import CreateMagazineDemo from './pages/CreateMagazine';
 import Magazine from './components/Magazine';
+import Login from './pages/Login';
 
 const Router = () => {
   return (
     <BrowserRouter>
       <RecoilRoot>
         <Routes>
+          <Route path="/login" element={<Login />} />
           <Route path="/" element={<MainList />} />
           <Route path="/magazine/create" element={<CreateMagazine />} />
           <Route path="/magazine/create/:magazineId" element={<CreateMagazine />} />

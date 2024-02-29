@@ -12,6 +12,8 @@ const colors = {
   Gam_Black: '#373737',
   Gam_Header: '#1a1a1a',
   Gam_GrayBorder: '#cccaca',
+  Gam_KaKao: '#FEE500',
+  Gam_Login: '#181600',
 };
 
 const fonts = {
@@ -57,6 +59,13 @@ const fonts = {
     font-size: 1.6rem;
     line-height: 2.3rem;
   `,
+  Gam_Contend_Pretendard_Bold_16: css`
+    font-family: 'Pretendard-Bold', sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 1.6rem;
+    line-height: 2.3rem;
+  `,
   Gam_Contend_Pretendard_Medium_17: css`
     font-family: 'Pretendard-Medium', sans-serif;
     font-style: normal;
@@ -98,6 +107,13 @@ const fonts = {
     font-weight: 800;
     font-size: 2.4rem;
     line-height: 1.5rem;
+  `,
+  Gam_Contend_Pretendard_Bold_26: css`
+    font-family: 'Pretendard-Bold', sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 2.6rem;
+    line-height: 3.38rem;
   `,
 };
 
