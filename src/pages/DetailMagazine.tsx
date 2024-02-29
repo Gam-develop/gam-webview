@@ -7,13 +7,13 @@ import MagazineAdminHeader from '../components/MagazineAdminHeader';
 import AdminContentLayout from '../components/AdminContentLayout';
 import { Link } from 'react-router-dom';
 
-const DetailMagazine = ({ useRecoilData }: { useRecoilData: boolean }) => {
+const DetailMagazine = () => {
   return (
     <St.PageLayoutWrapper>
       <PageLayout>
         <MagazineAdminHeader />
         <AdminContentLayout isPreviewOpen={true}>
-          <Magazine useRecoilData={useRecoilData} />
+          <Magazine useRecoilData={false} />
           <Outlet />
         </AdminContentLayout>
       </PageLayout>

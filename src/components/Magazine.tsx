@@ -10,9 +10,10 @@ import MagazineImage from './MagazineImage';
 import MagazineQuestion from './MagazineQuestion';
 import { magazineDetail } from '../types/magazine';
 
-const Magazine = ({ useRecoilData }: { useRecoilData: boolean }) => {
+const Magazine = (props: any) => {
   const { magazineId } = useParams();
 
+  const { useRecoilData } = props;
   // if (!magazineId) {
   //   return <ErrorPage />;
   // }

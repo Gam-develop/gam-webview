@@ -301,7 +301,7 @@ const CreateMagazineDemo = () => {
               </>
             ) : (
               <>
-                <Magazine key={isPreviewOpen.toString()} useRecoilData={useRecoilData} />
+                <Magazine key={isPreviewOpen.toString()} useRecoilData={true} />
               </>
             )}
             <St.magazineButtonContainer>
