@@ -23,10 +23,16 @@ const ImageUploader = (props: containerSize) => {
   const watchedValue = watch(target);
 
   // 이미지
-  const [previewImage, setPreviewImage] = useState<string>(`${baseURL}${watchedValue}`);
+  const [previewImage, setPreviewImage] = useState<string>(watchedValue);
 
   useEffect(() => {
-    setPreviewImage(`${baseURL}${watchedValue}`);
+    if (watchedValue && watchedValue.includes(baseURL)) {
+      // 이미지를 불러오거나 새로고침 할때
+      setPreviewImage(watchedValue);
+    } else {
+      // 이미지 수정 후에 baseUrl을 추가하여 저장
+      setPreviewImage(`${baseURL}${watchedValue}`);
+    }
   }, [watchedValue]);
 
   const [isOpenSelector, setIsOpenSelector] = useState(false);
