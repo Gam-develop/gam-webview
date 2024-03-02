@@ -13,7 +13,10 @@ const Router = () => {
     <BrowserRouter>
       <RecoilRoot>
         <Routes>
-          <Route path="/login" element={<Login />} />
+          <Route path="/auth">
+            <Route path="/auth" element={<Login />} />
+            <Route path="/auth/kakao/callback" element={<Login />} />
+          </Route>
           <Route path="/" element={<MainList />} />
           <Route path="/magazine/create" element={<CreateMagazine />} />
           <Route path="/magazine/create/:magazineId" element={<CreateMagazine />} />
