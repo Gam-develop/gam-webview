@@ -2,14 +2,82 @@ import styled from 'styled-components';
 import { ReactComponent as IcGam } from '../assets/icon/IcGam.svg';
 import { ReactComponent as IcKaKao } from '../assets/icon/IcKaKao.svg';
 import PageLayout from '../components/PageLayout';
+import { client, gamGetFetcher } from '../lib/axios';
+import AppConfig from '../common/constants';
+import { useNavigate, useParams } from 'react-router-dom';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { getAccessToken } from '../lib/token';
+import { adminLogin } from '../lib/api/login';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { LoginDto } from '../lib/api/dto/login.dto';
+import { PRO_TYPE } from '../enums/enum';
+
 const Login = () => {
+  const [clickLogin, setClickLogin] = useState(false);
+  const params = new LoginDto();
+  const navigate = useNavigate();
+  const handleClickLogin = () => {
+    setClickLogin(true);
+  };
+
+  useEffect(() => {
+    if (clickLogin) {
+      const url = `https://kauth.kakao.com/oauth/authorize?client_id=${AppConfig.KEYS.KEY_JS}&redirect_uri=${AppConfig.REDIRECT_URL}&response_type=code`;
+      console.log(url);
+      window.location.href = url;
+    }
+  }, [clickLogin]);
+
+  useEffect(() => {
+    // URL에서 코드 파라미터 가져오기
+    const code = new URL(window.location.href).searchParams.get('code');
+    if (code) {
+      const grant_type = 'authorization_code';
+      axios
+        .post(
+          `https://kauth.kakao.com/oauth/token?grant_type=${grant_type}&client_id=${AppConfig.KEYS.KEY_JS}&redirect_uri=${AppConfig.REDIRECT_URL}&code=${code}`,
+          {},
+          {
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
+            },
+          },
+        )
+        .then(async (res) => {
+          console.log(res.data);
+          if (res.data) {
+            params.token = res.data.access_token;
+            params.providerType = PRO_TYPE.KA;
+            params.deviceToken = '';
+            getAdminUser(params);
+            // const a = await adminLogin(params);
+            // console.log(a);
+          }
+        })
+        .catch((err) => console.log(err));
+    }
+  }, []); // clickLogin이 변경되었을 때만 실행되도록 []로 설정
+
+  const getAdminUser = (params: LoginDto) => {
+    adminLogin(params)
+      .then((res) => {
+        console.log(res);
+        if (res.data) {
+          navigate('/');
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <St.LoginWrapper>
       <St.LoginContainer>
         <IcGam style={{ width: '454px', height: '454px' }} />
-        {/* </St.LogoContainer> */}
         <St.LoginTitle>매거진 작성 어드민 페이지</St.LoginTitle>
-        <St.LoginButton>
+        <St.LoginButton onClick={handleClickLogin}>
           <div>
             <IcKaKao style={{ width: '36.19px', height: '100%' }} />
             <p>카카오로 로그인하기</p>
