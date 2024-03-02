@@ -1,15 +1,11 @@
 import styled from 'styled-components';
 import { ReactComponent as IcGam } from '../assets/icon/IcGam.svg';
 import { ReactComponent as IcKaKao } from '../assets/icon/IcKaKao.svg';
-import PageLayout from '../components/PageLayout';
-import { client, gamGetFetcher } from '../lib/axios';
 import AppConfig from '../common/constants';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { getAccessToken } from '../lib/token';
 import { adminLogin } from '../lib/api/login';
-import { useRecoilState, useRecoilValue } from 'recoil';
 import { LoginDto } from '../lib/api/dto/login.dto';
 import { PRO_TYPE } from '../enums/enum';
 
@@ -24,7 +20,6 @@ const Login = () => {
   useEffect(() => {
     if (clickLogin) {
       const url = `https://kauth.kakao.com/oauth/authorize?client_id=${AppConfig.KEYS.KEY_JS}&redirect_uri=${AppConfig.REDIRECT_URL}&response_type=code`;
-      console.log(url);
       window.location.href = url;
     }
   }, [clickLogin]);
@@ -45,30 +40,26 @@ const Login = () => {
           },
         )
         .then(async (res) => {
-          console.log(res.data);
           if (res.data) {
             params.token = res.data.access_token;
             params.providerType = PRO_TYPE.KA;
             params.deviceToken = '';
             getAdminUser(params);
-            // const a = await adminLogin(params);
-            // console.log(a);
           }
         })
-        .catch((err) => console.log(err));
+        .catch((error) => console.error(error));
     }
-  }, []); // clickLogin이 변경되었을 때만 실행되도록 []로 설정
+  }, []);
 
   const getAdminUser = (params: LoginDto) => {
     adminLogin(params)
       .then((res) => {
-        console.log(res);
         if (res.data) {
           navigate('/');
         }
       })
-      .catch((err) => {
-        console.log(err);
+      .catch((error) => {
+        console.error(error);
       });
   };
 

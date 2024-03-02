@@ -7,7 +7,6 @@ export const adminLogin = async (param: LoginDto) => {
   try {
     const { data } = await client.post('/api/v1/social/login', param);
     if (data.data) {
-      console.log(data);
       setAccessToken('accessToken', data.data.accessToken);
     }
     return data;
