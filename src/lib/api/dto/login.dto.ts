@@ -1,4 +1,4 @@
-import { PRO_TYPE } from '../../../enums/enum';
+import { PRO_TYPE } from '../../../types/enum';
 
 export class LoginDto {
   token: string | undefined = undefined;

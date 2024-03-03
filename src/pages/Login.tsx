@@ -7,7 +7,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { adminLogin } from '../lib/api/login';
 import { LoginDto } from '../lib/api/dto/login.dto';
-import { PRO_TYPE } from '../enums/enum';
+import { PRO_TYPE } from '../types/enum';
 
 const Login = () => {
   const [clickLogin, setClickLogin] = useState(false);
