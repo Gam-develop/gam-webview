@@ -9,7 +9,7 @@ export const adminLogin = async (param: LoginDto) => {
       setUserSession(data.data.accessToken);
     }
     return data;
-  } catch (error) {
-    console.error(error);
+  } catch (e) {
+    console.error(e);
   }
 };

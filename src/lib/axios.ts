@@ -3,8 +3,6 @@ import AppConfig from '../common/constants';
 import { getAccessToken } from './token';
 //import { getAccessToken, setAccessToken } from './token';
 
-console.log(AppConfig);
-
 const client = axios.create({
   baseURL: AppConfig.API_SERVER,
   headers: {
@@ -14,7 +12,6 @@ const client = axios.create({
 
 client.interceptors.request.use((config: any) => {
   const token = getAccessToken('accessToken');
-  console.log(token);
   const headers = {
     ...config.headers,
     // Authorization: `${getAccessToken('accessToken')}`,
