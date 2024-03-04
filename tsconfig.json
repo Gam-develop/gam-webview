@@ -17,7 +17,7 @@
     "outDir": "dist"
   },
   "baseUrl": "./src",
-  "include": ["src", "**/*.ts", "**/*.tsx", "src/assets/icon", "vite.config.js", "src/env.d.ts"],
+  "include": ["src", "**/*.ts", "**/*.tsx", "src/assets/icon", "vite.config.js", "src/*.d.ts"],
   "types": ["node"],
   "exclude": ["node_modules"]
 }
