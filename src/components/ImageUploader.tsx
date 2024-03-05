@@ -26,11 +26,8 @@ const ImageUploader = (props: containerSize) => {
   const [previewImage, setPreviewImage] = useState<string>(watchedValue);
 
   useEffect(() => {
-    if (watchedValue && watchedValue.includes(baseURL)) {
+    if (watchedValue) {
       // 이미지를 불러오거나 새로고침 할때
-      setPreviewImage(watchedValue);
-    } else {
-      // 이미지 수정 후에 baseUrl을 추가하여 저장
       setPreviewImage(`${baseURL}${watchedValue}`);
     }
   }, [watchedValue]);
@@ -77,8 +74,8 @@ const ImageUploader = (props: containerSize) => {
         setPreviewImage(s3Url);
         // 폼에 이미지를 저장할때는 baseURL을 제외하고 올리기
         setValue(target, formatFileName);
-      } catch (error) {
-        console.error(error);
+      } catch (e) {
+        console.error(e);
       }
     };
     inputEl.click();
