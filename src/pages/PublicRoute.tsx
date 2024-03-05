@@ -19,7 +19,7 @@ const PublicRoutePage = () => {
     }
   }, [token]);
 
-  return token ? <Navigate to="/" /> : <Outlet />;
+  return token ? <Navigate to="/magazine/list" /> : <Outlet />;
 };
 
 export default PublicRoutePage;

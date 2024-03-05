@@ -44,7 +44,7 @@ const Login = () => {
             params.token = res.data.access_token;
             params.providerType = PRO_TYPE.KA;
             params.deviceToken = '';
-            getAdminUser(params);
+            await getAdminUser(params);
           }
         })
         .catch((error) => console.error(error));
@@ -55,7 +55,7 @@ const Login = () => {
     adminLogin(params)
       .then((res) => {
         if (res.data) {
-          navigate('/');
+          navigate('/magazine/list');
         }
       })
       .catch((e) => {

@@ -19,7 +19,7 @@ const PrivateRoutePage = () => {
     }
   }, [token]);
 
-  return !token ? <Navigate to="/auth" /> : <Outlet />;
+  return !token ? <Navigate to="/" /> : <Outlet />;
 };
 
 export default PrivateRoutePage;

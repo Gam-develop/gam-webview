@@ -13,14 +13,14 @@ const Router = () => {
       <RecoilRoot>
         <Routes>
           <Route element={<PublicRoute />}>
-            <Route path="/auth">
-              <Route path="/auth" element={<Login />} />
-              <Route path="/auth/kakao/callback" element={<Login />} />
+            <Route path="/">
+              <Route path="/" element={<Login />} />
+              <Route path="/kakao/callback" element={<Login />} />
             </Route>
           </Route>
 
           <Route element={<PrivateRoute />}>
-            <Route path="/" element={<MainList />} />
+            <Route path="/magazine/list" element={<MainList />} />
             <Route path="/magazine/create" element={<CreateMagazine />} />
             <Route path="/magazine/create/:magazineId" element={<CreateMagazine />} />
             <Route path="/magazine/:magazineId" element={<DetailMagazine />} />

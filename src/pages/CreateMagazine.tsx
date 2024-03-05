@@ -183,7 +183,7 @@ const CreateMagazineDemo = () => {
         // 매거진 생성
         await createMagazine(createdData);
       }
-      navigate('/');
+      navigate('/magazine/list');
     }
   };
 
