@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm, useFieldArray } from 'react-hook-form';
 import { Outlet, useLocation, useParams } from 'react-router-dom';
 import PageLayout from '../components/PageLayout';
@@ -14,7 +14,6 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { magazineDetailState } from '../recoil/atom';
 import { magazineQuestionInfo } from '../types/magazine';
 import useGetMagazineDetail from '../lib/hooks/useGetMagazineDetail';
-import DetailMagazine from './DetailMagazine';
 import checkFormValidation from '../lib/hooks/checkFormValidation';
 
 const CreateMagazineDemo = () => {
@@ -70,48 +69,6 @@ const CreateMagazineDemo = () => {
     name: 'questions',
   });
 
-  // 각 질문 항목에 이미지 여부
-  const [isAnswerImageOpenArray, setIsAnswerImageOpenArray] = useState(fields.map((item) => Boolean(item.answerImage)));
-
-  /**
-   * 생성하기, 수정하기 구분
-   * id가 없으면 생성하기, id가 있으면 수정하기
-   */
-  useEffect(() => {
-    if (magazineId) {
-      setIsMagazineId(true);
-    }
-  });
-
-  /**
-   * 각 질문 항목에 이미지 여부 업데이트
-   */
-  useEffect(() => {
-    setIsAnswerImageOpenArray(
-      fields.map((item, index) => {
-        if (item.answerImage || isAnswerImageOpenArray[index]) {
-          return true;
-        } else {
-          return false;
-        }
-      }),
-    );
-  }, [fields]);
-
-  /**
-   * 문항빼기, 이미지 빼기를 누르면 해당 필드의 answerImage, imageCaption 초기화
-   * 문항빼기를 누르면 질문 순서 재배치
-   */
-  useEffect(() => {
-    isAnswerImageOpenArray.forEach((isAnswerImage, index) => {
-      setValue(`questions.${index}.questionOrder`, index + 1);
-      if (!isAnswerImage) {
-        setValue(`questions.${index}.answerImage`, '');
-        setValue(`questions.${index}.imageCaption`, '');
-      }
-    });
-  }, [isAnswerImageOpenArray, setValue]);
-
   /**
    * 매거진 세부 불러오기
    */
@@ -134,6 +91,48 @@ const CreateMagazineDemo = () => {
       reset();
     }
   }, [magazineDetailResult, reset, magazineId]);
+
+  // 각 질문 항목에 이미지 여부
+  const [isAnswerImageOpenArray, setIsAnswerImageOpenArray] = useState<Boolean[]>([]);
+
+  /**
+   * 생성하기, 수정하기 구분
+   * id가 없으면 생성하기, id가 있으면 수정하기
+   */
+  useEffect(() => {
+    if (magazineId) {
+      setIsMagazineId(true);
+    }
+  });
+
+  /**
+   * 각 질문 항목에 이미지 여부 업데이트
+   */
+  useEffect(() => {
+    setIsAnswerImageOpenArray(
+      fields.map((item, index) => {
+        if (item.answerImage) {
+          return true;
+        } else {
+          return false;
+        }
+      }),
+    );
+  }, [fields]);
+
+  /**
+   * 문항빼기, 이미지 빼기를 누르면 해당 필드의 answerImage, imageCaption 초기화
+   * 문항빼기를 누르면 질문 순서 재배치
+   */
+  useEffect(() => {
+    isAnswerImageOpenArray.forEach((isAnswerImage, index) => {
+      setValue(`questions.${index}.questionOrder`, index + 1);
+      if (!isAnswerImage) {
+        setValue(`questions.${index}.answerImage`, '');
+        setValue(`questions.${index}.imageCaption`, '');
+      }
+    });
+  }, [isAnswerImageOpenArray, setValue]);
 
   /**
    * 미리보기 클릭
