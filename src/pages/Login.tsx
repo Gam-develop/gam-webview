@@ -47,7 +47,7 @@ const Login = () => {
             await getAdminUser(params);
           }
         })
-        .catch((error) => console.error(error));
+        .catch((e) => console.error(e));
     }
   }, []);
 
