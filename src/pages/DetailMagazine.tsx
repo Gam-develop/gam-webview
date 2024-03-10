@@ -5,7 +5,6 @@ import Magazine from '../components/Magazine';
 import styled from 'styled-components';
 import MagazineAdminHeader from '../components/MagazineAdminHeader';
 import AdminContentLayout from '../components/AdminContentLayout';
-import { Link } from 'react-router-dom';
 
 const DetailMagazine = () => {
   return (

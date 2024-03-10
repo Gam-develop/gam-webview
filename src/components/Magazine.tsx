@@ -4,11 +4,10 @@ import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import useGetMagazineDetail from '../lib/hooks/useGetMagazineDetail';
-import { magazineDetailState, magazineResultState } from '../recoil/atom';
+import { magazineDetailState } from '../recoil/atom';
 import ErrorPage from '../pages/ErrorPage';
 import MagazineImage from './MagazineImage';
 import MagazineQuestion from './MagazineQuestion';
-import { magazineDetail } from '../types/magazine';
 
 const Magazine = (props: any) => {
   const { magazineId } = useParams();

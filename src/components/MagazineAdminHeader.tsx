@@ -1,7 +1,6 @@
-import React from 'react';
 import styled from 'styled-components';
 import { ReactComponent as IcGam } from '../assets/icon/IcGam.svg';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { clearUserSession } from '../lib/token';
 
 const MagazineAdminHeader = (props: any) => {
