@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import styled from 'styled-components';
-import AdminContentLayout from './AdminContentLayout';
 
 interface InputProps {
   register: any;
@@ -74,6 +73,6 @@ const St = {
     bottom: 0.8rem;
     font-size: 12px;
     color: ${({ theme }) => theme.colors.Gam_Gray};
-    ${({ theme }) => theme.fonts.Gam_Contend_Pretendard_Bold_16};
+    ${({ theme }) => theme.fonts.Gam_Contend_Pretendard_SemiBold_16};
   `,
 };

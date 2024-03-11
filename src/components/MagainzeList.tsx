@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
@@ -22,14 +22,14 @@ const MagazineList = () => {
   }, [magazineListResult]);
 
   const clickDelete = async (magazineId: number) => {
-    await deleteMagazine(magazineId).then(() => {
-      setMagazineList((prevList) => prevList.filter((magazine) => magazine.magazineId !== magazineId));
-    });
-  };
-
-  // 매거진 미리보기
-  const handleClickPreview = (magazine: magazineListData) => {
-    navigate(`/magazine/${magazine.magazineId}`);
+    const confirmDelete = window.confirm('정말로 삭제하시겠습니까?');
+    if (confirmDelete) {
+      await deleteMagazine(magazineId).then(() => {
+        setMagazineList((prevList) => prevList.filter((magazine) => magazine.magazineId !== magazineId));
+      });
+    } else {
+      return;
+    }
   };
 
   // 수정하기로 이동
@@ -56,7 +56,7 @@ const MagazineList = () => {
         {magazineList.map((data) => {
           return (
             <St.MagazineListItemWrapper key={data.magazineId}>
-              <St.MagazineListItemTitle onClick={() => handleClickPreview(data)}>{data.magazineTitle}</St.MagazineListItemTitle>
+              <St.MagazineListItemTitle onClick={() => clickUpdate(data)}>{data.magazineTitle}</St.MagazineListItemTitle>
               <St.MagazineListItemInterviewee>{data.interviewee}</St.MagazineListItemInterviewee>
               <St.MagazineListItemButton onClick={() => clickUpdate(data)}>
                 <St.MagazineListItemButtonContent>수정하기</St.MagazineListItemButtonContent>
@@ -89,7 +89,7 @@ const St = {
 
   MagazineListTitle: styled.div`
     color: ${({ theme }) => theme.colors.Gam_Black};
-    ${({ theme }) => theme.fonts.Gam_Contend_Pretendard_Bold_24};
+    ${({ theme }) => theme.fonts.Gam_Contend_Pretendard_Extra_Bold_24};
   `,
 
   MagazineListField: styled.div`
@@ -161,7 +161,7 @@ const St = {
 
   MagazineCreateButtonContent: styled(Link)`
     color: ${({ theme }) => theme.colors.Gam_White};
-    ${({ theme }) => theme.fonts.Gam_Contend_Pretendard_Bold_18};
+    ${({ theme }) => theme.fonts.Gam_Contend_Pretendard_SemiBold_18};
     text-decoration: none;
   `,
 };

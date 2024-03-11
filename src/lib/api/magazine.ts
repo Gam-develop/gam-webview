@@ -1,6 +1,4 @@
-import axios from 'axios';
 import { client } from '../axios';
-import { magazineDetail, magazineDetailResult } from '../../types/magazine';
 
 export const createMagazine = async (magazine: any) => {
   try {

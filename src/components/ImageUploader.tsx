@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { getPresignedUrl, putPresignedUrl } from '../lib/api/image';
 import { ReactComponent as IcPlus } from '../assets/icon/IcPlus.svg';
-import { DefaultValue } from 'recoil';
 
 interface containerSize {
   setValue: any;
@@ -11,6 +10,8 @@ interface containerSize {
   width: number;
   height: number;
 }
+
+const baseURL = import.meta.env.VITE_IMAGE_URL;
 
 const ImageUploader = (props: containerSize) => {
   const { setValue, width, height, target, watch } = props;
@@ -24,10 +25,18 @@ const ImageUploader = (props: containerSize) => {
   const [previewImage, setPreviewImage] = useState<string>(watchedValue);
 
   useEffect(() => {
-    setPreviewImage(watchedValue);
+    if (watchedValue) {
+      // 이미지를 불러오거나 새로고침 할때
+      setPreviewImage(`${baseURL}${watchedValue}`);
+    }
   }, [watchedValue]);
 
   const [isOpenSelector, setIsOpenSelector] = useState(false);
+
+  // 파일 확장자 알아내기
+  const getFileExtension = (filename: string) => {
+    return filename.slice(((filename.lastIndexOf('.') - 1) >>> 0) + 2);
+  };
 
   const handleChange = () => {
     const inputEl = inputRef.current;
@@ -35,8 +44,18 @@ const ImageUploader = (props: containerSize) => {
     inputEl.value = '';
     inputEl.onchange = async () => {
       const files = inputEl.files;
+
       if (files == null || files.length === 0) return;
+
       const file = files[0];
+
+      // 파일 확장자가 jpg면 return
+      const fileExtension = getFileExtension(file.name);
+      if (fileExtension === 'jpg') {
+        window.alert('jpg 확장자 파일은 업로드할 수 없습니다.');
+        return;
+      }
+
       try {
         const res = await getPresignedUrl(file.name);
         const { preSignedUrl, fileName } = res.data;
@@ -46,11 +65,16 @@ const ImageUploader = (props: containerSize) => {
 
         await putPresignedUrl(file, decodeURIComponent(preSignedUrl));
 
-        const s3Url = `https://gam-image-test.s3.ap-northeast-2.amazonaws.com/${fileName}`;
+        // 기존의 fileName 형식: work/.. 형태
+        const formatFileName = fileName.substring(fileName.indexOf('/') + 1);
+
+        const s3Url = `${baseURL}${formatFileName}`;
+        // 이미지를 띄울때는 baseURL을 포함한 경로로 띄우기
         setPreviewImage(s3Url);
-        setValue(target, s3Url);
-      } catch (error) {
-        console.error(error);
+        // 폼에 이미지를 저장할때는 baseURL을 제외하고 올리기
+        setValue(target, formatFileName);
+      } catch (e) {
+        console.error(e);
       }
     };
     inputEl.click();
@@ -90,7 +114,7 @@ const ImageUploader = (props: containerSize) => {
     <St.StyledWrapper>
       <St.Container width={width} height={height} onClick={handleClick}>
         <St.StyledInput type="file" accept="image/*" ref={inputRef} />
-        {!previewImage ? <IcPlus /> : <St.StyledPreview src={previewImage} alt="preview-image" />}
+        {!watchedValue ? <IcPlus /> : <St.StyledPreview src={previewImage} alt="preview-image" />}
       </St.Container>
     </St.StyledWrapper>
   );

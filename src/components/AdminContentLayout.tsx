@@ -20,8 +20,11 @@ const St = {
     max-width: 120rem;
     width: 100%;
     margin-top: 120px;
+    @media only screen and (max-width: 430px) {
+      margin-top: 0;
+    }
     h1 {
-      ${({ theme }) => theme.fonts.Gam_Contend_Pretendard_Bold_24};
+      ${({ theme }) => theme.fonts.Gam_Contend_Pretendard_Extra_Bold_24};
       color: ${({ theme }) => theme.colors.Gam_Black};
     }
   `,

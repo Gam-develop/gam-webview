@@ -7,7 +7,7 @@ import MagazineAdminHeader from '../components/MagazineAdminHeader';
 const MainList = () => {
   return (
     <PageLayout>
-      <MagazineAdminHeader />
+      <MagazineAdminHeader isMainList={true} />
       <MagazineList />
       <Outlet />
     </PageLayout>

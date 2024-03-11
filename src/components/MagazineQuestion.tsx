@@ -6,6 +6,8 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import { makeStyles } from '@material-ui/core';
 import { magazineQuestionInfo } from '../types/magazine';
 
+const baseURL = import.meta.env.VITE_IMAGE_URL;
+
 const useStyles = makeStyles({
   customIconRotation: {
     '&.Mui-expanded .css-yw020d-MuiAccordionSummary-expandIconWrapper': {
@@ -64,7 +66,7 @@ const MagazineQuestion = ({ magazineQuestions }: { magazineQuestions: magazineQu
               >
                 {question.answerImage && (
                   <St.MagazineQuestionImageWrapper>
-                    <St.MagazineQuestionImage src={question.answerImage} />
+                    <St.MagazineQuestionImage src={`${baseURL}${question.answerImage}`} />
                   </St.MagazineQuestionImageWrapper>
                 )}
                 <St.MagazineAnswer>
