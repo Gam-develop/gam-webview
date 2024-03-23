@@ -34,3 +34,8 @@ export interface magazineDetailResult {
   magazinePhotos: string[];
   questions: magazineQuestionAdminInfo[];
 }
+
+export interface magazineToken {
+  accessToken: string;
+  refreshToken: string;
+}
