@@ -8,6 +8,8 @@ import { useEffect, useState } from 'react';
 import { adminLogin } from '../lib/api/login';
 import { LoginDto } from '../lib/api/dto/login.dto';
 import { PRO_TYPE } from '../types/enum';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { magazineTokenState } from '../recoil/atom';
 
 const Login = () => {
   const [clickLogin, setClickLogin] = useState(false);
@@ -16,6 +18,8 @@ const Login = () => {
   const handleClickLogin = () => {
     setClickLogin(true);
   };
+  const setMagazineToken = useSetRecoilState(magazineTokenState);
+  const token = useRecoilValue(magazineTokenState);
 
   useEffect(() => {
     if (clickLogin) {
@@ -55,6 +59,11 @@ const Login = () => {
     adminLogin(params)
       .then((res) => {
         if (res.data) {
+          const tokenParams = {
+            accessToken: res.data.accessToken,
+            refreshToken: res.data.refreshToken,
+          };
+          setMagazineToken(tokenParams);
           navigate('/magazine/list');
         }
       })
