@@ -13,12 +13,6 @@ const Router = () => {
   const userAgent = navigator.userAgent;
   const isAppAccess = userAgent.toLowerCase().includes('iphone');
 
-  // if (isAppAccess) {
-  //   alert('iOS 앱에서 열림: ' + userAgent);
-  // } else {
-  //   alert('웹 브라우저에서 열림: ' + userAgent);
-  // }
-
   return (
     <BrowserRouter>
       <RecoilRoot>
