@@ -8,23 +8,32 @@ import PublicRoute from './pages/PublicRoute';
 import PrivateRoute from './pages/PrivateRoute';
 
 const Router = () => {
+  // TODO 추후 android도 추가 예정
+  // ios기기, PC 접속 구분
+  const userAgent = navigator.userAgent;
+  const isAppAccess = userAgent.toLowerCase().includes('iphone');
+
   return (
     <BrowserRouter>
       <RecoilRoot>
         <Routes>
-          <Route element={<PublicRoute />}>
-            <Route path="/">
-              <Route path="/" element={<Login />} />
-              <Route path="/kakao/callback" element={<Login />} />
-            </Route>
-          </Route>
+          {isAppAccess ? (
+            <Route path="/" element={<DetailMagazine />} />
+          ) : (
+            <>
+              <Route element={<PublicRoute />}>
+                <Route path="/" element={<Login />} />
+                <Route path="/kakao/callback" element={<Login />} />
+              </Route>
 
-          <Route element={<PrivateRoute />}>
-            <Route path="/magazine/list" element={<MainList />} />
-            <Route path="/magazine/create" element={<CreateMagazine />} />
-            <Route path="/magazine/create/:magazineId" element={<CreateMagazine />} />
-            <Route path="/magazine/:magazineId" element={<DetailMagazine />} />
-          </Route>
+              <Route element={<PrivateRoute />}>
+                <Route path="/magazine/list" element={<MainList />} />
+                <Route path="/magazine/create" element={<CreateMagazine />} />
+                <Route path="/magazine/create/:magazineId" element={<CreateMagazine />} />
+                <Route path="/magazine/:magazineId" element={<DetailMagazine />} />
+              </Route>
+            </>
+          )}
         </Routes>
       </RecoilRoot>
     </BrowserRouter>
