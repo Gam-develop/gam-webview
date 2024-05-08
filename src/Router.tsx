@@ -18,7 +18,7 @@ const Router = () => {
       <RecoilRoot>
         <Routes>
           {isAppAccess ? (
-            <Route path="/" element={<DetailMagazine />} />
+            <Route path="/magazine/:magazineId" element={<DetailMagazine />} />
           ) : (
             <>
               <Route element={<PublicRoute />}>
@@ -30,7 +30,7 @@ const Router = () => {
                 <Route path="/magazine/list" element={<MainList />} />
                 <Route path="/magazine/create" element={<CreateMagazine />} />
                 <Route path="/magazine/create/:magazineId" element={<CreateMagazine />} />
-                <Route path="/magazine/:magazineId" element={<DetailMagazine />} />
+                {/* <Route path="/magazine/:magazineId" element={<DetailMagazine />} /> */}
               </Route>
             </>
           )}
