@@ -11,7 +11,7 @@ const Router = () => {
   // TODO 추후 android도 추가 예정
   // ios기기, PC 접속 구분
   const userAgent = navigator.userAgent;
-  const isAppAccess = userAgent.toLowerCase().includes('iphone');
+  const isAppAccess = userAgent.match(/like Mac OS X/i);
 
   return (
     <BrowserRouter>

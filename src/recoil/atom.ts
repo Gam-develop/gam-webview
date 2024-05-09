@@ -17,6 +17,7 @@ export const magazineDetailState = atom<magazineDetail>({
         answer: '',
         answerImage: '',
         imageCaption: '',
+        isImageOpen: false,
       },
       {
         questionId: 2,
@@ -25,6 +26,7 @@ export const magazineDetailState = atom<magazineDetail>({
         answer: '',
         answerImage: '',
         imageCaption: '',
+        isImageOpen: false,
       },
       {
         questionId: 3,
@@ -33,6 +35,7 @@ export const magazineDetailState = atom<magazineDetail>({
         answer: '',
         answerImage: '',
         imageCaption: '',
+        isImageOpen: false,
       },
       {
         questionId: 4,
@@ -41,6 +44,7 @@ export const magazineDetailState = atom<magazineDetail>({
         answer: '',
         answerImage: '',
         imageCaption: '',
+        isImageOpen: false,
       },
     ],
   },

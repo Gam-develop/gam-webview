@@ -11,6 +11,7 @@ export interface magazineQuestionInfo {
   answer: string;
   answerImage: string;
   imageCaption: string;
+  isImageOpen: boolean;
 }
 
 export interface magazineQuestionAdminInfo {
