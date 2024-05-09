@@ -8,16 +8,31 @@ import { magazineDetailState } from '../recoil/atom';
 import ErrorPage from '../pages/ErrorPage';
 import MagazineImage from './MagazineImage';
 import MagazineQuestion from './MagazineQuestion';
+import useGetMagazineWebView from '../lib/hooks/useGetMagazineWebView';
 
 const Magazine = (props: any) => {
   const { magazineId } = useParams();
+  console.log(magazineId);
 
   const { useRecoilData } = props;
   // if (!magazineId) {
   //   return <ErrorPage />;
   // }
 
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const userAgent = navigator.userAgent;
+    const isAppAccess = userAgent.match(/like Mac OS X/i);
+    console.log(userAgent, isAppAccess);
+    setIsMobile(!!isAppAccess);
+  }, []);
+
   const { magazineDetailResult, isLoading, isError } = useGetMagazineDetail(magazineId as string);
+
+  const { magazineWebView, loading, error } = useGetMagazineWebView(magazineId as string);
+
+  const magazineData = isMobile ? magazineWebView : magazineDetailResult;
 
   const setMagazineDetail = useSetRecoilState(magazineDetailState);
   const magazineDetail = useRecoilValue(magazineDetailState);
@@ -25,16 +40,17 @@ const Magazine = (props: any) => {
   const [magazine, setMagazine] = useState(magazineDetail);
 
   useEffect(() => {
-    if (magazineDetailResult && !useRecoilData) {
+    if (magazineData && !useRecoilData) {
       setMagazine({
-        magazineIntro: magazineDetailResult.magazineIntro,
-        magazinePhotos: magazineDetailResult.magazinePhotos,
-        questions: magazineDetailResult.questions,
+        magazineIntro: magazineData.magazineIntro,
+        magazinePhotos: magazineData.magazinePhotos,
+        questions: magazineData.questions,
       });
     } else if (useRecoilData) {
+      // 매거진 미리보기
       setMagazine(magazineDetail);
     }
-  }, [magazineDetailResult, useRecoilData]);
+  }, [magazineDetailResult, magazineWebView, magazineData, useRecoilData]);
 
   useEffect(() => {}, [magazineDetail, useRecoilData]);
 
