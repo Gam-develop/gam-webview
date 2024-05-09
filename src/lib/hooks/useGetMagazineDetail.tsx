@@ -13,7 +13,7 @@ const useGetMagazineDetail = (magazineId: string) => {
       isError: false,
     };
   }
-  const { data, error } = useSWR<AxiosResponse<magazineDetail>>(`/api/v1/admin/magazine/detail?magazineId=${+magazineId}`, gamGetFetcher, {
+  const { data, error } = useSWR<AxiosResponse<magazineDetail>>(`/api/v1/magazine/detail?magazineId=${+magazineId}`, gamGetFetcher, {
     errorRetryCount: 3,
     shouldRetryOnError: false,
   });
