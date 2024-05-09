@@ -35,6 +35,8 @@ const CreateMagazineDemo = () => {
   const { magazineTitle, interviewee } = location.state || {};
   const { magazineId } = useParams();
   const [isMagazineId, setIsMagazineId] = useState(false);
+  // 문항들 상태 관리
+  const [questionInfo, setQuestionInfo] = useState<magazineQuestionInfo[]>([]);
 
   // 폼 초기화
   const {
@@ -59,6 +61,7 @@ const CreateMagazineDemo = () => {
           answer: '',
           answerImage: '',
           imageCaption: '',
+          isImageOpen: false,
         },
       ],
     },
@@ -78,12 +81,19 @@ const CreateMagazineDemo = () => {
     if (magazineId) {
       // magazineId가 있을 때 magazineDetailResult로 초기화
       if (magazineDetailResult) {
+        // questions 배열을 초기화합니다.
+        const initializedQuestions = magazineDetailResult.questions.map((question) => ({
+          ...question,
+          isImageOpen: !!question.answerImage, // answerImage가 있으면 true, 없으면 false
+        }));
+        setQuestionInfo([...initializedQuestions]);
+
         reset({
           title: magazineTitle,
           interviewPerson: interviewee,
           magazineIntro: magazineDetailResult.magazineIntro,
           magazinePhotos: magazineDetailResult.magazinePhotos,
-          questions: magazineDetailResult.questions.sort((a: magazineQuestionInfo, b: magazineQuestionInfo) => a.questionOrder - b.questionOrder),
+          questions: initializedQuestions.sort((a: magazineQuestionInfo, b: magazineQuestionInfo) => a.questionOrder - b.questionOrder),
         });
       }
     } else {
@@ -91,9 +101,6 @@ const CreateMagazineDemo = () => {
       reset();
     }
   }, [magazineDetailResult, reset, magazineId]);
-
-  // 각 질문 항목에 이미지 여부
-  const [isAnswerImageOpenArray, setIsAnswerImageOpenArray] = useState<Boolean[]>([]);
 
   /**
    * 생성하기, 수정하기 구분
@@ -109,30 +116,51 @@ const CreateMagazineDemo = () => {
    * 각 질문 항목에 이미지 여부 업데이트
    */
   useEffect(() => {
-    setIsAnswerImageOpenArray(
-      fields.map((item, index) => {
-        if (item.answerImage) {
-          return true;
-        } else {
-          return false;
-        }
-      }),
-    );
-  }, [fields]);
+    // 필드 배열이 변경될 때마다 실행
+    fields.forEach((item, index) => {
+      // 각 필드의 answerImage 값이 비어있는지 여부를 확인하고 업데이트
+      const isImageOpen = !!item.answerImage && item.isImageOpen;
+
+      setValue(`questions.${index}.isImageOpen`, !isImageOpen);
+    });
+
+    setQuestionInfo(fields);
+  }, [fields, setValue]);
 
   /**
-   * 문항빼기, 이미지 빼기를 누르면 해당 필드의 answerImage, imageCaption 초기화
-   * 문항빼기를 누르면 질문 순서 재배치
+   * 필드 배열이 변경될때마다 실행
    */
   useEffect(() => {
-    isAnswerImageOpenArray.forEach((isAnswerImage, index) => {
-      setValue(`questions.${index}.questionOrder`, index + 1);
-      if (!isAnswerImage) {
-        setValue(`questions.${index}.answerImage`, '');
-        setValue(`questions.${index}.imageCaption`, '');
+    // 삭제된 경우에는 해당 인덱스 이후의 항목들의 isImageOpen 값을 업데이트합니다.
+    questionInfo.forEach((item, index) => {
+      // 삭제된 경우 item이 undefined가 될 수 있으므로 체크
+      if (!item) return;
+
+      // 해당 인덱스 이후의 항목들의 isImageOpen 값을 업데이트
+      for (let i = index; i < fields.length; i++) {
+        setValue(`questions.${i}.isImageOpen`, fields[i].isImageOpen);
       }
     });
-  }, [isAnswerImageOpenArray, setValue]);
+    setQuestionInfo(fields);
+  }, [fields, setValue]);
+
+  /**
+   * 이미지 삭제/추가 버튼 클릭시 동작
+   * @param i
+   */
+  const handleClickImage = (i: number) => {
+    const currentValue = fields[i].isImageOpen;
+    // 이미지 삭제 버튼을 눌렀을 때, answerImage, imageCaption 초기화
+    if (currentValue) {
+      setValue(`questions.${i}.answerImage`, '');
+      setValue(`questions.${i}.imageCaption`, '');
+    }
+
+    const updatedQuestionInfo = [...questionInfo];
+    updatedQuestionInfo[i].isImageOpen = !currentValue;
+    setValue(`questions.${i}.isImageOpen`, !currentValue);
+    setQuestionInfo(updatedQuestionInfo);
+  };
 
   /**
    * 미리보기 클릭
@@ -166,7 +194,7 @@ const CreateMagazineDemo = () => {
     const createdData = {
       ...data,
       questions: data.questions.map((question: magazineQuestionInfo) => {
-        const { questionId, ...questionRest } = question;
+        const { questionId, isImageOpen, ...questionRest } = question;
         return questionRest;
       }),
     };
@@ -208,14 +236,18 @@ const CreateMagazineDemo = () => {
                 <St.TitleHeader>서론</St.TitleHeader>
                 <MagazineCreateElement register={register} setValue={setValue} watch={watch} inputPlaceholer={'서론을 작성해주세요.'} inputMaxLength={500} inputHeight={28.2} registerField={'magazineIntro'} />
                 <St.TitleHeader>인터뷰</St.TitleHeader>
+
+                {/* 문항 */}
                 {fields.map((question, index) => {
+                  const currentQuestionInfo = questionInfo.length > index ? questionInfo[index] : { isImageOpen: false };
                   return (
                     <section key={question.id}>
                       <St.QuestionIndex>Q{index + 1}</St.QuestionIndex>
                       <MagazineCreateElement register={register} setValue={setValue} watch={watch} inputPlaceholer={'질문을 작성해주세요.'} inputMaxLength={200} inputHeight={28.2} registerField={`questions.${index}.question`} />
                       <MagazineCreateElement register={register} setValue={setValue} watch={watch} inputPlaceholer={'답변을 작성해주세요.'} inputMaxLength={1000} inputHeight={28.2} registerField={`questions.${index}.answer`} />
 
-                      {isAnswerImageOpenArray[index] && (
+                      {/* 현재 문항에 대한 questionInfo를 참조하여 렌더링 */}
+                      {currentQuestionInfo.isImageOpen && (
                         <>
                           <St.QuestionImageTitle>이미지 등록</St.QuestionImageTitle>
                           <St.QuestionImageTitleCaption>16:9 비율의 이미지를 등록해주세요. 1장 등록 가능합니다.</St.QuestionImageTitleCaption>
@@ -223,39 +255,12 @@ const CreateMagazineDemo = () => {
                           <MagazineCreateElement register={register} setValue={setValue} watch={watch} inputPlaceholer={'이미지에 대해 간략히 설명해주세요.'} inputMaxLength={50} inputHeight={12} registerField={`questions.${index}.imageCaption`} />
                         </>
                       )}
-                      {/* 이미지 빼기, 추가 */}
+
+                      {/* 문항 컨트롤 버튼 */}
                       <St.QuestionControlButtonSection>
-                        {isAnswerImageOpenArray[index] ? (
-                          // 이미지 빼기
-                          <St.QuestionControlButton
-                            type="button"
-                            onClick={() => {
-                              // 이미지 빼기 버튼을 누르면 해당 인덱스의 isAnswerImageOpen을 false로 설정
-                              setIsAnswerImageOpenArray((prev) => {
-                                const newArr = [...prev];
-                                newArr[index] = false;
-                                return newArr;
-                              });
-                            }}
-                          >
-                            이미지 삭제
-                          </St.QuestionControlButton>
-                        ) : (
-                          // 이미지 추가
-                          <St.QuestionControlButton
-                            type="button"
-                            onClick={() => {
-                              // 이미지 추가 버튼을 누르면 해당 인덱스의 isAnswerImageOpen을 true로 설정
-                              setIsAnswerImageOpenArray((prev) => {
-                                const newArr = [...prev];
-                                newArr[index] = true;
-                                return newArr;
-                              });
-                            }}
-                          >
-                            이미지 추가
-                          </St.QuestionControlButton>
-                        )}
+                        <St.QuestionControlButton type="button" onClick={() => handleClickImage(index)}>
+                          {currentQuestionInfo.isImageOpen ? '이미지 삭제' : '이미지 추가'}
+                        </St.QuestionControlButton>
                         {/* 문항 추가 */}
                         {index === fields.length - 1 && (
                           <St.QuestionControlButton
@@ -268,26 +273,22 @@ const CreateMagazineDemo = () => {
                                 answer: '',
                                 answerImage: '',
                                 imageCaption: '',
+                                isImageOpen: false,
                               });
-                              // 추가된 문항의 isAnswerImageOpen을 false로 설정
-                              setIsAnswerImageOpenArray((prev) => [...prev, false]);
                             }}
                           >
                             문항 추가
                           </St.QuestionControlButton>
                         )}
-                        {/* 문항 빼기 */}
+                        {/* 문항 삭제 */}
                         {fields.length > 1 && (
                           <St.QuestionDeleteButton
                             type="button"
                             onClick={() => {
-                              // 문항을 빼면 이미지 배열에서 해당 인덱스의 값 제거
-                              setIsAnswerImageOpenArray((prev) => {
-                                const newArr = [...prev];
-                                newArr.splice(index, 1);
-                                return newArr;
-                              });
                               remove(index);
+                              // 문항 삭제 후 인덱스 재조정
+                              const updatedQuestionInfo = questionInfo.filter((_, i) => i !== index);
+                              setQuestionInfo(updatedQuestionInfo);
                             }}
                           >
                             문항 삭제
