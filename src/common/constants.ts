@@ -9,8 +9,8 @@ export const APP_ENV_TYPE = {
 };
 
 const AppConfig = {
-  // 현재 애플리케이션의 환경을 나타냄(기본값: 개발환경)
-  ENV: APP_ENV_TYPE.DEV,
+  // 현재 애플리케이션의 환경을 나타냄
+  ENV: APP_ENV_TYPE.PROD,
   /**
    * API SERVER
    */
