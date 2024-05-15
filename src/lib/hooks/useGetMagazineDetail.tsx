@@ -5,10 +5,11 @@ import { gamGetFetcher } from '../axios';
 import { magazineDetail } from '../../types/magazine';
 
 const useGetMagazineDetail = (magazineId: string) => {
+  console.log(magazineId);
   // magazineId가 없을때 체크
   if (!magazineId) {
     return {
-      magazineDetailResult: null,
+      magazineData: null,
       isLoading: false,
       isError: false,
     };
@@ -19,7 +20,7 @@ const useGetMagazineDetail = (magazineId: string) => {
   });
 
   return {
-    magazineDetailResult: data?.data,
+    magazineData: data?.data,
     isLoading: !data && !error,
     isError: error,
   };

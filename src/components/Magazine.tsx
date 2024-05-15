@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
@@ -9,30 +9,29 @@ import ErrorPage from '../pages/ErrorPage';
 import MagazineImage from './MagazineImage';
 import MagazineQuestion from './MagazineQuestion';
 import useGetMagazineWebView from '../lib/hooks/useGetMagazineWebView';
+import { magazineDetail } from '../types/magazine';
 
 const Magazine = (props: any) => {
   const { magazineId } = useParams();
-  console.log(magazineId);
+  if (!magazineId) {
+    return <ErrorPage />;
+  }
 
   const { useRecoilData } = props;
-  // if (!magazineId) {
-  //   return <ErrorPage />;
-  // }
 
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(() => {
+    const userAgent = navigator.userAgent;
+    const isAppAccess = userAgent.match(/like Mac OS X/i);
+    return !!isAppAccess;
+  });
 
   useEffect(() => {
     const userAgent = navigator.userAgent;
     const isAppAccess = userAgent.match(/like Mac OS X/i);
-    console.log(userAgent, isAppAccess);
     setIsMobile(!!isAppAccess);
   }, []);
 
-  const { magazineDetailResult, isLoading, isError } = useGetMagazineDetail(magazineId as string);
-
-  const { magazineWebView, loading, error } = useGetMagazineWebView(magazineId as string);
-
-  const magazineData = isMobile ? magazineWebView : magazineDetailResult;
+  const { magazineData, isLoading, isError } = isMobile ? useGetMagazineWebView(magazineId as string) : useGetMagazineDetail(magazineId as string);
 
   const setMagazineDetail = useSetRecoilState(magazineDetailState);
   const magazineDetail = useRecoilValue(magazineDetailState);
@@ -50,9 +49,7 @@ const Magazine = (props: any) => {
       // 매거진 미리보기
       setMagazine(magazineDetail);
     }
-  }, [magazineDetailResult, magazineWebView, magazineData, useRecoilData]);
-
-  useEffect(() => {}, [magazineDetail, useRecoilData]);
+  }, [magazineData, useRecoilData]);
 
   if (isLoading) return <div>Loading</div>;
   if (isError) return <ErrorPage />;

@@ -75,14 +75,14 @@ const CreateMagazineDemo = () => {
   /**
    * 매거진 세부 불러오기
    */
-  const { magazineDetailResult, isLoading, isError } = useGetMagazineDetail(magazineId as string);
+  const { magazineData, isLoading, isError } = useGetMagazineDetail(magazineId as string);
 
   useEffect(() => {
     if (magazineId) {
       // magazineId가 있을 때 magazineDetailResult로 초기화
-      if (magazineDetailResult) {
+      if (magazineData) {
         // questions 배열을 초기화합니다.
-        const initializedQuestions = magazineDetailResult.questions.map((question) => ({
+        const initializedQuestions = magazineData.questions.map((question) => ({
           ...question,
           isImageOpen: !!question.answerImage, // answerImage가 있으면 true, 없으면 false
         }));
@@ -91,8 +91,8 @@ const CreateMagazineDemo = () => {
         reset({
           title: magazineTitle,
           interviewPerson: interviewee,
-          magazineIntro: magazineDetailResult.magazineIntro,
-          magazinePhotos: magazineDetailResult.magazinePhotos,
+          magazineIntro: magazineData.magazineIntro,
+          magazinePhotos: magazineData.magazinePhotos,
           questions: initializedQuestions.sort((a: magazineQuestionInfo, b: magazineQuestionInfo) => a.questionOrder - b.questionOrder),
         });
       }
@@ -100,7 +100,7 @@ const CreateMagazineDemo = () => {
       // magazineId가 없을 때 초기 값 그대로 둠
       reset();
     }
-  }, [magazineDetailResult, reset, magazineId]);
+  }, [magazineData, reset, magazineId]);
 
   /**
    * 생성하기, 수정하기 구분
@@ -326,7 +326,9 @@ const CreateMagazineDemo = () => {
 
 export default CreateMagazineDemo;
 
-const PageLayoutWrapper = styled.div<{
+const PageLayoutWrapper = styled('div').withConfig({
+  shouldForwardProp: (prop) => !['isPreviewOpen'].includes(prop),
+})<{
   isPreviewOpen: boolean;
 }>`
   ${({ isPreviewOpen, theme }) => css`
