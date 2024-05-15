@@ -16,7 +16,7 @@ const MagazineList = () => {
   const magazineList = useRecoilValue(magazineListState);
 
   useEffect(() => {
-    if (magazineListResult) {
+    if (magazineListResult?.data) {
       setMagazineList(magazineListResult.data);
     }
   }, [magazineListResult]);

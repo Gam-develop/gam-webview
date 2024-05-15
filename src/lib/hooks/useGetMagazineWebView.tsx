@@ -4,11 +4,12 @@ import useSWR from 'swr';
 import { gamGetFetcher } from '../axios';
 import { magazineDetail } from '../../types/magazine';
 
-const useGetMagazineDetail = (magazineId: string) => {
+const useGetMagazineWebView = (magazineId: string) => {
+  console.log(magazineId);
   // magazineId가 없을때 체크
   if (!magazineId) {
     return {
-      magazineDetailResult: null,
+      magazineData: null,
       isLoading: false,
       isError: false,
     };
@@ -19,10 +20,10 @@ const useGetMagazineDetail = (magazineId: string) => {
   });
 
   return {
-    magazineWebView: data?.data,
+    magazineData: data?.data,
     loading: !data && !error,
     error: error,
   };
 };
 
-export default useGetMagazineDetail;
+export default useGetMagazineWebView;
