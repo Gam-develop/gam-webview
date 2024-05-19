@@ -214,6 +214,15 @@ const CreateMagazineDemo = () => {
     }
   };
 
+  /**
+   * 메인 이미지 삭제
+   * @param indexToRemove
+   */
+  const handleImageChange = (indexToRemove: number) => {
+    const newPhotos = watch('magazinePhotos').filter((_, index) => index !== indexToRemove);
+    setValue('magazinePhotos', newPhotos);
+  };
+
   return (
     <PageLayoutWrapper isPreviewOpen={isPreviewOpen}>
       <PageLayout>
@@ -230,7 +239,7 @@ const CreateMagazineDemo = () => {
                 <St.TitleReprase>1 : 1 비율의 이미지를 등록해주세요. 최대 4장 등록 가능합니다.</St.TitleReprase>
                 <St.ImageUploadContainer>
                   {[...Array(4)].map((item, index) => (
-                    <ImageUploader key={index} setValue={setValue} watch={watch} target={`magazinePhotos[${index}]`} width={28.2} height={28.2} />
+                    <ImageUploader key={index} onDelete={() => handleImageChange(index)} setValue={setValue} watch={watch} target={`magazinePhotos[${index}]`} width={28.2} height={28.2} />
                   ))}
                 </St.ImageUploadContainer>
                 <St.TitleHeader>서론</St.TitleHeader>

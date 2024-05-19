@@ -9,12 +9,13 @@ interface containerSize {
   target: string;
   width: number;
   height: number;
+  onDelete?: () => void;
 }
 
 const baseURL = import.meta.env.VITE_IMAGE_URL;
 
 const ImageUploader = (props: containerSize) => {
-  const { setValue, width, height, target, watch } = props;
+  const { setValue, width, height, target, watch, onDelete } = props;
   const inputRef = useRef<HTMLInputElement | null>(null);
   const selectorRef = useRef<HTMLDivElement>(null);
 
@@ -81,7 +82,14 @@ const ImageUploader = (props: containerSize) => {
   };
 
   const handleClick = () => {
-    handleChange();
+    if (watchedValue && onDelete) {
+      const confirm = window.confirm('정말로 삭제하시겠어요?');
+      if (confirm) {
+        onDelete();
+      }
+    } else {
+      handleChange();
+    }
   };
 
   const openSelector = () => {
