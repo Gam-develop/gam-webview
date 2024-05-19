@@ -165,6 +165,9 @@ const St = {
   MagazineQuestionCaption: styled.div`
     white-space: pre-wrap;
     margin-top: 0.8rem;
+    margin-left: 0.2rem;
+    padding: 0 1.8rem;
+    display: flex;
     text-align: center;
     color: ${({ theme }) => theme.colors.Gam_Gray};
     ${({ theme }) => theme.fonts.Gam_Contend_Pretendard_Regular_12};
