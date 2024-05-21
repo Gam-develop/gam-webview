@@ -9,12 +9,13 @@ interface containerSize {
   target: string;
   width: number;
   height: number;
+  onDelete?: () => void;
 }
 
 const baseURL = import.meta.env.VITE_IMAGE_URL;
 
 const ImageUploader = (props: containerSize) => {
-  const { setValue, width, height, target, watch } = props;
+  const { setValue, width, height, target, watch, onDelete } = props;
   const inputRef = useRef<HTMLInputElement | null>(null);
   const selectorRef = useRef<HTMLDivElement>(null);
 
@@ -48,6 +49,12 @@ const ImageUploader = (props: containerSize) => {
       if (files == null || files.length === 0) return;
 
       const file = files[0];
+      console.log(file.size);
+
+      if (file.size > 10 * 1024 * 1024) {
+        window.alert('이미지 크기는 10MB 이하여야 합니다.');
+        return;
+      }
 
       // 파일 확장자가 jpg면 return
       const fileExtension = getFileExtension(file.name);
@@ -81,7 +88,14 @@ const ImageUploader = (props: containerSize) => {
   };
 
   const handleClick = () => {
-    handleChange();
+    if (watchedValue && onDelete) {
+      const confirm = window.confirm('정말로 삭제하시겠어요?');
+      if (confirm) {
+        onDelete();
+      }
+    } else {
+      handleChange();
+    }
   };
 
   const openSelector = () => {
