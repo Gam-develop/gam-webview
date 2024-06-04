@@ -19,6 +19,10 @@ const useGetMagazineWebView = (magazineId: string) => {
     shouldRetryOnError: false,
   });
 
+  // if(data?.data.message === "포트폴리오를 추가하지 않은 유저입니다."){
+
+  // }
+
   return {
     magazineData: data?.data,
     loading: !data && !error,

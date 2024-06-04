@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { getPresignedUrl, putPresignedUrl } from '../lib/api/image';
 import { ReactComponent as IcPlus } from '../assets/icon/IcPlus.svg';
+import imageCompression from 'browser-image-compression';
 
 interface containerSize {
   setValue: any;
@@ -12,7 +13,7 @@ interface containerSize {
   onDelete?: () => void;
 }
 
-const baseURL = import.meta.env.VITE_IMAGE_URL;
+const baseURL = 'https://s3.ap-northeast-2.amazonaws.com/dev.statics.team-gam-api.com/work/';
 
 const ImageUploader = (props: containerSize) => {
   const { setValue, width, height, target, watch, onDelete } = props;
@@ -66,14 +67,23 @@ const ImageUploader = (props: containerSize) => {
       try {
         const res = await getPresignedUrl(file.name);
         const { preSignedUrl, fileName } = res.data;
+        console.log(preSignedUrl);
         if (!preSignedUrl) {
           throw new Error('presigned-url을 받아오는데 실패하였습니다.');
         }
 
-        await putPresignedUrl(file, decodeURIComponent(preSignedUrl));
+        const options = {
+          maxSizeMB: 0.5,
+          maxWidthOrHeight: 1024,
+        };
+
+        const compressedFile = await imageCompression(file, options);
+
+        await putPresignedUrl(compressedFile, decodeURIComponent(preSignedUrl));
 
         // 기존의 fileName 형식: work/.. 형태
         const formatFileName = fileName.substring(fileName.indexOf('/') + 1);
+        console.log(formatFileName);
 
         const s3Url = `${baseURL}${formatFileName}`;
         // 이미지를 띄울때는 baseURL을 포함한 경로로 띄우기
