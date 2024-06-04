@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "watch": "tsc --watch",
-    "start:dev": "vite --host",
+    "start:dev": "vite --mode development",
     "start:prod": "vite --mode production",
     "build": "vite build --mode development",
     "build:prod": "vite build --mode production",
