@@ -23,7 +23,7 @@ const Login = () => {
 
   useEffect(() => {
     if (clickLogin) {
-      const url = `https://kauth.kakao.com/oauth/authorize?client_id=${AppConfig.KEYS.KEY_JS}&redirect_uri=${AppConfig.REDIRECT_URL}&response_type=code`;
+      const url = `https://kauth.kakao.com/oauth/authorize?client_id=${AppConfig.KEYS.KEY_JS}&redirect_uri=${AppConfig.REDIRECT_URL}&response_type=code&prompt=login`;
       window.location.href = url;
     }
   }, [clickLogin]);
