@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { ReactComponent as IcGam } from '../assets/icon/IcGam.svg';
+import { ReactComponent as IcLogo } from '../assets/icon/IcLogo.svg';
 import Logout from '../pages/Logout';
 
 const MagazineAdminHeader = (props: any) => {
@@ -7,7 +7,7 @@ const MagazineAdminHeader = (props: any) => {
 
   return (
     <StHeaderWrapper>
-      <IcGam />
+      <IcLogo />
       {isMainList && <Logout />}
     </StHeaderWrapper>
   );
