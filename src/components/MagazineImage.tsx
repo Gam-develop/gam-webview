@@ -42,7 +42,7 @@ const St = {
     }
 
     & > .slick-slider > .slick-dots > .slick-active {
-      background-color: ${({ theme }) => theme.colors.Gam_Pink};
+      background-color: ${({ theme }) => theme.colors.Gam_Light_Gray};
     }
   `,
 
