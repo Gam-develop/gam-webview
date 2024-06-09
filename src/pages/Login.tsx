@@ -108,7 +108,7 @@ const St = {
     align-items: center;
   `,
   LoginTitle: styled.h1`
-    margin-top: 15.5rem;
+    margin-top: 13.6rem;
     width: 26.4rem;
     white-space: nowrap;
     ${({ theme }) => theme.fonts.Gam_Contend_Pretendard_Bold_26};

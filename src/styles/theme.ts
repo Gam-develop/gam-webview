@@ -14,6 +14,7 @@ const colors = {
   Gam_GrayBorder: '#cccaca',
   Gam_KaKao: '#FEE500',
   Gam_Login: '#181600',
+  Gam_Light_Gray: '#d9d9d9',
 };
 
 const fonts = {

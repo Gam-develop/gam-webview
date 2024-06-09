@@ -13,7 +13,7 @@ interface containerSize {
   onDelete?: () => void;
 }
 
-const baseURL = 'https://s3.ap-northeast-2.amazonaws.com/dev.statics.team-gam-api.com/work/';
+const baseURL = import.meta.env.VITE_IMAGE_URL;
 
 const ImageUploader = (props: containerSize) => {
   const { setValue, width, height, target, watch, onDelete } = props;
@@ -50,7 +50,6 @@ const ImageUploader = (props: containerSize) => {
       if (files == null || files.length === 0) return;
 
       const file = files[0];
-      console.log(file.size);
 
       if (file.size > 10 * 1024 * 1024) {
         window.alert('이미지 크기는 10MB 이하여야 합니다.');
@@ -67,7 +66,6 @@ const ImageUploader = (props: containerSize) => {
       try {
         const res = await getPresignedUrl(file.name);
         const { preSignedUrl, fileName } = res.data;
-        console.log(preSignedUrl);
         if (!preSignedUrl) {
           throw new Error('presigned-url을 받아오는데 실패하였습니다.');
         }
@@ -81,14 +79,13 @@ const ImageUploader = (props: containerSize) => {
 
         await putPresignedUrl(compressedFile, decodeURIComponent(preSignedUrl));
 
-        // 기존의 fileName 형식: work/.. 형태
-        const formatFileName = fileName.substring(fileName.indexOf('/') + 1);
-        console.log(formatFileName);
+        // 기존의 fileName 형식: magazine/.. 형태
+        const formatFileName = `/${fileName}`;
 
-        const s3Url = `${baseURL}${formatFileName}`;
         // 이미지를 띄울때는 baseURL을 포함한 경로로 띄우기
+        const s3Url = `${baseURL}${formatFileName}`;
         setPreviewImage(s3Url);
-        // 폼에 이미지를 저장할때는 baseURL을 제외하고 올리기
+        // 폼에 이미지를 저장할때는 /magazine/... 형태로 저장
         setValue(target, formatFileName);
       } catch (e) {
         console.error(e);
