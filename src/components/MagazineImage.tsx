@@ -4,15 +4,13 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
-const baseURL = 'https://s3.ap-northeast-2.amazonaws.com/dev.statics.team-gam-api.com/work/';
+const baseURL = import.meta.env.VITE_IMAGE_URL;
 
 const MagazineImage = ({ magazinePhotos }: { magazinePhotos: string[] }) => {
   const settings = {
     dots: true,
     arrows: false,
   };
-
-  console.log(baseURL, magazinePhotos);
 
   return (
     <St.MagazineImages>

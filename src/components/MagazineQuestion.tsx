@@ -6,7 +6,7 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import { makeStyles } from '@material-ui/core';
 import { magazineQuestionInfo } from '../types/magazine';
 
-const baseURL = 'https://s3.ap-northeast-2.amazonaws.com/dev.statics.team-gam-api.com/work/';
+const baseURL = import.meta.env.VITE_IMAGE_URL;
 
 const useStyles = makeStyles({
   customIconRotation: {
