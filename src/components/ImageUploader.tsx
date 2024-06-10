@@ -82,6 +82,8 @@ const ImageUploader = (props: containerSize) => {
         // 기존의 fileName 형식: magazine/.. 형태
         const formatFileName = `/${fileName}`;
 
+        console.log(baseURL, 'fileName:', fileName, 'format:', formatFileName);
+
         // 이미지를 띄울때는 baseURL을 포함한 경로로 띄우기
         const s3Url = `${baseURL}${formatFileName}`;
         setPreviewImage(s3Url);
