@@ -5,7 +5,6 @@ import { gamGetFetcher } from '../axios';
 import { magazineDetail } from '../../types/magazine';
 
 const useGetMagazineWebView = (magazineId: string) => {
-  console.log(magazineId);
   // magazineId가 없을때 체크
   if (!magazineId) {
     return {
