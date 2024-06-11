@@ -6,7 +6,7 @@ export class LoginDto {
   deviceToken: string | undefined = undefined;
 }
 
-export class LogoutDto {
-  accessToken: string | undefined = undefined;
-  refreshToken: string | undefined = undefined;
+export class TokenDto {
+  accessToken: string | null = null;
+  refreshToken: string | null = null;
 }
