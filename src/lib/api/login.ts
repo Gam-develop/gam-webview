@@ -6,7 +6,7 @@ export const adminLogin = async (param: LoginDto) => {
   try {
     const { data } = await client.post('/api/v1/social/login', param);
     if (data.data) {
-      setUserSession(data.data.accessToken);
+      setUserSession(data.data.accessToken, data.data.refreshToken);
     }
     return data;
   } catch (e) {
@@ -27,7 +27,7 @@ export const adminLogout = async (param: TokenDto) => {
   }
 };
 
-export const refreshToken = async (param: TokenDto) => {
+export const adminRefreshToken = async (param: TokenDto) => {
   try {
     const { data } = await client.post('/api/v1/social/refresh', param);
     if (data.success) return data.data;
