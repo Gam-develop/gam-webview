@@ -1,5 +1,5 @@
 import { useRecoilValue, useResetRecoilState } from 'recoil';
-import { LogoutDto } from '../lib/api/dto/login.dto';
+import { TokenDto } from '../lib/api/dto/login.dto';
 import { useNavigate } from 'react-router-dom';
 import { magazineTokenState } from '../recoil/atom';
 import { adminLogout } from '../lib/api/login';
@@ -8,7 +8,7 @@ import { styled } from 'styled-components';
 const Logout = () => {
   const resetToken = useResetRecoilState(magazineTokenState);
   const token = useRecoilValue(magazineTokenState);
-  const params = new LogoutDto();
+  const params = new TokenDto();
   const navigate = useNavigate();
   const handleClickLogout = async () => {
     params.accessToken = token.accessToken;
