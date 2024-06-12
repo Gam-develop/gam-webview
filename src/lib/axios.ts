@@ -15,7 +15,6 @@ client.interceptors.request.use((config: any) => {
   const token = getAccessToken('accessToken');
   const headers = {
     ...config.headers,
-    // Authorization: `${getAccessToken('accessToken')}`,
     Authorization: token,
   };
   return { ...config, headers };
@@ -43,6 +42,7 @@ client.interceptors.response.use(
           // 재발급 받은 토큰 저장
           setUserSession(res.accessToken, res.refreshToken);
 
+          // 헤더의 Authoriaztion에 재발급 받은 accessToken 저장
           originalRequest.headers['Authorization'] = res.accessToken;
           return client(originalRequest);
         } catch (err) {
