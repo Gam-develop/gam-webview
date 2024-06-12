@@ -1,11 +1,8 @@
 import axios from 'axios';
 import AppConfig from '../common/constants';
-import { getAccessToken, getRefreshToken } from './token';
+import { getAccessToken, getRefreshToken, setUserSession } from './token';
 import { TokenDto } from './api/dto/login.dto';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { magazineTokenState } from '../recoil/atom';
 import { adminRefreshToken } from './api/login';
-//import { getAccessToken, setAccessToken } from './token';
 
 const client = axios.create({
   baseURL: AppConfig.API_SERVER,
@@ -18,7 +15,6 @@ client.interceptors.request.use((config: any) => {
   const token = getAccessToken('accessToken');
   const headers = {
     ...config.headers,
-    // Authorization: `${getAccessToken('accessToken')}`,
     Authorization: token,
   };
   return { ...config, headers };
@@ -36,7 +32,6 @@ client.interceptors.response.use(
         try {
           const accessToken = getAccessToken('accessToken');
           const refreshToken = getRefreshToken('refreshToken');
-          console.log(accessToken, refreshToken);
 
           // refresh 요청
           const param = new TokenDto();
@@ -44,7 +39,10 @@ client.interceptors.response.use(
           param.refreshToken = refreshToken;
           const res = await adminRefreshToken(param);
           console.log(res);
+          // 재발급 받은 토큰 저장
+          setUserSession(res.accessToken, res.refreshToken);
 
+          // 헤더의 Authoriaztion에 재발급 받은 accessToken 저장
           originalRequest.headers['Authorization'] = res.accessToken;
           return client(originalRequest);
         } catch (err) {
