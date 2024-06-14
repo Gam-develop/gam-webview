@@ -4,15 +4,15 @@ import { useNavigate } from 'react-router-dom';
 import { magazineTokenState } from '../recoil/atom';
 import { adminLogout } from '../lib/api/login';
 import { styled } from 'styled-components';
+import { getAccessToken, getRefreshToken } from '../lib/token';
 
 const Logout = () => {
   const resetToken = useResetRecoilState(magazineTokenState);
-  const token = useRecoilValue(magazineTokenState);
   const params = new TokenDto();
   const navigate = useNavigate();
   const handleClickLogout = async () => {
-    params.accessToken = token.accessToken;
-    params.refreshToken = token.refreshToken;
+    params.accessToken = getAccessToken('accessToken');
+    params.refreshToken = getRefreshToken('refreshToken');
     await adminLogout(params);
     resetToken();
     navigate('/');
