@@ -128,7 +128,7 @@ const St = {
   MagazineQuestion: styled.div`
     width: 100%;
     color: ${({ theme }) => theme.colors.Gam_Black};
-    ${({ theme }) => theme.fonts.Gam_Contend_Pretendard_Medium_16};
+    ${({ theme }) => theme.fonts.Gam_Contend_Pretendard_Bold_16};
   `,
 
   MagazineAnswer: styled.div``,
