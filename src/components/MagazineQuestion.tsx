@@ -29,7 +29,7 @@ const MagazineQuestion = ({ magazineQuestions }: { magazineQuestions: magazineQu
     <St.MagazineQuestions>
       {magazineQuestions.map((question: magazineQuestionInfo) => {
         return (
-          <div key={question.questionId}>
+          <div key={question.questionOrder}>
             <Accordion
               sx={{
                 boxShadow: 'unset',
