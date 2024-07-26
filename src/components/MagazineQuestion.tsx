@@ -24,10 +24,11 @@ const useStyles = makeStyles({
 
 const MagazineQuestion = ({ magazineQuestions }: { magazineQuestions: magazineQuestionInfo[] }) => {
   const classes = useStyles();
+  const sortedQuestions = magazineQuestions.sort((a, b) => a.questionOrder - b.questionOrder);
 
   return (
     <St.MagazineQuestions>
-      {magazineQuestions.map((question: magazineQuestionInfo) => {
+      {sortedQuestions.map((question: magazineQuestionInfo) => {
         return (
           <div key={question.questionOrder}>
             <Accordion
