@@ -26,6 +26,7 @@ export default Logout;
 const StLogOut = styled.button`
   position: absolute;
   width: 12.2rem;
+  height: 100%;
   padding: 1.2rem 1.6rem;
   right: 7.6rem;
   border: none;
